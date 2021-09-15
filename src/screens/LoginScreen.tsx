@@ -4,10 +4,10 @@ import { StyleSheet, Text, View } from "react-native";
 import LoginButton from "../components/authentication/LoginButton";
 
 
-export default function LoginScreen(props:{environmentConstants:{CLIENT_ID:string}}) {
+export default function LoginScreen(props:{route:{params:{environmentConstants:{CLIENT_ID:string}}}, navigation:any}) {
     return (
       <View style={styles.container}>
-        <LoginButton environmentConstants={props.environmentConstants}/>
+        <LoginButton environmentConstants={props.route.params.environmentConstants} navigation={props.navigation}/>
         <Text>{makeRedirectUri({
           scheme: 'mad-expo-template'
           })}</Text>

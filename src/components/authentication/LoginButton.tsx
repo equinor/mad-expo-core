@@ -6,7 +6,7 @@ import Button from '../common/atoms/Button';
 
 //WebBrowser.maybeCompleteAuthSession();
 
-export default function LoginButton(props:{environmentConstants:{CLIENT_ID:string, }}) {
+export default function LoginButton(props:{environmentConstants:{CLIENT_ID:string, }, navigation: any}) {
     //const [token, setToken] = React.useState<string>('');
     // Endpoint
     const discovery = useAutoDiscovery('https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/v2.0');
@@ -66,7 +66,7 @@ export default function LoginButton(props:{environmentConstants:{CLIENT_ID:strin
                 }
                 return "ERROR"
             };
-            getTokenAndUserInfo().then(() => {/*TODO save to local storage?*/});
+            getTokenAndUserInfo().then(() => {props.navigation.navigate("Root")/*TODO save to local storage?*/});
         }
     }, [response]);
 
