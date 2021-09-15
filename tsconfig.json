@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": false
+  },
+  "include": ["src", "index.d.ts", "lib/assets"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}
