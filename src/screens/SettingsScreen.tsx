@@ -1,18 +1,15 @@
-import { ScrollView, TextInput, View } from "react-native";
-import { Button, Typography } from "../components/common";
+import { ScrollView, View } from "react-native";
+import { Typography } from "../components/common";
 import React from "react";
-import * as Device from "expo-device";
-import * as Localization from "expo-localization";
-import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { GREEN_LIGHT } from "../stylesheets/colors";
 
-const SettingsScreen = (props: {navigation:any}) => {
+const SettingsScreen = (props: {route: {params: {config: Array<{icon: string, title: string, route: string}>}}, navigation:any}) => {
+  const config=props.route.params.config;
   return (
     <ScrollView>
       <View style={{ padding: 24 }}>
-        <Setting icon="app-settings-alt" title="Onboarding" route="Onboarding" navigation={props.navigation} />
-        <Setting icon="feedback" title="Feedback" route="Feedback" navigation={props.navigation} />
+        {config.map((item) => <Setting icon={item.icon} title={item.title} route={item.route} navigation={props.navigation}/>)}
       </View>
     </ScrollView>
   );

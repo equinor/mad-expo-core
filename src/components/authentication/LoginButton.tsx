@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as WebBrowser from 'expo-web-browser';
-import AuthSession, { exchangeCodeAsync, fetchDiscoveryAsync, makeRedirectUri, ResponseType, useAuthRequest, useAutoDiscovery } from 'expo-auth-session';
+import AuthSession, { exchangeCodeAsync, makeRedirectUri, useAuthRequest, useAutoDiscovery } from 'expo-auth-session';
 import { View } from 'react-native';
 import Button from '../common/atoms/Button';
+//import axios from 'axios';
 
 //WebBrowser.maybeCompleteAuthSession();
 
@@ -22,7 +22,6 @@ export default function LoginButton(props:{environmentConstants:{CLIENT_ID:strin
         },
         discovery
     );
-
     async function getUserInfo(token: string) {
         if (discovery?.userInfoEndpoint) {
             let returnValue:Object  ={};
@@ -30,8 +29,7 @@ export default function LoginButton(props:{environmentConstants:{CLIENT_ID:strin
                 method: "GET",
                 headers: new Headers({
                     Authorization: `Bearer ${token}`,
-                }),
-                redirect:'follow'
+                })
             }).catch(e => console.error(e)).then(res => (res as Response).json().then((json:Object) => {
                 console.log("RES:", json)
                 returnValue = json;
@@ -40,6 +38,7 @@ export default function LoginButton(props:{environmentConstants:{CLIENT_ID:strin
             console.log("RETURN VALUE:", returnValue.toString())
             return returnValue
         }
+        throw "discovery does not contain userInfoEndpoint";
     }
 
     React.useEffect(() => {
@@ -67,7 +66,7 @@ export default function LoginButton(props:{environmentConstants:{CLIENT_ID:strin
                 }
                 return "ERROR"
             };
-            getTokenAndUserInfo().then(r => {/*TODO save to store?*/});
+            getTokenAndUserInfo().then(() => {/*TODO save to local storage?*/});
         }
     }, [response]);
 

@@ -1,0 +1,22 @@
+{
+  "name": "mad-expo-core-example",
+  "displayName": "MadExpoCore Example",
+  "expo": {
+    "name": "mad-expo-core-example",
+    "slug": "mad-expo-core-example",
+    "description": "Example app for mad-expo-core",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

@@ -5,7 +5,7 @@ import * as Device from "expo-device";
 import * as Localization from "expo-localization";
 import { useState } from "react";
 
-const FeedbackScreen = (props: {}) => {
+const FeedbackScreen = () => {
   const [feedback, setFeedback] = useState("");
   const userData: { [key: string]: string } = {
     User: "[Not implemented yet]",

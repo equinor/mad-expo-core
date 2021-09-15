@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons';
 import { EQUINOR_GREEN } from '../../../stylesheets/colors';

@@ -2,10 +2,9 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as appJson from '../../app.json';
 import { Button, Checkbox, Typography } from '../components/common';
-import { View } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import Radiobutton from '../components/common/atoms/Radiobutton';
 
 const appJson = {
@@ -15,26 +14,10 @@ const appJson = {
 }
 
 export const onboardingStorageKey = `@onBoarding-${appJson.expo.name}`;
-const config = [
-    {
-        inputName: "Text input example",
-        inputType: "text"
-    },
-    {
-        inputName: "Select input example",
-        inputType: "select",
-        values: ["Value1", "Value2", "Value3"]
-    },
-    {
-        inputName: "Multiselect input example",
-        inputType: "multiselect",
-        values: ["Value1", "Value2", "Value3"]
-    }
-]
 
-const OnBoardingScreen = (props:{navigation:any}) => {
+const OnBoardingScreen = (props:{route:any, navigation:any}) => {
     const [onboardingSettings, setOnboardingSettings] = useState(JSON.parse(JSON.stringify({})))
-
+    const config = props.route.params.config;
     const storeData = async (value:Object|null) => {
         try {
             if (value) {
@@ -80,7 +63,7 @@ const OnBoardingScreen = (props:{navigation:any}) => {
     return <View style={{display:'flex', padding:20}}>
         {config.map(inputConfig => {
             if (inputConfig.inputType === 'text') {
-                return <TextInput key={inputConfig.inputName} title={inputConfig.inputName} text={onboardingSettings[inputConfig.inputName]} callback={setOnboardingValue} />
+                return <Input key={inputConfig.inputName} title={inputConfig.inputName} text={onboardingSettings[inputConfig.inputName]} callback={setOnboardingValue} />
             }
             if (inputConfig.values && inputConfig.inputType === 'select') {
                 return <Select key={inputConfig.inputName} title={inputConfig.inputName} selectedValues={onboardingSettings[inputConfig.inputName] ? onboardingSettings[inputConfig.inputName]:[]} values={inputConfig.values} callback={setOnboardingValue} /> 
@@ -88,15 +71,16 @@ const OnBoardingScreen = (props:{navigation:any}) => {
             if (inputConfig.values && inputConfig.inputType === 'multiselect') {
                 return <Select key={inputConfig.inputName} title={inputConfig.inputName} selectedValues={onboardingSettings[inputConfig.inputName] ? onboardingSettings[inputConfig.inputName]:''} values={inputConfig.values} callback={setOnboardingValue} multiselect/> 
             }
+            return <></>
         })}
         <Button title="Submit" onPress={() => {storeData(onboardingSettings); props.navigation.replace("Root")}} />
     </View>
 }
 
-const TextInput = (props:{title:string, text:string, callback:CallableFunction}) => {
+const Input = (props:{title:string, text:string, callback:CallableFunction}) => {
     return <View style={{paddingVertical:8}}>
         <Typography variant="h6">{props.title}</Typography>
-        <input style={{padding:8, marginTop:8}} onChange={e => props.callback(props.title, e.target.value)} value={props.text}/>
+        <TextInput style={{padding:8, marginTop:8}} onChangeText={(text) => props.callback(props.title, text)} value={props.text}/>
     </View>
 }
 

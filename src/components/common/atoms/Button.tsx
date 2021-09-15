@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, ActivityIndicator, GestureResponderEvent } from 'react-native';
+import { View, TouchableOpacity, ActivityIndicator, GestureResponderEvent } from 'react-native';
 import Typography from './Typography';
 import { EQUINOR_GREEN } from '../../../stylesheets/colors';
 

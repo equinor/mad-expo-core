@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import * as Colors from '../../../stylesheets/colors';
 import Typography from './Typography';

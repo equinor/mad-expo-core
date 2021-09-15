@@ -1,14 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "CommonJS",
+    "baseUrl": "./",
+    "paths": {
+      "mad-expo-core": ["./src/index"]
+    },
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "importsNotUsedAsValues": "error",
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "declaration": true,
-    "outDir": "./lib",
-    "strict": false
-  },
-  "include": ["src", "index.d.ts", "lib/assets"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noStrictGenericChecks": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "target": "esnext"
+  }
 }

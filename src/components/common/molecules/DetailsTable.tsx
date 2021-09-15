@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import { isArray, isObject } from 'lodash';
 import * as colors from '../../../stylesheets/colors';
 

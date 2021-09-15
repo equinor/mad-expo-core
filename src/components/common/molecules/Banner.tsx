@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as Colors from '../../../stylesheets/colors';
 import Typography from '../atoms/Typography';
 
