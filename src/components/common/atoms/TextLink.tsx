@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import * as Colors from '../../../stylesheets/colors';
 import Typography from './Typography';
 
@@ -21,19 +21,31 @@ const styles = StyleSheet.create({
   },
 });
 
-const TextLink = (props:{ data:{name: string, route: string}, textStyle?:Object, nav:{state:Object, navigate:Function} }) => {
-  const {data, textStyle, nav} = props;
+const TextLink = (props: {
+  data: { name: string; route: string };
+  textStyle?: Object;
+  nav: { state: Object; navigate: Function };
+}) => {
+  const { data, textStyle, nav } = props;
   return (
-  <TouchableOpacity
-    onPress={() => nav.navigate(data.route)}
-    style={styles.container}
-  >
-    <View style={styles.linkContainer}>
-      <Typography style={[textStyle, styles.defaultText]}>{data.name}</Typography>
-      <Ionicons name="ios-arrow-forward" style={styles.icon} size={20} color={Colors.GRAY_2} />
-    </View>
-  </TouchableOpacity>
-)}
+    <TouchableOpacity
+      onPress={() => nav.navigate(data.route)}
+      style={styles.container}
+    >
+      <View style={styles.linkContainer}>
+        <Typography style={[textStyle, styles.defaultText]}>
+          {data.name}
+        </Typography>
+        <Ionicons
+          name="ios-arrow-forward"
+          style={styles.icon}
+          size={20}
+          color={Colors.GRAY_2}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 TextLink.defaultProps = {
   textStyle: {},

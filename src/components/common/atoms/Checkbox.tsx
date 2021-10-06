@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import {MaterialIcons} from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { EQUINOR_GREEN } from '../../../stylesheets/colors';
 
 const styles = {
@@ -9,7 +9,14 @@ const styles = {
   },
 };
 
-const Checkbox = (props:{onValueChange:CallableFunction, checked?:boolean, disabled?:boolean, size?: number, color?: string, style?: Object}) => {
+const Checkbox = (props: {
+  onValueChange: CallableFunction;
+  checked?: boolean;
+  disabled?: boolean;
+  size?: number;
+  color?: string;
+  style?: Object;
+}) => {
   return (
     <TouchableOpacity
       style={[styles.defaultButtonStyle, props.style]}
@@ -25,7 +32,7 @@ const Checkbox = (props:{onValueChange:CallableFunction, checked?:boolean, disab
       />
     </TouchableOpacity>
   );
-}
+};
 
 Checkbox.defaultProps = {
   checked: false,
@@ -33,7 +40,6 @@ Checkbox.defaultProps = {
   style: {},
   size: 24,
   color: EQUINOR_GREEN,
-}
-
+};
 
 export default Checkbox;

@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const DetailsTable = (props:{record: Object | Array<any>}) => {
-  const {record} = props;
+const DetailsTable = (props: { record: Object | Array<any> }) => {
+  const { record } = props;
   const printValue = (val: any) => {
     if (isArray(val)) {
       return val.length;
@@ -53,7 +53,7 @@ const DetailsTable = (props:{record: Object | Array<any>}) => {
       return JSON.stringify(val);
     }
     return val && val.toString();
-  }
+  };
 
   return (
     <ScrollView>
@@ -69,18 +69,27 @@ const DetailsTable = (props:{record: Object | Array<any>}) => {
         {Object.keys(record)
           .filter((k) => !k.startsWith('_'))
           .map((k, i) => (
-            <View key={k} style={[styles.tableRow, i % 2 === 0 && styles.oddTableRow]}>
+            <View
+              key={k}
+              style={[styles.tableRow, i % 2 === 0 && styles.oddTableRow]}
+            >
               <View style={styles.tableCell}>
                 <Text style={styles.keyText}>{k}</Text>
               </View>
               <View style={styles.tableCell}>
-                <Text style={styles.valueText}>{printValue(record[k]) /*TODO this needs a rework in order to work with typescript*/}</Text>
+                <Text style={styles.valueText}>
+                  {
+                    printValue(
+                      record[k]
+                    ) /*TODO this needs a rework in order to work with typescript*/
+                  }
+                </Text>
               </View>
             </View>
           ))}
       </View>
     </ScrollView>
   );
-}
+};
 
 export default DetailsTable;
