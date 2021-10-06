@@ -13,7 +13,7 @@ export const GRAY_3 = '#E4E4E4';
 export const GRAY_4 = '#f2f2f2';
 
 export const GRAY_MAIN = '#fafafa';
-export const GRAY_BACKGROUND = "#fafafa";
+export const GRAY_BACKGROUND = '#fafafa';
 
 export const PINK = '#FE30A1';
 export const PINK_LIGHT = '#ffcddf';

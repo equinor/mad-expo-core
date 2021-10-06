@@ -9,13 +9,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const Spinner = (props:{ size?:number | "large" | "small", style?:Object, color?:string }) => {
-  const {style, size, color} = props;
+const Spinner = (props: {
+  size?: number | 'large' | 'small';
+  style?: Object;
+  color?: string;
+}) => {
+  const { style, size, color } = props;
   return (
-  <View style={[styles.spinnerStyle, style]}>
-    <ActivityIndicator size={size} color={color} />
-  </View>
-)}
+    <View style={[styles.spinnerStyle, style]}>
+      <ActivityIndicator size={size} color={color} />
+    </View>
+  );
+};
 
 Spinner.defaultProps = {
   size: 'large',
