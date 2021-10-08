@@ -1,7 +1,12 @@
 import React from 'react';
-import { View, TouchableOpacity, ActivityIndicator, GestureResponderEvent } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  GestureResponderEvent,
+} from 'react-native';
 import Typography from './Typography';
-import { EQUINOR_GREEN } from '../../../stylesheets/colors';
+import Colors from '../../../stylesheets/colors';
 
 const styles = {
   defaultTextStyle: {
@@ -16,20 +21,33 @@ const styles = {
     justifyContent: 'center',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: EQUINOR_GREEN,
+    backgroundColor: Colors.EQUINOR_PRIMARY,
   },
 };
 
-const Button = (props:{ title:string | JSX.Element, onPress:(event: GestureResponderEvent) => void, textStyle:Object, viewStyle:Object, disabled:boolean, busy:boolean }) => {
+const Button = (props: {
+  title: string | JSX.Element;
+  onPress: (event: GestureResponderEvent) => void;
+  textStyle: Object;
+  viewStyle: Object;
+  disabled: boolean;
+  busy: boolean;
+}) => {
   const { defaultButtonStyle, defaultTextStyle } = styles;
   const { title, onPress, textStyle, viewStyle, disabled, busy } = props;
 
   const titleComponent =
-    typeof title === 'string' ? <Typography style={[defaultTextStyle, textStyle]}>{title}</Typography> : title;
+    typeof title === 'string' ? (
+      <Typography style={[defaultTextStyle, textStyle]}>{title}</Typography>
+    ) : (
+      title
+    );
 
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
-      <View style={[defaultButtonStyle, viewStyle, disabled && { opacity: 0.5 }]}>
+      <View
+        style={[defaultButtonStyle, viewStyle, disabled && { opacity: 0.5 }]}
+      >
         {busy && <ActivityIndicator size="small" style={{ marginRight: 4 }} />}
         {titleComponent}
       </View>

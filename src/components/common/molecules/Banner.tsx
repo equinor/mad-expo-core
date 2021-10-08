@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import * as Colors from '../../../stylesheets/colors';
+import Colors from '../../../stylesheets/colors';
 import Typography from '../atoms/Typography';
 
 const styles = StyleSheet.create({
@@ -13,13 +13,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const Banner = (props:{ text?:string, viewStyle?:Object, textStyle?:Object }) => {
-  const {text, viewStyle, textStyle} = props;
-  return(
-  <View style={[styles.bannerContainer, viewStyle]}>
-    <Typography size={styles.bannerText.fontSize} style={[textStyle]}>{text}</Typography>
-  </View>
-)}
+const Banner = (props: {
+  text?: string;
+  viewStyle?: Object;
+  textStyle?: Object;
+}) => {
+  const { text, viewStyle, textStyle } = props;
+  return (
+    <View style={[styles.bannerContainer, viewStyle]}>
+      <Typography size={styles.bannerText.fontSize} style={[textStyle]}>
+        {text}
+      </Typography>
+    </View>
+  );
+};
 
 Banner.propTypes = {
   text: PropTypes.string,

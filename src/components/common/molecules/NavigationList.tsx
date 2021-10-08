@@ -8,42 +8,50 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import {MaterialIcons} from '@expo/vector-icons';
-import * as colors from '../../../stylesheets/colors';
+import { MaterialIcons } from '@expo/vector-icons';
+import Colors from '../../../stylesheets/colors';
 
 const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
-    backgroundColor: colors.GRAY_BACKGROUND,
+    backgroundColor: Colors.BACKGROUND_GRAY,
   },
   itemContainer: {
     backgroundColor: 'white',
     height: 56,
     borderBottomWidth: 1,
-    borderBottomColor: colors.GRAY_3,
+    borderBottomColor: Colors.GRAY_3,
     flexDirection: 'row',
     alignItems: 'center',
   },
   icon: {
-    color: colors.BLACK_LIGHT,
+    color: Colors.BLACK_LIGHT,
     alignSelf: 'center',
   },
   textStyle: {
     fontSize: 16,
-    color: colors.BLACK_GRAY,
+    color: Colors.BLACK_GRAY,
     flex: 1,
     paddingHorizontal: 15,
   },
 });
 
-const NavigationList = (props:{items: Array<{key:string, label:string, route:string, params:Object}>, fetching:boolean, navigation?:{navigate:(route:string, params:Object) => void}, onRefresh?:() => void}) => {
-  const {items, fetching, navigation, onRefresh} = props;
-  const handleClick = (index:number) => {
+const NavigationList = (props: {
+  items: Array<{ key: string; label: string; route: string; params: Object }>;
+  fetching: boolean;
+  navigation?: { navigate: (route: string, params: Object) => void };
+  onRefresh?: () => void;
+}) => {
+  const { items, fetching, navigation, onRefresh } = props;
+  const handleClick = (index: number) => {
     const item = items[index];
     navigation?.navigate(item.route, item.params);
   };
 
-  const renderItem = (props:{ item:{key:string, label:string, route:string, params:Object}, index:number }) => (
+  const renderItem = (props: {
+    item: { key: string; label: string; route: string; params: Object };
+    index: number;
+  }) => (
     <TouchableOpacity onPress={() => handleClick(props.index)}>
       <View style={styles.itemContainer}>
         <Text style={styles.textStyle}>{props.item.label}</Text>
@@ -55,11 +63,19 @@ const NavigationList = (props:{items: Array<{key:string, label:string, route:str
   return (
     <ScrollView
       style={styles.scrollView}
-      refreshControl={onRefresh && <RefreshControl refreshing={fetching} onRefresh={onRefresh} />}
+      refreshControl={
+        onRefresh && (
+          <RefreshControl refreshing={fetching} onRefresh={onRefresh} />
+        )
+      }
     >
-      <FlatList data={items} keyExtractor={item => item.key} renderItem={renderItem} />
+      <FlatList
+        data={items}
+        keyExtractor={(item) => item.key}
+        renderItem={renderItem}
+      />
     </ScrollView>
   );
-}
+};
 
-export default NavigationList 
+export default NavigationList;
