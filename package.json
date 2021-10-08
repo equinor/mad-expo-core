@@ -1,5 +1,5 @@
 {
-  "name": "mad-expo-core",
+  "name": "@equinor/mad-expo-core",
   "version": "0.1.0",
   "description": "mad expo core",
   "main": "lib/commonjs/index",
@@ -36,7 +36,7 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/tormodAase/mad-expo-core",
+  "repository": "https://github.com/equinor/mad-expo-core.git",
   "author": "Tormod Aase <toraas@equinor.com> (https://github.com/tormodAase)",
   "license": "MIT",
   "bugs": {
