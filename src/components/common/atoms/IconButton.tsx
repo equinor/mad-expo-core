@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { EQUINOR_GREEN } from '../../../stylesheets/colors';
+import Colors from '../../../stylesheets/colors';
 
 const styles = {
   defaultButtonStyle: {
@@ -35,7 +35,7 @@ IconButton.defaultProps = {
   disabled: false,
   style: {},
   size: 24,
-  color: EQUINOR_GREEN,
+  color: Colors.EQUINOR_PRIMARY,
 };
 
 export default IconButton;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import * as Colors from '../../../stylesheets/colors';
+import Colors from '../../../stylesheets/colors';
 import Typography from './Typography';
 
 const styles = StyleSheet.create({

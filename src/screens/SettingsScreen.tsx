@@ -2,7 +2,7 @@ import { ScrollView, View } from 'react-native';
 import { Button, Typography } from '../components/common';
 import React, { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
-import { GREEN_LIGHT } from '../stylesheets/colors';
+import Colors from '../stylesheets/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsScreen = (props: {
@@ -61,7 +61,7 @@ const Setting = (props: {
       onPress={() => props.navigation.navigate(props.route)}
       backgroundColor="transparent"
       color="#007079"
-      underlayColor={GREEN_LIGHT}
+      underlayColor={Colors.GREEN_LIGHT}
       style={{ padding: 12 }}
     >
       <Typography medium color="#007079">

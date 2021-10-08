@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import * as Colors from '../../../stylesheets/colors';
+import Colors from '../../../stylesheets/colors';
 import Typography from './Typography';
 
 const styles = StyleSheet.create({

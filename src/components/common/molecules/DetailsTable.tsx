@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { isArray, isObject } from 'lodash';
-import * as colors from '../../../stylesheets/colors';
+import Colors from '../../../stylesheets/colors';
 
 const styles = StyleSheet.create({
   table: {
@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   oddTableRow: {
-    backgroundColor: colors.GRAY_4,
+    backgroundColor: Colors.GRAY_4,
   },
   tableHeaderRow: {
     paddingTop: 10,
     borderBottomWidth: 1,
-    borderBottomColor: colors.GRAY_1,
+    borderBottomColor: Colors.GRAY_1,
   },
   tableCell: {
     flex: 1,
@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   headerText: {
-    color: colors.BLACK_GRAY,
+    color: Colors.BLACK_GRAY,
     fontWeight: 'bold',
   },
   keyText: {
-    color: colors.GRAY_1,
+    color: Colors.GRAY_1,
     fontSize: 12,
     fontWeight: '400',
   },
