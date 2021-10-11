@@ -9,6 +9,7 @@ export default function LoginScreen(props: {
   environmentConstants: { CLIENT_ID: string };
   storageKey: string;
   navigation: any;
+  bundleIdentifier: string;
 }) {
   console.log('AUTH!!: ');
   AsyncStorage.getItem(props.storageKey).then((res) => {
@@ -29,11 +30,13 @@ export default function LoginScreen(props: {
         environmentConstants={props.environmentConstants}
         storageKey={props.storageKey}
         navigation={props.navigation}
+        bundleIdentifier={props.bundleIdentifier}
       />
       <Text>
         {makeRedirectUri({
-          scheme: 'mad-expo-template',
-        })}
+        native: `${props.bundleIdentifier}://auth`,
+        scheme: `${props.bundleIdentifier}`
+      })}
       </Text>
     </View>
   );

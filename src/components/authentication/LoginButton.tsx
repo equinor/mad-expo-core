@@ -14,6 +14,7 @@ export default function LoginButton(props: {
   environmentConstants: { CLIENT_ID: string };
   storageKey: string;
   navigation: any;
+  bundleIdentifier: string 
 }) {
   //const [token, setToken] = React.useState<string>('');
   // Endpoint
@@ -27,7 +28,8 @@ export default function LoginButton(props: {
       clientId: props.environmentConstants.CLIENT_ID,
       scopes: ['openid', 'profile', 'email'],
       redirectUri: makeRedirectUri({
-        scheme: 'mad-expo-template',
+        native: `${props.bundleIdentifier}://auth`,
+        scheme: `${props.bundleIdentifier}`
       }),
     },
     discovery
