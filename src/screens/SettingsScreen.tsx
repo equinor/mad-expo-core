@@ -31,10 +31,10 @@ const SettingsScreen = (props: {
         <View style={{ paddingTop: 16 }}>
           <Typography bold>Signed in as:</Typography>
           <Typography>
-            {authData &&
+            {authData?.user &&
               `${authData.user.given_name} ${authData.user.family_name}`}
           </Typography>
-          <Typography>{authData && `${authData.user.email}`}</Typography>
+          <Typography>{authData?.user && `${authData.user.email}`}</Typography>
           <Button
             title="Sign out"
             onPress={() =>

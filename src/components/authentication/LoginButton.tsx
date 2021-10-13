@@ -71,7 +71,8 @@ export default function LoginButton(props: {
               code: response.params.code,
               scopes: ['openid', 'profile', 'email'],
               redirectUri: makeRedirectUri({
-                scheme: 'mad-expo-template',
+                native: `${props.bundleIdentifier}://auth`,
+                scheme: `${props.bundleIdentifier}`
               }),
               extraParams: {
                 code_verifier: request?.codeVerifier || '',

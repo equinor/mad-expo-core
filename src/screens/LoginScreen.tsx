@@ -15,8 +15,9 @@ export default function LoginScreen(props: {
   AsyncStorage.getItem(props.storageKey).then((res) => {
     if (res) {
       console.log('REDIRECT');
+      // TODO check if the token is still valid before sending the user to the next page
       //WebBrowser.maybeCompleteAuthSession();
-      //props.navigation.replace("Root");
+      props.navigation.replace("Root");
     }
     return (
       <View>
