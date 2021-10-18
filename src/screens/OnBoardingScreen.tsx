@@ -42,7 +42,6 @@ const OnBoardingScreen = (props: {
       try {
         const value = await AsyncStorage.getItem(onboardingStorageKey);
         if (value !== null) {
-          console.log('Value found:', value);
           setOnboardingSettings({ ...JSON.parse(value) });
         }
       } catch (e) {
@@ -54,7 +53,6 @@ const OnBoardingScreen = (props: {
   }, [onboardingStorageKey]);
 
   if (onboardingSettings == {}) return <></>;
-  console.log('Onboardingsettings:', onboardingSettings);
   return (
     <View style={{ display: 'flex', padding: 20 }}>
       {config.map((inputConfig) => {
@@ -139,8 +137,9 @@ const Select = (props: {
   return (
     <View style={{ paddingVertical: 8 }}>
       <Typography variant="h6">{props.title}</Typography>
-      {props.values.map((value) => (
+      {props.values.map((value, index) => (
         <View
+          key={index}
           style={{
             display: 'flex',
             flexDirection: 'row',
