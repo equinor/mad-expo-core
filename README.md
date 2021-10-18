@@ -2,6 +2,9 @@
 
 mad expo core
 
+# Links
+- :inbox_tray: [Bug and feature tracker](https://equinor-sds-si.atlassian.net/jira/software/c/projects/GDEXPO/boards/193)
+
 ## Installation
 
 ```sh
