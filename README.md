@@ -7,12 +7,12 @@ This package contains core functionality for Equinors mobile applications such a
 - :inbox_tray: [Bug and feature tracker](https://github.com/equinor/mad-expo-core/projects/1)
 - :inbox_tray: [Bug and feature tracker for React Native Expo Template](https://equinor-sds-si.atlassian.net/jira/software/c/projects/GDEXPO/boards/193)
 
-# How to use this package
-And your project is using `npm`, run:
+# Installation
+If your project is using `npm`, run the following in your project terminal:
 ```sh
 npm install https://github.com/equinor/mad-expo-core
 ```
-Else if your project is using `yarn`, run:
+If your project is using `yarn`, run:
 ```sh
 yarn install https://github.com/equinor/mad-expo-core
 ```
@@ -52,7 +52,7 @@ If using yarn:
 yarn run refresh-core
 ```
 
-## Usage
+# Usage
 
 ```js
 import MadExpoCore from "mad-expo-core";
@@ -62,7 +62,7 @@ import MadExpoCore from "mad-expo-core";
 const result = await MadExpoCore.multiply(3, 7);
 ```
 
-## Contributing
+# Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
