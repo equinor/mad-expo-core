@@ -14,7 +14,7 @@ npm install https://github.com/equinor/mad-expo-core
 ```
 If your project is using `yarn`, run:
 ```sh
-yarn install https://github.com/equinor/mad-expo-core
+yarn add https://github.com/equinor/mad-expo-core
 ```
 # Development of this package
 1. Clone this package into the same folder containing your project repository:
