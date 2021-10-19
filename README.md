@@ -1,7 +1,7 @@
 # mad-expo-core
 
 # Background
-This package contains core functionality for Equinors mobile applications such as authentication, feedback and typography. This package is used by our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template)
+This package contains core functionality for Equinors mobile applications such as authentication, feedback and typography. This package is used by our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template).
 
 # Links
 - :inbox_tray: [Bug and feature tracker](https://github.com/equinor/mad-expo-core/projects/1)
