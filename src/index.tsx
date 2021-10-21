@@ -17,6 +17,7 @@ import LoginScreen from './screens/LoginScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import LoginButton from './components/authentication/LoginButton';
+import AuthHelperMethods from './components/authentication/authHelperMethods';
 
 export {
   Button,
@@ -36,4 +37,5 @@ export {
   LoginScreen,
   OnBoardingScreen,
   SettingsScreen,
+  AuthHelperMethods
 };

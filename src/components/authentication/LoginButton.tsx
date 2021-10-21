@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import AuthSession, {
   exchangeCodeAsync,
   makeRedirectUri,
@@ -9,6 +9,7 @@ import { View } from 'react-native';
 import Button from '../common/atoms/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
+import AuthHelperMethods from './authHelperMethods';
 
 export default function LoginButton(props: {
   environmentConstants: { CLIENT_ID: string };
@@ -19,14 +20,14 @@ export default function LoginButton(props: {
   //const [token, setToken] = React.useState<string>('');
   // Endpoint
   const discovery = useAutoDiscovery(
-    'https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/v2.0'
+    AuthHelperMethods.AUTH_ISSUER
   );
   // Request
   const [request, response, promptAsync] = useAuthRequest(
     {
       //responseType: ResponseType.Code,
       clientId: props.environmentConstants.CLIENT_ID,
-      scopes: ['openid', 'profile', 'email'],
+      scopes: ['openid', 'profile', 'email', 'offline_access'],
       redirectUri: makeRedirectUri({
         native: `${props.bundleIdentifier}://auth`,
         scheme: `${props.bundleIdentifier}`
@@ -35,7 +36,7 @@ export default function LoginButton(props: {
     discovery
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function getUserInfo(token: string) {
       if (discovery?.userInfoEndpoint) {
         let returnValue: Object = {};
@@ -52,24 +53,19 @@ export default function LoginButton(props: {
               returnValue = json;
             })
           );
-        console.log('FETCH FINISHED');
-        console.log('RETURN VALUE:', returnValue.toString());
         return returnValue;
       }
       throw 'discovery does not contain userInfoEndpoint';
     }
-
-    console.log(response);
     if (response && response.type === 'success') {
       const getTokenAndUserInfo = async () => {
-        console.log('Getting token');
         let tokenRes: AuthSession.TokenResponse | void | null =
           discovery &&
           (await exchangeCodeAsync(
             {
               clientId: props.environmentConstants.CLIENT_ID,
               code: response.params.code,
-              scopes: ['openid', 'profile', 'email'],
+              scopes: ['openid', 'profile', 'email', 'offline_access'],
               redirectUri: makeRedirectUri({
                 native: `${props.bundleIdentifier}://auth`,
                 scheme: `${props.bundleIdentifier}`
@@ -87,7 +83,7 @@ export default function LoginButton(props: {
           tokenRes.accessToken !== ''
         ) {
           return {
-            token: tokenRes.accessToken,
+            tokenRes: tokenRes,
             user: await getUserInfo(tokenRes.accessToken),
           };
         } else {

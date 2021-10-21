@@ -4,13 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../stylesheets/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAutoDiscovery } from 'expo-auth-session';
+import AuthHelperMethods from '../components/authentication/authHelperMethods';
 
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;
   loginStorageKey: string;
+  bundleIdentifier: string;
   navigation: any;
 }) => {
   const [authData, setAuthData] = useState(null);
+  const discovery = useAutoDiscovery(AuthHelperMethods.AUTH_ISSUER);
   const config = props.config;
   useEffect(() => {
     AsyncStorage.getItem(props.loginStorageKey).then((str) =>
@@ -37,11 +41,20 @@ const SettingsScreen = (props: {
           <Typography>{authData?.user && `${authData.user.email}`}</Typography>
           <Button
             title="Sign out"
-            onPress={() =>
-              AsyncStorage.removeItem(props.loginStorageKey).then(() =>
-                props.navigation.replace('Login')
-              )
-            }
+            onPress={() => {
+              AuthHelperMethods.getSavedData(props.loginStorageKey).then(
+                () => {
+                  AuthHelperMethods.signOut(
+                    discovery,
+                    props.bundleIdentifier
+                  ).then(() => {
+                    AsyncStorage.removeItem(props.loginStorageKey).then(() =>
+                      props.navigation.replace('Login')
+                    );
+                  });
+                }
+              );
+            }}
           />
         </View>
       </View>
