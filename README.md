@@ -5,7 +5,6 @@ This package contains core functionality for Equinors mobile applications such a
 
 # Links
 - :inbox_tray: [Bug and feature tracker](https://github.com/equinor/mad-expo-core/projects/1)
-- :inbox_tray: [Bug and feature tracker for React Native Expo Template](https://equinor-sds-si.atlassian.net/jira/software/c/projects/GDEXPO/boards/193)
 
 # Prerequisites
 To be able to use this package you need to have `expo-cli` installed. To install `expo-cli` follow the [installation guide](https://docs.expo.dev/get-started/installation).
