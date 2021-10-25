@@ -47,10 +47,11 @@ const SettingsScreen = (props: {
                   AuthHelperMethods.signOut(
                     discovery,
                     props.bundleIdentifier
-                  ).then(() => {
-                    AsyncStorage.removeItem(props.loginStorageKey).then(() =>
-                      props.navigation.replace('Login')
-                    );
+                  ).then((success) => {
+                    if (success)
+                      AsyncStorage.removeItem(props.loginStorageKey).then(() =>
+                        props.navigation.replace('Login')
+                      );
                   });
                 }
               );
