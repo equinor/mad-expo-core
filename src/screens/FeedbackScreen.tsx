@@ -40,10 +40,10 @@ const FeedbackScreen = (props: { loginStorageKey: string; navigation }) => {
           }
         </Typography>
 
-        {Object.keys(userData)
-          .filter((key) => key !== 'Feedback')
-          .map((key) => {
-            return <DataField itemKey={key} value={userData[key]} />;
+        {Object.entries(userData)
+          .filter(([key]) => key !== 'Feedback')
+          .map(([key, value]) => {
+            return <DataField key={key} itemKey={key} value={value} />;
           })}
         <TextInput
           style={{

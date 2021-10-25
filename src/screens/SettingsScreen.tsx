@@ -24,8 +24,9 @@ const SettingsScreen = (props: {
   return (
     <ScrollView>
       <View style={{ padding: 24 }}>
-        {config.map((item) => (
+        {config.map((item, index) => (
           <Setting
+            key={index}
             icon={item.icon}
             title={item.title}
             route={item.route}
