@@ -39,16 +39,14 @@ const AuthHelperMethods = {
 
   signOut: async (discovery: DiscoveryDocument,
     bundleIdentifier: string) => {
-    const endSessionEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
+    const endSessionEndpoint = discovery?.endSessionEndpoint
     const signOutURI = `${endSessionEndpoint}?post_logout_redirect_uri=${makeRedirectUri({
       native: `${bundleIdentifier}://auth`,
       scheme: `${bundleIdentifier}`
     })}`;
-    console.log("SIGN OUT URI: ", signOutURI)
     let response = discovery?.endSessionEndpoint ? await fetch(signOutURI,{
       method: 'GET',
-    }) : null;
-    console.log("SIGN OUT RESPONSE: ", response)
+    }).then(res => res.status === 200) : null;
     return response;
   }
 };
