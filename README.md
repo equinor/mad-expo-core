@@ -1,10 +1,13 @@
 # mad-expo-core
 
 # Background
-This package contains core functionality for development of Equinors Mobile Applications such as authentication, feedback and typography. This package is used by our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template).
+This package contains core functionality for development of Equinors Mobile Applications like authentication, feedback and typography. This package is used by our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template).
 
 # Links
 - :inbox_tray: [Bug and feature tracker](https://github.com/equinor/mad-expo-core/projects/1)
+
+# Availability
+Currently you can only find this package on GitHub.
 
 # Prerequisites
 To be able to use this package you need to have `expo-cli` installed. Follow the [installation guide](https://docs.expo.dev/get-started/installation).
@@ -31,17 +34,17 @@ yarn add git+{repoURL}
 ```
 
 # Development of this package
-1. Clone `mad-expo-core` into the same folder containing your React Native Expo project folder. We suggest using our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template):
+1. Clone `mad-expo-core` into the same folder containing your React Native Expo project. We suggest using our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template):
 ```sh
 git clone https://github.com/equinor/mad-expo-core
 ```
-Here's an example of how the folder structure should be:
+The folder structure should look like this:
 ```
 /Users/Adam/mad-expo-core
 /Users/Adam/mad-react-native-expo-template
 ```
 2. To have a smooth developer experience we use `yalc` to link `mad-expo-core` to the project. To install `yalc` in your project follow the [installation guide](https://github.com/wclr/yalc#installation).
-3. In your React Native Expo project your `package.json` you should add the `refresh-core`-script. Remember to replace the `{projectName}` with your project repository name:
+3. Add the `refresh-core`-script to `package.json`in your React Native Expo project. Remember to replace the `{projectName}` with your project name:
 ```json5
 {
   "scripts": {
@@ -50,7 +53,7 @@ Here's an example of how the folder structure should be:
 }
 ```
 4. Make changes to `mad-expo-core`.
-5. If you added the `refresh-core`-script to your projects `package.json` run the following in your project to refresh `mad-expo-core`, for `npm` run:
+5. If you added the `refresh-core`-script to your projects `package.json` you can skip step 6 and 7. Run the following in your project to refresh `mad-expo-core`, for `npm` run:
 ```sh
 npm run refresh-core
 ```
