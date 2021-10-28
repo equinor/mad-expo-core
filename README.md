@@ -114,6 +114,20 @@ References:
 - https://seesparkbox.com/foundry/semantic_commit_messages
 - http://karma-runner.github.io/1.0/dev/git-commit-msg.html
 
-# License
+# Release
+We use [standard-version](https://github.com/conventional-changelog/standard-version) to:
+* Bump the version number
+* Generate a `changelog` based on the commits since last release
+* Creates a new `tag` with the new version number
 
+by running the following if you use `npm`:
+```sh
+npm run release
+```
+or if using `yarn`, run:
+```sh
+yarn run release
+```
+
+# License
 MIT
