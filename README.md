@@ -1,44 +1,74 @@
 # mad-expo-core
 
 # Background
-This package contains core functionality for Equinors mobile applications such as authentication, feedback and typography. This package is used by our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template).
+This package contains core functionality for development of Equinors Mobile Applications such as authentication, feedback and typography. This package is used by our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template).
 
 # Links
 - :inbox_tray: [Bug and feature tracker](https://github.com/equinor/mad-expo-core/projects/1)
 
 # Prerequisites
-To be able to use this package you need to have `expo-cli` installed. To install `expo-cli` follow the [installation guide](https://docs.expo.dev/get-started/installation).
+To be able to use this package you need to have `expo-cli` installed. Follow the [installation guide](https://docs.expo.dev/get-started/installation).
 
 # Installation
-If your project is using `npm`, run:
+## Add the main branch to your project
+If using `npm`, run:
 ```sh
-npm install https://github.com/equinor/mad-expo-core
+npm install git+https://github.com/equinor/mad-expo-core
 ```
 If using `yarn`, run:
 ```sh
-yarn add https://github.com/equinor/mad-expo-core
+yarn add git+https://github.com/equinor/mad-expo-core
+```
+
+## Add a specific version(branch, commit, release or tag) to your project
+Browse `mad-expo-core` on GitHub in your desired state and copy the URL. Replace `{repoUrl}` with your URL. For `npm`, run:
+```sh
+npm install git+{repoUrl}
+```
+or if using `yarn`, run:
+```sh
+yarn add git+{repoURL}
 ```
 
 # Development of this package
-1. Run
+1. Clone `mad-expo-core` into the same folder containing your React Native Expo project folder. We suggest using our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template):
 ```sh
 git clone https://github.com/equinor/mad-expo-core
 ```
-2. Open up a React Native Expo project, we suggest using our [React Native Expo template](https://github.com/equinor/mad-react-native-expo-template).
-3. To have a smooth developer experience we use `yalc` to link `mad-expo-core` to the project. To install `yalc`, follow the [installation guide](https://github.com/wclr/yalc#installation).
-
-4. To publish `mad-expo-core` to `yalc` run the following in `mad-expo-core`:
+Here's an example of how the folder structure should be:
+```
+/Users/Adam/mad-expo-core
+/Users/Adam/mad-react-native-expo-template
+```
+2. To have a smooth developer experience we use `yalc` to link `mad-expo-core` to the project. To install `yalc` in your project follow the [installation guide](https://github.com/wclr/yalc#installation).
+3. In your React Native Expo project your `package.json` you should add the `refresh-core`-script. Remember to replace the `{projectName}` with your project repository name:
+```json5
+{
+  "scripts": {
+    "refresh-core": "cd ../mad-expo-core && yalc publish && cd ../{projectName} && yalc add mad-expo-core && expo start",  
+  }
+}
+```
+4. Make changes to `mad-expo-core`.
+5. If you added the `refresh-core`-script to your projects `package.json` run the following in your project to refresh `mad-expo-core`, for `npm` run:
+```sh
+npm run refresh-core
+```
+or if using `yarn`, run:
+```sh
+yarn run refresh-core
+```
+6. If you didn't add the `refresh-core`-script you need to publish `mad-expo-core` to `yalc`. Run the following in `mad-expo-core`:
 ```sh
 yalc publish
 ```
-5. To add and link `mad-expo-core` to your project, run:
+7. You then need to add `mad-expo-core` to your project, run the following in your project folder:
 ```sh
-yalc add --link mad-expo-core
+yalc add mad-expo-core
 ```
-6. The changes you make to `mad-expo-core` will be instantly available in your project.
+After each change of `mad-expo-core` you either have to follow step 5 or 6 and 7 to be able to test while you develop this package.
 
 # Usage
-
 ```js
 import MadExpoCore from "mad-expo-core";
 
