@@ -53,7 +53,7 @@ The folder structure should look like this:
 }
 ```
 4. Make changes to `mad-expo-core`.
-5. If you added the `refresh-core`-script to your projects `package.json` you can skip step 6 and 7. Run the following in your project to refresh `mad-expo-core`, for `npm` run:
+5. If you added the `refresh-core`-script you can skip step 6 and 7. Run the following in your project to refresh `mad-expo-core`, for `npm` run:
 ```sh
 npm run refresh-core
 ```
@@ -69,7 +69,7 @@ yalc publish
 ```sh
 yalc add mad-expo-core
 ```
-After each change of `mad-expo-core` you either have to follow step 5 or 6 and 7 to be able to test while you develop this package.
+After each change of `mad-expo-core` you either have to follow step `5` or `6 & 7` to be able to test while you develop this package.
 
 # Usage
 ```js
@@ -119,7 +119,7 @@ References:
 
 # Release
 We use [standard-version](https://github.com/conventional-changelog/standard-version) to:
-* Bump the version number
+* `Bump` the version number
 * Generate a `changelog` based on the commits since last release
 * Creates a new `tag` with the new version number
 
