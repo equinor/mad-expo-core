@@ -24,7 +24,7 @@ yarn add git+https://github.com/equinor/mad-expo-core
 ```
 
 ## Add a specific version(branch, commit, release or tag) to your project
-Browse `mad-expo-core` on GitHub in your desired state and copy the URL. Replace `{repoUrl}` with your URL. For `npm`, run:
+Browse [mad-expo-core](https://github.com/equinor/mad-expo-core) in your desired state and copy the URL. Replace `{repoUrl}` with your URL. For `npm`, run:
 ```sh
 npm install git+{repoUrl}
 ```
