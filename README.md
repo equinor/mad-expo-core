@@ -76,6 +76,8 @@ import MadExpoCore from "mad-expo-core";
 
 const result = await MadExpoCore.multiply(3, 7);
 ```
+# Automatic generation of changelog
+We use standard-version, a utility for versioning using [semver](https://semver.org/) and CHANGELOG generation powered by [Conventional Commits](https://conventionalcommits.org).
 
 # Semantic Commit Messages
 > Copied from https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716
