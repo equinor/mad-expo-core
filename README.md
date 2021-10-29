@@ -121,7 +121,7 @@ References:
 We use [standard-version](https://github.com/conventional-changelog/standard-version) to:
 * `Bump` the version number
 * Generate a `changelog` based on the commits since last release
-* Creates a new `tag` with the new version number
+* Create a new `tag` with the new version number
 
 by running the following if you use `npm`:
 ```sh
