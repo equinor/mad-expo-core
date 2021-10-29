@@ -69,7 +69,7 @@ yalc publish
 ```sh
 yalc add mad-expo-core
 ```
-After each change of `mad-expo-core` you either have to follow step `5` or `6 & 7` to be able to test while you develop this package.
+After each change of `mad-expo-core` you either have to follow step `5` or `6 and 7` to be able to test while you develop this package.
 
 # Usage
 ```js
