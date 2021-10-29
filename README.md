@@ -38,7 +38,7 @@ yarn add git+{repoURL}
 ```sh
 git clone https://github.com/equinor/mad-expo-core
 ```
-The folder structure should look like this:
+The folder structure could look like this:
 ```
 /Users/Adam/mad-expo-core
 /Users/Adam/mad-react-native-expo-template
