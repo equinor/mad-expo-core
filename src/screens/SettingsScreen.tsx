@@ -3,24 +3,22 @@ import { Button, Typography } from '../components/common';
 import React, { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../stylesheets/colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAutoDiscovery } from 'expo-auth-session';
-import AuthHelperMethods from '../components/authentication/authHelperMethods';
+import { getAccount, logout } from '../services/auth';
+import type { MSALAccount } from 'react-native-msal';
 
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;
-  loginStorageKey: string;
-  bundleIdentifier: string;
   navigation: any;
 }) => {
-  const [authData, setAuthData] = useState(null);
-  const discovery = useAutoDiscovery(AuthHelperMethods.AUTH_ISSUER);
-  const config = props.config;
+  const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
-    AsyncStorage.getItem(props.loginStorageKey).then((str) =>
-      setAuthData(JSON.parse(str))
-    );
-  }, [props.loginStorageKey]);
+    getAccount().then((acc) => {
+      console.log(acc.claims);
+      setAccount(acc);
+    })
+  }, [])
+
+  const config = props.config;
   return (
     <ScrollView>
       <View style={{ padding: 24 }}>
@@ -35,27 +33,13 @@ const SettingsScreen = (props: {
         ))}
         <View style={{ paddingTop: 16 }}>
           <Typography bold>Signed in as:</Typography>
-          <Typography>
-            {authData?.user &&
-              `${authData.user.given_name} ${authData.user.family_name}`}
-          </Typography>
-          <Typography>{authData?.user && `${authData.user.email}`}</Typography>
+          {account && <Typography>
+            {account.username}
+          </Typography>}
           <Button
             title="Sign out"
             onPress={() => {
-              AuthHelperMethods.getSavedData(props.loginStorageKey).then(
-                () => {
-                  AuthHelperMethods.signOut(
-                    discovery,
-                    props.bundleIdentifier
-                  ).then((success) => {
-                    if (success)
-                      AsyncStorage.removeItem(props.loginStorageKey).then(() =>
-                        props.navigation.replace('Login')
-                      );
-                  });
-                }
-              );
+              logout().catch(e => console.warn(e)).then(() => props.navigation.navigate("Login"))
             }}
           />
         </View>

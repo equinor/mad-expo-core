@@ -17,7 +17,7 @@ import LoginScreen from './screens/LoginScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import LoginButton from './components/authentication/LoginButton';
-import AuthHelperMethods from './components/authentication/authHelperMethods';
+import { msalInit, msalLogin, authenticateSilently, logout } from './services/auth';
 
 export {
   Button,
@@ -37,5 +37,8 @@ export {
   LoginScreen,
   OnBoardingScreen,
   SettingsScreen,
-  AuthHelperMethods
+  msalInit,
+  msalLogin,
+  authenticateSilently,
+  logout
 };

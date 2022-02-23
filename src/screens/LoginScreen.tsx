@@ -1,30 +1,29 @@
-import React from 'react';
-import { makeRedirectUri, useAutoDiscovery } from 'expo-auth-session';
+import React, { useEffect } from 'react';
+import { makeRedirectUri } from 'expo-auth-session';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginButton from '../components/authentication/LoginButton';
-import AuthHelperMethods from '../components/authentication/authHelperMethods';
+import { msalIsConnected } from '../services/auth';
+import { authenticateSilently } from '../services/auth';
 //import * as WebBrowser from 'expo-web-browser';
 
 export default function LoginScreen(props: {
-  environmentConstants: { CLIENT_ID: string };
-  storageKey: string;
+  scope: string;
   navigation: any;
   bundleIdentifier: string;
 }) {
-  const discovery = useAutoDiscovery(AuthHelperMethods.AUTH_ISSUER);
-  AuthHelperMethods.userHasValidToken(discovery, props.storageKey, props.environmentConstants.CLIENT_ID).then(bool => bool && props.navigation.replace("Root"));
+  useEffect(() => {
+    msalIsConnected() &&
+      authenticateSilently(props.scope)
+        .catch((e) => console.warn(e))
+        .then((res) => res && props.navigation.navigate('Root'));
+  }, []);
   return (
     <View style={styles.container}>
-      <LoginButton
-        environmentConstants={props.environmentConstants}
-        storageKey={props.storageKey}
-        navigation={props.navigation}
-        bundleIdentifier={props.bundleIdentifier}
-      />
+      <LoginButton scope={props.scope} navigation={props.navigation} />
       <Text>
         {makeRedirectUri({
-          native: `${props.bundleIdentifier}://auth`,
-          scheme: `${props.bundleIdentifier}`
+          native: `msauth.${props.bundleIdentifier}://auth`,
+          scheme: `msauth.${props.bundleIdentifier}`,
         })}
       </Text>
     </View>

@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import React from 'react';
-import { Text } from 'react-native';
+import { StyleProp, Text, TextStyle } from 'react-native';
 
 const Typography = (props: {
   variant?: TypographyVariants;
@@ -10,7 +10,7 @@ const Typography = (props: {
   bold?: boolean;
   italic?: boolean;
   size?: number;
-  style?: any;
+  style?: StyleProp<TextStyle>;
   children?: any;
 }) => {
   let { variant, color, light, medium, bold, italic, size, style, children } =

@@ -69,7 +69,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-msal": "^4.0.4"
   },
   "jest": {
     "preset": "react-native",
