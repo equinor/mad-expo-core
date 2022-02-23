@@ -160,7 +160,6 @@
     "expo-device": "^3.3.0",
     "expo-font": "^9.2.1",
     "expo-localization": "^10.2.0",
-    "expo-web-browser": "^9.2.0",
     "lodash": "^4.17.21"
   }
 }
