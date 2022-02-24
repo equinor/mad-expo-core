@@ -8,12 +8,12 @@ import type {
 
 export let pca: PublicClientApplication | null = null;
 
-export async function msalInit(clientId: string, redirectUri: string) {
+export async function msalInit(clientId: string, redirectUri: string, authority?: string) {
 
   const config: MSALConfiguration = {
     auth: {
         clientId: clientId,
-        authority: "https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/",
+        authority: authority ? authority : "https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/",
         redirectUri: `msauth.${redirectUri}://auth`//Platform.OS === 'web' ? redirectUri : `msauth.${redirectUri}://auth`,
         // redirectUri: 'http://localhost:19006'
         // knownAuthorities: ["https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/"]
