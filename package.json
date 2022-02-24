@@ -70,7 +70,7 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-msal": "^4.0.4"
+    "react-native-msal": "*"
   },
   "jest": {
     "preset": "react-native",
