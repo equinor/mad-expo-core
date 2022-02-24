@@ -7,6 +7,7 @@ import { msalIsConnected, msalLogin } from '../../services/auth';
 export default function LoginButton(props: {
   scope: string;
   navigation: any;
+  mainRoute: string;
 }) {
   
   return (
@@ -15,7 +16,7 @@ export default function LoginButton(props: {
         disabled={!msalIsConnected()}
         title="Login"
         onPress={async () => {
-          msalLogin(props.scope).then(() => props.navigation.navigate("Root"))
+          msalLogin(props.scope).then(() => props.navigation.navigate(props.mainRoute))
         }}
       />
     </View>

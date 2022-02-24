@@ -10,16 +10,17 @@ export default function LoginScreen(props: {
   scope: string;
   navigation: any;
   bundleIdentifier: string;
+  mainRoute: string;
 }) {
   useEffect(() => {
     msalIsConnected() &&
       authenticateSilently(props.scope)
         .catch((e) => console.warn(e))
-        .then((res) => res && props.navigation.navigate('Root'));
+        .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
   return (
     <View style={styles.container}>
-      <LoginButton scope={props.scope} navigation={props.navigation} />
+      <LoginButton scope={props.scope} navigation={props.navigation} mainRoute={props.mainRoute}/>
       <Text>
         {makeRedirectUri({
           native: `msauth.${props.bundleIdentifier}://auth`,
