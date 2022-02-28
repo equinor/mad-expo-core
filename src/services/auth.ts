@@ -3,6 +3,7 @@ import PublicClientApplication, { MSALAccount, MSALResult, MSALSilentParams } fr
 import type {
   MSALConfiguration,
 } from "react-native-msal";
+import { Platform } from "react-native";
 
 //import { Platform } from "react-native";
 
@@ -14,7 +15,7 @@ export async function msalInit(clientId: string, redirectUri: string, authority?
     auth: {
         clientId: clientId,
         authority: authority ? authority : "https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/",
-        redirectUri: `msauth.${redirectUri}://auth`//Platform.OS === 'web' ? redirectUri : `msauth.${redirectUri}://auth`,
+        redirectUri: Platform.OS === 'web' ? 'http://localhost:19006' : `msauth.${redirectUri}://auth`,
         // redirectUri: 'http://localhost:19006'
         // knownAuthorities: ["https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/"]
     },
