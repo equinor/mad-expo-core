@@ -7,17 +7,18 @@ import {
   TextLink,
   Typography,
 } from './components/common';
-import IconButton from './components/common/atoms/IconButton';
-import Radiobutton from './components/common/atoms/Radiobutton';
+import { authenticateSilently, getAccount, logout, msalInit, msalLogin } from './services/auth';
+
 import Banner from './components/common/molecules/Banner';
 import DetailsTable from './components/common/molecules/DetailsTable';
-import SettingsButton from './components/common/molecules/SettingsButton';
 import FeedbackScreen from './screens/FeedbackScreen';
+import IconButton from './components/common/atoms/IconButton';
+import LoginButton from './components/authentication/LoginButton';
 import LoginScreen from './screens/LoginScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
+import Radiobutton from './components/common/atoms/Radiobutton';
+import SettingsButton from './components/common/molecules/SettingsButton';
 import SettingsScreen from './screens/SettingsScreen';
-import LoginButton from './components/authentication/LoginButton';
-import { msalInit, msalLogin, authenticateSilently, logout } from './services/auth';
 
 export {
   Button,
@@ -40,5 +41,6 @@ export {
   msalInit,
   msalLogin,
   authenticateSilently,
-  logout
+  logout,
+  getAccount
 };
