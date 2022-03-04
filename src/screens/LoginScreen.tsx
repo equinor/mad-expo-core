@@ -30,7 +30,7 @@ export default function LoginScreen(props: {
       </View>
       <View style={styles.splashBottom}>
         <View style={styles.splashAppLogo}>
-          <Image source={this.props.logo} />
+          <Image source={props.logo} />
         </View>
         <View style={styles.splashAction}>
           <LoginButton
