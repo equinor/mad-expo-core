@@ -3,7 +3,7 @@ import { msalIsConnected, msalLogin } from '../../services/auth';
 
 import Button from '../common/atoms/Button';
 import React from 'react';
-import colors from 'src/stylesheets/colors';
+import colors from '../../stylesheets/colors';
 
 export default function LoginButton(props: {
   scope: string;
