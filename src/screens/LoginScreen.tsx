@@ -14,7 +14,7 @@ export default function LoginScreen(props: {
   navigation: any;
   bundleIdentifier: string;
   mainRoute: string;
-  logo: string;
+  logo: any;
 }) {
   useEffect(() => {
     msalIsConnected() &&
