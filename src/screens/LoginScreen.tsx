@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
 import { authenticateSilently } from '../services/auth';
-import colors from 'src/stylesheets/colors';
+import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { msalIsConnected } from '../services/auth';
 
