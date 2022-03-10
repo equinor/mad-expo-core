@@ -94,8 +94,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   defaultLogoSize: {
-    height: 400,
-    width: 400,
+    height: 211,
+    width: 211,
   },
 });
 
