@@ -2,11 +2,11 @@ import { Image, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
+import { Typography } from '../components/common';
 import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { msalIsConnected } from '../services/auth';
-import { Typography } from '../components/common';
 
 //import * as WebBrowser from 'expo-web-browser';
 
@@ -28,7 +28,9 @@ export default function LoginScreen(props: {
   if (props.eds && props.title) {
     return (
       <View style={stylesEDS.container}>
-        <Typography variant="h1" bold color={'#3D3D3D'}>{props.title}</Typography>
+        <Typography variant="h1" bold color={'#3D3D3D'}>
+          {props.title}
+        </Typography>
         <Image
           source={props.logo}
           resizeMode="contain"
@@ -46,11 +48,11 @@ export default function LoginScreen(props: {
   return (
     <View style={styles.container}>
       <View style={styles.splashTop}>
-        <Image source={equinorLogo} />
+        <Image source={equinorLogo} style={styles.defaultLogoSize} />
       </View>
       <View style={styles.splashBottom}>
         <View style={styles.splashAppLogo}>
-          <Image source={props.logo} />
+          <Image source={props.logo} style={styles.defaultLogoSize} />
         </View>
         <View style={styles.splashAction}>
           <LoginButton
@@ -90,6 +92,10 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  defaultLogoSize: {
+    height: 400,
+    width: 400,
   },
 });
 
