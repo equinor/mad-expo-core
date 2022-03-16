@@ -67,7 +67,6 @@ const SettingsScreen = (props: {
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
     getAccount().then((acc) => {
-      console.log(acc.claims);
       setAccount(acc);
     });
   }, []);
