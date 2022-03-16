@@ -3,16 +3,20 @@ import * as Device from 'expo-device';
 import { Button, Typography } from '../components/common';
 import React, { useEffect } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
+import { authenticateSilently, getAccount } from '../services/auth';
 
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
-import { getAccount } from '../services/auth';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-//import * as Localization from 'expo-localization';
 import { useState } from 'react';
 
-const FeedbackScreen = (props: { locale: string; timezone: string }) => {
+const FeedbackScreen = (props: {
+  locale: string;
+  timezone: string;
+  scope: string;
+  apiBaseUrl: string;
+}) => {
   const [feedback, setFeedback] = useState('');
+  const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
     getAccount().then((acc) => {
@@ -24,14 +28,36 @@ const FeedbackScreen = (props: { locale: string; timezone: string }) => {
     'Device brand': `${Device.brand}`,
     'Device': `${Device.modelName}`,
     'Operating system': `${Device.osName} ${Device.osVersion}`,
-    'Timezone': `${props?.timezone}`, //Localization.timezone,
-    'Locale': `${props?.locale}`, //Localization.locale,
+    'Timezone': `${props?.timezone}`,
+    'Locale': `${props?.locale}`,
     'Feedback': feedback,
   };
+  const sendFeedback = (data) => {
+    setIsBusy(true);
+    // Product, User, Msg, SystemMsg
+    authenticateSilently(props.scope).then((r) =>
+      fetch(`${props.apiBaseUrl}/feedback`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${r.accessToken}`,
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            setIsBusy(false);
+            setFeedback('');
+          }
+        })
+        .catch((error) => {
+          setIsBusy(false);
+          console.error(error);
+        })
+    );
+  };
 
-  function sendFeedback() {
-    //TODO send userData object
-  }
   return (
     <ScrollView>
       <View style={{ padding: 24 }}>
@@ -71,8 +97,8 @@ const FeedbackScreen = (props: { locale: string; timezone: string }) => {
         <Button
           title="Send"
           viewStyle={{ width: '100%' }}
-          disabled={feedback === ''}
-          onPress={sendFeedback}
+          disabled={feedback === '' || isBusy}
+          onPress={() => sendFeedback(userData)}
         />
       </View>
     </ScrollView>
