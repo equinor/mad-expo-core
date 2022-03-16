@@ -11,7 +11,7 @@ import { getAccount } from '../services/auth';
 //import * as Localization from 'expo-localization';
 import { useState } from 'react';
 
-const FeedbackScreen = () => {
+const FeedbackScreen = (props: { locale: string; timezone: string }) => {
   const [feedback, setFeedback] = useState('');
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
@@ -24,8 +24,8 @@ const FeedbackScreen = () => {
     'Device brand': `${Device.brand}`,
     'Device': `${Device.modelName}`,
     'Operating system': `${Device.osName} ${Device.osVersion}`,
-    'Timezone': 'TIMEZONE', //Localization.timezone,
-    'Locale': 'TIMEZONE', //Localization.locale,
+    'Timezone': `${props?.timezone}`, //Localization.timezone,
+    'Locale': `${props?.locale}`, //Localization.locale,
     'Feedback': feedback,
   };
 
