@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.BORDER,
     borderBottomWidth: 1,
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   sectionHeaderContainer: {
     height: 30,
@@ -99,7 +99,7 @@ const SettingsScreen = (props: {
           style={[
             styles.sectionSeparator,
             styles.sectionMarginTop,
-            { backgroundColor: 'white' },
+            { backgroundColor: 'white', padding: 5 },
           ]}
         >
           <Button
@@ -137,7 +137,7 @@ const Setting = (props: {
           backgroundColor="transparent"
           color="#007079"
         ></MaterialIcons>
-        <Typography medium color="#007079">
+        <Typography medium color="#007079" size={18} style={{ lineHeight: 24 }}>
           {props.title}
         </Typography>
       </View>

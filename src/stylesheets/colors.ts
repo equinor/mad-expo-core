@@ -28,6 +28,7 @@ const Colors = {
   YELLOW_LIGHT: '#FFF6D6',
   YELLOW: '#FEFE00',
   BORDER: 'rgba(0,0,0,0.1)',
+  WHITE: '#ffffff',
 };
 
 export default Colors;
