@@ -58,7 +58,6 @@ export async function getAccount() {
   return null;
 }
 
-
 export async function authenticateSilently(scope: string) {
   if (!pca) {
     throw new Error(
@@ -73,7 +72,7 @@ export async function authenticateSilently(scope: string) {
     const params: MSALSilentParams = {
       account: accounts[0],
       scopes: [scope],
-      forceRefresh: true
+      forceRefresh: false
     };
     const result: MSALResult | undefined | void = await pca.acquireTokenSilent(params).catch((e) => {console.log("Error while fetching token silently", e)}).then(res => res);
     if (!result) return null
