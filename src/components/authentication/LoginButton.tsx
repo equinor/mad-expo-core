@@ -9,6 +9,7 @@ export default function LoginButton(props: {
   scope: string;
   navigation: any;
   mainRoute: string;
+  eds?: boolean
 }) {
   return (
     <View>
@@ -20,7 +21,8 @@ export default function LoginButton(props: {
             props.navigation.navigate(props.mainRoute)
           );
         }}
-        viewStyle={styles.buttonStyle}
+        viewStyle={props.eds ? styles.buttonStyleEDS : styles.buttonStyle}
+        textStyle={props.eds ? styles.textStyleEDS : undefined}
       />
     </View>
   );
@@ -30,8 +32,13 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: colors.RED_LOGO,
   },
-  buttonStyleDisabled: {
-    backgroundColor: colors.GRAY_3,
+  buttonStyleEDS: {
+    width: 241,
+    height: 48,
+    borderRadius: 4
   },
-  buttonTextStyleDisabled: {},
+  textStyleEDS: {
+    fontWeight: '400',
+    fontSize: 16
+  },
 });
