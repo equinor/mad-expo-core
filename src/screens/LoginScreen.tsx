@@ -6,9 +6,7 @@ import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { msalIsConnected } from '../services/auth';
-import { Typography } from '../components/common';
-
-//import * as WebBrowser from 'expo-web-browser';
+import { Typography, Button } from '../components/common';
 
 export default function LoginScreen(props: {
   scope: string;
@@ -18,6 +16,8 @@ export default function LoginScreen(props: {
   eds?: boolean;
   title?: string;
   logo: any;
+  showDemoButton?: boolean;
+  onDemoPress?: () => void;
 }) {
   useEffect(() => {
     msalIsConnected() &&
@@ -28,7 +28,9 @@ export default function LoginScreen(props: {
   if (props.eds && props.title) {
     return (
       <View style={stylesEDS.container}>
-        <Typography variant="h1" bold color={'#3D3D3D'}>{props.title}</Typography>
+        <Typography variant="h1" bold color={'#3D3D3D'}>
+          {props.title}
+        </Typography>
         <Image
           source={props.logo}
           resizeMode="contain"
@@ -58,6 +60,18 @@ export default function LoginScreen(props: {
             navigation={props.navigation}
             mainRoute={props.mainRoute}
           />
+          {props.showDemoButton && (
+            <Button
+              disabled={!msalIsConnected()}
+              title="Demo"
+              onPress={async () => {
+                if (props.onDemoPress) {
+                  props.onDemoPress();
+                }
+              }}
+              viewStyle={props.eds ? styles.buttonStyleEDS : styles.buttonStyle}
+            />
+          )}
         </View>
       </View>
     </View>
@@ -90,6 +104,19 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonStyle: {
+    backgroundColor: colors.EQUINOR_PRIMARY,
+    marginTop: 8,
+  },
+  buttonStyleEDS: {
+    width: 241,
+    height: 48,
+    borderRadius: 4,
+  },
+  textStyleEDS: {
+    fontWeight: '400',
+    fontSize: 16,
   },
 });
 
