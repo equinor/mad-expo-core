@@ -48,11 +48,15 @@ export default function LoginScreen(props: {
   return (
     <View style={styles.container}>
       <View style={styles.splashTop}>
-        <Image source={equinorLogo} />
+        <Image source={equinorLogo} style={{ height: '50%', width: '50%' }} />
       </View>
       <View style={styles.splashBottom}>
         <View style={styles.splashAppLogo}>
-          <Image source={props.logo} />
+          <Image
+            source={props.logo}
+            resizeMode="contain"
+            style={{ height: 200, width: 200 }}
+          />
         </View>
         <View style={styles.splashAction}>
           <LoginButton
