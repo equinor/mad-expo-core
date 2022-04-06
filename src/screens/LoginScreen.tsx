@@ -28,9 +28,7 @@ export default function LoginScreen(props: {
   if (props.eds && props.title) {
     return (
       <View style={stylesEDS.container}>
-        <Typography variant="h1" bold color={'#3D3D3D'}>
-          {props.title}
-        </Typography>
+        <Typography variant="h1" bold color={'#3D3D3D'}>{props.title}</Typography>
         <Image
           source={props.logo}
           resizeMode="contain"

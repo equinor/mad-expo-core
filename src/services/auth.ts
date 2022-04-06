@@ -69,7 +69,7 @@ export async function authenticateSilently(scope: string) {
     const params: MSALSilentParams = {
       account: accounts[0],
       scopes: [scope],
-      forceRefresh: false,
+      forceRefresh: false
     };
     const result: MSALResult | undefined | void = await pca
       .acquireTokenSilent(params)
