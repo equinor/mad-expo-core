@@ -6,6 +6,7 @@ import {
   Spinner,
   TextLink,
   Typography,
+  ServiceMessage
 } from './components/common';
 import { authenticateSilently, getAccount, logout, msalInit, msalLogin } from './services/auth';
 
@@ -30,6 +31,7 @@ export {
   Typography,
   TextLink,
   Banner,
+  ServiceMessage,
   DetailsTable,
   NavigationList,
   SettingsButton,

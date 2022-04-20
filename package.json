@@ -77,7 +77,8 @@
     "expo-random": "*",
     "react": "*",
     "react-native": "*",
-    "react-native-msal": "*"
+    "react-native-msal": "*",
+    "react-native-safe-area-context": "^3.3.2"
   },
   "jest": {
     "preset": "react-native",

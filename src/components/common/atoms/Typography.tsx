@@ -10,6 +10,7 @@ const Typography = (props: {
   bold?: boolean;
   italic?: boolean;
   size?: number;
+  numberOfLines?: number;
   style?: StyleProp<TextStyle>;
   children?: any;
 }) => {
@@ -79,7 +80,7 @@ const Typography = (props: {
   //if (!loaded) return null;
 
   return (
-    <Text style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
+    <Text numberOfLines={props.numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
       {children}
     </Text>
   );
