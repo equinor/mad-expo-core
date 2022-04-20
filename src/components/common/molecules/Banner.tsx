@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import Colors from '../../../stylesheets/colors';
 import Typography from '../atoms/Typography';
@@ -15,8 +14,8 @@ const styles = StyleSheet.create({
 
 const Banner = (props: {
   text?: string;
-  viewStyle?: Object;
-  textStyle?: Object;
+  viewStyle?: Object
+  textStyle?: Object
 }) => {
   const { text, viewStyle, textStyle } = props;
   return (
@@ -26,12 +25,6 @@ const Banner = (props: {
       </Typography>
     </View>
   );
-};
-
-Banner.propTypes = {
-  text: PropTypes.string,
-  viewStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-  textStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
 };
 
 Banner.defaultProps = {

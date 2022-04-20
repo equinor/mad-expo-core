@@ -1,44 +1,65 @@
-import React from 'react';
-import { makeRedirectUri } from 'expo-auth-session';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+
 import LoginButton from '../components/authentication/LoginButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { authenticateSilently } from '../services/auth';
+import colors from '../stylesheets/colors';
+import equinorLogo from '../resources/images/equinor_logo.png';
+import { msalIsConnected } from '../services/auth';
+import { Typography } from '../components/common';
+
 //import * as WebBrowser from 'expo-web-browser';
 
 export default function LoginScreen(props: {
-  environmentConstants: { CLIENT_ID: string };
-  storageKey: string;
+  scope: string;
   navigation: any;
   bundleIdentifier: string;
+  mainRoute: string;
+  eds?: boolean;
+  title?: string;
+  logo: any;
 }) {
-  console.log('AUTH!!: ');
-  AsyncStorage.getItem(props.storageKey).then((res) => {
-    if (res) {
-      console.log('REDIRECT');
-      // TODO check if the token is still valid before sending the user to the next page
-      //WebBrowser.maybeCompleteAuthSession();
-      props.navigation.replace("Root");
-    }
+  useEffect(() => {
+    msalIsConnected() &&
+      authenticateSilently(props.scope)
+        .catch((e) => console.warn(e))
+        .then((res) => res && props.navigation.navigate(props.mainRoute));
+  }, []);
+  if (props.eds && props.title) {
     return (
-      <View>
-        <Text>{res}</Text>
+      <View style={stylesEDS.container}>
+        <Typography variant="h1" bold color={'#3D3D3D'}>{props.title}</Typography>
+        <Image
+          source={props.logo}
+          resizeMode="contain"
+          style={{ height: 400, width: 400 }}
+        />
+        <LoginButton
+          scope={props.scope}
+          navigation={props.navigation}
+          mainRoute={props.mainRoute}
+          eds
+        />
       </View>
     );
-  });
+  }
   return (
     <View style={styles.container}>
-      <LoginButton
-        environmentConstants={props.environmentConstants}
-        storageKey={props.storageKey}
-        navigation={props.navigation}
-        bundleIdentifier={props.bundleIdentifier}
-      />
-      <Text>
-        {makeRedirectUri({
-        native: `${props.bundleIdentifier}://auth`,
-        scheme: `${props.bundleIdentifier}`
-      })}
-      </Text>
+      <View style={styles.splashTop}>
+        <Image source={equinorLogo} />
+      </View>
+      <View style={styles.splashBottom}>
+        <View style={styles.splashAppLogo}>
+          <Image source={props.logo} />
+        </View>
+        <View style={styles.splashAction}>
+          <LoginButton
+            scope={props.scope}
+            navigation={props.navigation}
+            mainRoute={props.mainRoute}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -46,16 +67,39 @@ export default function LoginScreen(props: {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  splashTop: {
+    flex: 2,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  splashBottom: {
+    flex: 3,
+    backgroundColor: colors.PINK_BACKGROUND,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  splashAppLogo: {
+    flex: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  splashAction: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+const stylesEDS = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingVertical: 72,
   },
 });

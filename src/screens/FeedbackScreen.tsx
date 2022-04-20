@@ -2,7 +2,7 @@ import { ScrollView, TextInput, View } from 'react-native';
 import { Button, Typography } from '../components/common';
 import React, { useEffect } from 'react';
 import * as Device from 'expo-device';
-import * as Localization from 'expo-localization';
+//import * as Localization from 'expo-localization';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -14,8 +14,8 @@ const FeedbackScreen = (props: { loginStorageKey: string; navigation }) => {
     'Device brand': `${Device.brand}`,
     'Device id': `${Device.modelName}`,
     'Operating system': `${Device.osName} ${Device.osVersion}`,
-    'Timezone': Localization.timezone,
-    'Locale': Localization.locale,
+    'Timezone': 'TIMEZONE',//Localization.timezone,
+    'Locale': 'TIMEZONE',//Localization.locale,
     'Feedback': feedback,
   };
 
