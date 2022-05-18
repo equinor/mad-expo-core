@@ -2,7 +2,13 @@ import * as Device from 'expo-device';
 
 import { Button, Typography } from '../components/common';
 import React, { useEffect } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import {
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 import { authenticateSilently, getAccount } from '../services/auth';
 
 import { Banner } from 'mad-expo-core';
@@ -47,8 +53,8 @@ const FeedbackScreen = (props: {
   }, []);
   const userData: { [key: string]: string } = {
     'User': `${account?.username.substring(0, account?.username.indexOf('@'))}`,
-    'Device brand': `${Device.brand}`,
-    'Device': `${Device.modelName}`,
+    'Device brand': `${Platform.OS === 'web' ? 'web' : Device.brand}`,
+    'Device': `${Platform.OS === 'web' ? 'web' : Device.modelName} `,
     'Operating system': `${Device.osName} ${Device.osVersion}`,
     'Timezone': `${props?.timezone}`,
     'Locale': `${props?.locale}`,
@@ -149,8 +155,9 @@ const FeedbackScreen = (props: {
           multiline
           placeholder="Type your feedback here"
           textAlignVertical={'top'}
+          value={Platform.OS === 'web' ? feedback : undefined}
         >
-          <Typography medium>{feedback}</Typography>
+          {Platform.OS === 'web' && <Typography medium>{feedback}</Typography>}
         </TextInput>
         <Button
           title="Send"
