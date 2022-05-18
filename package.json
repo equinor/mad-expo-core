@@ -1,6 +1,6 @@
 {
   "name": "mad-expo-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "mad expo core",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

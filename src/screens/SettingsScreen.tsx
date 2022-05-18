@@ -84,31 +84,15 @@ const SettingsScreen = (props: {
             navigation={props.navigation}
           />
         ))}
-        {account && (
-          <View
-            style={[
-              styles.sectionSeparator,
-              styles.itemContainer,
-              styles.sectionMarginTop,
-            ]}
-          >
-            <Typography>Logged in as: {account.username}</Typography>
-          </View>
-        )}
-        <View
-          style={[
-            styles.sectionSeparator,
-            styles.sectionMarginTop,
-            { backgroundColor: 'white', padding: 5 },
-          ]}
-        >
+        <View style={{ paddingTop: 16 }}>
+          <Typography bold>Signed in as:</Typography>
+          {account && <Typography>
+            {account.username}
+          </Typography>}
           <Button
-            title="Log out"
-            color={Colors.RED}
+            title="Sign out"
             onPress={() => {
-              logout()
-                .catch((e) => console.warn(e))
-                .then(() => props.navigation.navigate('Login'));
+              logout().catch(e => console.warn(e)).then(() => props.navigation.navigate("Login"))
             }}
           />
         </View>

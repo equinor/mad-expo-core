@@ -8,6 +8,7 @@ import { authenticateSilently, getAccount } from '../services/auth';
 import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
+//import * as Localization from 'expo-localization';
 import { useState } from 'react';
 
 const styles = StyleSheet.create({
