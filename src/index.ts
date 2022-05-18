@@ -9,6 +9,7 @@ import {
 } from './components/common';
 import { authenticateSilently, getAccount, logout, msalInit, msalLogin } from './services/auth';
 
+import AppContainer from './components/common/molecules/AppContainer';
 import Banner from './components/common/molecules/Banner';
 import DetailsTable from './components/common/molecules/DetailsTable';
 import FeedbackScreen from './screens/FeedbackScreen';
@@ -21,6 +22,7 @@ import SettingsButton from './components/common/molecules/SettingsButton';
 import SettingsScreen from './screens/SettingsScreen';
 
 export {
+  AppContainer,
   Button,
   Checkbox,
   IconButton,
