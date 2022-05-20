@@ -5,7 +5,7 @@ import LoginButton from '../components/authentication/LoginButton';
 import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
-import { msalIsConnected } from '../services/auth';
+import { isMsalConnected } from '../services/auth';
 import { Typography } from '../components/common';
 
 //import * as WebBrowser from 'expo-web-browser';
@@ -20,7 +20,7 @@ export default function LoginScreen(props: {
   logo: any;
 }) {
   useEffect(() => {
-    msalIsConnected() &&
+    isMsalConnected() &&
       authenticateSilently(props.scope)
         .catch((e) => console.warn(e))
         .then((res) => res && props.navigation.navigate(props.mainRoute));
