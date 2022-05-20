@@ -1,51 +1,51 @@
-
-import PublicClientApplication, { MSALAccount, MSALResult, MSALSilentParams } from "react-native-msal";
-import type {
-  MSALConfiguration,
+import PublicClientApplication, {
+  MSALAccount,
+  MSALResult,
+  MSALSilentParams,
 } from "react-native-msal";
+import type { MSALConfiguration } from "react-native-msal";
 
 export let pca: PublicClientApplication | null = null;
 
-export async function msalInit(clientId: string, redirectUri: string, authority?: string,) {
+export async function msalInit(
+  clientId: string,
+  redirectUri: string,
+  authority = "https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/"
+) {
   const config: MSALConfiguration = {
     auth: {
-        authority: authority ? authority : "https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/",
-        clientId: clientId,
-        redirectUri: redirectUri,
+      authority,
+      clientId,
+      redirectUri,
     },
-    cache: { cacheLocation: 'localStorage' },
+    cache: { cacheLocation: "localStorage" },
   };
   pca = new PublicClientApplication(config);
-  await pca.init().catch(e => console.warn(e));
+  await pca.init().catch((e) => console.warn(e));
 }
 
 export function isMsalConnected(): boolean {
-    return !!pca;
+  return !!pca;
 }
-
 
 export async function msalLogin(scopes: string[]) {
   if (!pca) {
-    throw new Error(
-      "Unable to authenticate, pca is null"
-    );
+    throw new Error("Unable to authenticate, pca is null");
   }
-  const result: MSALResult | undefined = await pca.acquireToken({ scopes: scopes });
-  return { ...result?.account, userId:  result?.account.username};
-  
+  const result: MSALResult | undefined = await pca.acquireToken({
+    scopes,
+  });
+  return { ...result?.account, userId: result?.account.username };
 }
-
 
 export async function getAccount() {
   if (!pca) {
-    throw new Error(
-      "Unable to authenticate, pca is null"
-    );
+    throw new Error("Unable to authenticate, pca is null");
   }
   const accounts: MSALAccount[] = await pca.getAccounts();
 
   if (accounts.length > 0) {
-    const account = accounts[0]
+    const account = accounts[0];
     return account;
   }
 
@@ -54,23 +54,29 @@ export async function getAccount() {
 
 export async function authenticateSilently(scopes: string[]) {
   if (!pca) {
-    throw new Error(
-      "Unable to authenticate, pca is null"
-    );
+    throw new Error("Unable to authenticate, pca is null");
   }
 
-  const accounts: MSALAccount[] | void = await pca.getAccounts().catch(e => console.warn(e)).then(accounts => accounts);
+  const accounts: MSALAccount[] | void = await pca
+    .getAccounts()
+    .catch((e) => console.warn(e))
+    .then((accounts) => accounts);
 
   if (accounts && accounts.length > 0) {
-    const account = accounts[0]
+    const account = accounts[0];
     const params: MSALSilentParams = {
       account: accounts[0],
-      scopes: scopes,
-      forceRefresh: false
+      scopes,
+      forceRefresh: false,
     };
-    const result: MSALResult | undefined | void = await pca.acquireTokenSilent(params).catch((e) => {console.log("Error while fetching token silently", e)}).then(res => res);
-    if (!result) return null
-    return { ...result, userId: account.username};
+    const result: MSALResult | undefined | void = await pca
+      .acquireTokenSilent(params)
+      .catch((e) => {
+        console.log("Error while fetching token silently", e);
+      })
+      .then((res) => res);
+    if (!result) return null;
+    return { ...result, userId: account.username };
   }
 
   throw Error("No refresh token, can't authenticate silently");
@@ -80,9 +86,7 @@ export const errorCodes = {};
 
 export async function logout() {
   if (!pca) {
-    throw new Error(
-      "Unable to logout, pca is null"
-    );
+    throw new Error("Unable to logout, pca is null");
   }
   const accounts: MSALAccount[] = await pca.getAccounts();
 
