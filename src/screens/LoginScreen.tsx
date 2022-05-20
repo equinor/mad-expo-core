@@ -5,23 +5,23 @@ import LoginButton from '../components/authentication/LoginButton';
 import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
-import { msalIsConnected } from '../services/auth';
+import { isMsalConnected } from '../services/auth';
 import { Typography } from '../components/common';
 
 //import * as WebBrowser from 'expo-web-browser';
 
 export default function LoginScreen(props: {
-  scope: string;
-  navigation: any;
   bundleIdentifier: string;
+  logo: any;
   mainRoute: string;
+  navigation: any;
+  scopes: string[];
   eds?: boolean;
   title?: string;
-  logo: any;
 }) {
   useEffect(() => {
-    msalIsConnected() &&
-      authenticateSilently(props.scope)
+    isMsalConnected() &&
+      authenticateSilently(props.scopes)
         .catch((e) => console.warn(e))
         .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
@@ -35,7 +35,7 @@ export default function LoginScreen(props: {
           style={{ height: 400, width: 400 }}
         />
         <LoginButton
-          scope={props.scope}
+          scopes={props.scopes}
           navigation={props.navigation}
           mainRoute={props.mainRoute}
           eds
@@ -54,7 +54,7 @@ export default function LoginScreen(props: {
         </View>
         <View style={styles.splashAction}>
           <LoginButton
-            scope={props.scope}
+            scopes={props.scopes}
             navigation={props.navigation}
             mainRoute={props.mainRoute}
           />
