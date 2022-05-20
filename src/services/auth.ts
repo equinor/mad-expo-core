@@ -6,10 +6,10 @@ import type {
 
 export let pca: PublicClientApplication | null = null;
 
-export async function msalInit(authority: string, clientId: string, redirectUri: string) {
+export async function msalInit(clientId: string, redirectUri: string, authority?: string,) {
   const config: MSALConfiguration = {
     auth: {
-        authority: authority,
+        authority: authority ? authority : "https://login.microsoftonline.com/statoilsrm.onmicrosoft.com/",
         clientId: clientId,
         redirectUri: redirectUri,
     },
