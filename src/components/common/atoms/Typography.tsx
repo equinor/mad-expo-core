@@ -1,4 +1,3 @@
-//import { useFonts } from 'expo-font';
 import React from 'react';
 import { StyleProp, Text, TextStyle } from 'react-native';
 
@@ -14,7 +13,7 @@ const Typography = (props: {
   numberOfLines?: number;
   children?: any;
 }) => {
-  let { variant, color, light, medium, bold, italic, size, style, children } =
+  let { variant, color, light, medium, bold, italic, size, style, children, numberOfLines } =
     props;
   function validateProps() {
     if ((light && medium) || (light && bold) || (medium && bold))
@@ -68,7 +67,7 @@ const Typography = (props: {
   }
 
   return (
-    <Text numberOfLines={props.numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
+    <Text numberOfLines={numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
       {children}
     </Text>
   );
