@@ -1,4 +1,3 @@
-//import { useFonts } from 'expo-font';
 import React from 'react';
 import { StyleProp, Text, TextStyle } from 'react-native';
 
@@ -11,9 +10,10 @@ const Typography = (props: {
   italic?: boolean;
   size?: number;
   style?: StyleProp<TextStyle>;
+  numberOfLines?: number;
   children?: any;
 }) => {
-  let { variant, color, light, medium, bold, italic, size, style, children } =
+  let { variant, color, light, medium, bold, italic, size, style, children, numberOfLines } =
     props;
   function validateProps() {
     if ((light && medium) || (light && bold) || (medium && bold))
@@ -22,16 +22,6 @@ const Typography = (props: {
       );
   }
   validateProps();
-  // const [loaded] = useFonts({
-  //   'Equinor-Bold': require(`../../../assets/fonts/Equinor-Bold.ttf`),
-  //   'Equinor-BoldItalic': require(`../../../assets/fonts/Equinor-BoldItalic.ttf`),
-  //   'Equinor-Italic': require(`../../../assets/fonts/Equinor-Italic.ttf`),
-  //   'Equinor-Light': require(`../../../assets/fonts/Equinor-Light.ttf`),
-  //   'Equinor-LightItalic': require(`../../../assets/fonts/Equinor-LightItalic.ttf`),
-  //   'Equinor-Medium': require(`../../../assets/fonts/Equinor-Medium.ttf`),
-  //   'Equinor-MediumItalic': require(`../../../assets/fonts/Equinor-MediumItalic.ttf`),
-  //   'Equinor-Regular': require(`../../../assets/fonts/Equinor-Regular.ttf`),
-  // });
 
   const variants = {
     h1: {
@@ -76,10 +66,8 @@ const Typography = (props: {
     fontName += variants[variant].type;
   }
 
-  //if (!loaded) return null;
-
   return (
-    <Text style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
+    <Text numberOfLines={numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
       {children}
     </Text>
   );
