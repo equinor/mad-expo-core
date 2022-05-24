@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
@@ -6,19 +6,19 @@ import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
-import { Typography, Button } from '../components/common';
+import { Typography } from '../components/common';
+import { Button } from 'mad-expo-core';
 
 //import * as WebBrowser from 'expo-web-browser';
 
 export default function LoginScreen(props: {
   bundleIdentifier: string;
-  logo: any;
+  logo: ImageSourcePropType;
   mainRoute: string;
   navigation: any;
   scopes: string[];
   eds?: boolean;
   title?: string;
-  logo: any;
   showDemoButton?: boolean;
   onDemoPress?: () => void;
 }) {
@@ -63,7 +63,7 @@ export default function LoginScreen(props: {
           />
              {props.showDemoButton && (
             <Button
-              disabled={!msalIsConnected()}
+              disabled={!isMsalConnected()}
               title="Demo"
               onPress={async () => {
                 if (props.onDemoPress) {
