@@ -6,7 +6,7 @@ import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
-import { Typography } from '../components/common';
+import { Typography, Button } from '../components/common';
 
 //import * as WebBrowser from 'expo-web-browser';
 
@@ -18,6 +18,9 @@ export default function LoginScreen(props: {
   scopes: string[];
   eds?: boolean;
   title?: string;
+  logo: any;
+  showDemoButton?: boolean;
+  onDemoPress?: () => void;
 }) {
   useEffect(() => {
     isMsalConnected() &&
@@ -58,6 +61,18 @@ export default function LoginScreen(props: {
             navigation={props.navigation}
             mainRoute={props.mainRoute}
           />
+             {props.showDemoButton && (
+            <Button
+              disabled={!msalIsConnected()}
+              title="Demo"
+              onPress={async () => {
+                if (props.onDemoPress) {
+                  props.onDemoPress();
+                }
+              }}
+              viewStyle={props.eds ? styles.splashAction : styles.splashAction}
+            />
+          )}
         </View>
       </View>
     </View>
