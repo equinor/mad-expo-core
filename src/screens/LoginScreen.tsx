@@ -62,12 +62,7 @@ export default function LoginScreen(props: {
             <Button
               disabled={!isMsalConnected()}
               title="Demo"
-              onPress={async () => {
-                if (props.onDemoPress) {
-                  props.onDemoPress();
-                }
-              }}
-              viewStyle={props.eds ? styles.splashAction : styles.splashAction}
+              onPress={() => {if (props.onDemoPress) props.onDemoPress()}}
             />
           )}
         </View>
