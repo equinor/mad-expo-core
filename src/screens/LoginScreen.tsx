@@ -6,10 +6,7 @@ import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
-import { Typography } from '../components/common';
-import { Button } from 'mad-expo-core';
-
-//import * as WebBrowser from 'expo-web-browser';
+import { Typography, Button } from '../components/common';
 
 export default function LoginScreen(props: {
   bundleIdentifier: string;
