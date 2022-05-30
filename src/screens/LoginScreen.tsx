@@ -63,6 +63,7 @@ export default function LoginScreen(props: {
               disabled={!isMsalConnected()}
               title="Demo"
               onPress={() => {if (props.onDemoPress) props.onDemoPress()}}
+              viewStyle={styles.splashAction}
             />
           )}
         </View>
