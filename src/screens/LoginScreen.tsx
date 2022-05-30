@@ -96,7 +96,10 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: colors.EQUINOR_PRIMARY,
+    flex: 3,
     marginTop: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonStyleEDS: {
     width: 241,
