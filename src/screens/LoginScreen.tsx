@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   splashAction: {
     flex: 3,
     justifyContent: 'center',
