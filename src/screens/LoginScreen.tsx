@@ -63,7 +63,7 @@ export default function LoginScreen(props: {
               disabled={!isMsalConnected()}
               title="Demo"
               onPress={() => {if (props.onDemoPress) props.onDemoPress()}}
-              viewStyle={props.eds ? styles.buttonStyleEDS : styles.buttonStyle}
+              viewStyle={styles.buttonStyle}
             />
           )}
         </View>
@@ -96,15 +96,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: colors.EQUINOR_PRIMARY,
-    flex: 3,
     marginTop: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonStyleEDS: {
-    width: 241,
-    height: 48,
-    borderRadius: 4,
   },
   splashAction: {
     flex: 3,
