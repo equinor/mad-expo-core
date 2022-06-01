@@ -27,6 +27,8 @@ const Colors = {
   TEXT_SECONDARY: '#565656',
   YELLOW_LIGHT: '#FFF6D6',
   YELLOW: '#FEFE00',
+  BORDER: 'rgba(0,0,0,0.1)',
+  WHITE: '#ffffff',
 };
 
 export default Colors;

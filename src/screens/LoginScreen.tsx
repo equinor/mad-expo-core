@@ -46,11 +46,19 @@ export default function LoginScreen(props: {
   return (
     <View style={styles.container}>
       <View style={styles.splashTop}>
-        <Image source={equinorLogo} />
+        <Image
+          source={equinorLogo}
+          resizeMode="contain"
+          style={{ height: '50%', width: '50%' }}
+        />
       </View>
       <View style={styles.splashBottom}>
         <View style={styles.splashAppLogo}>
-          <Image source={props.logo} />
+          <Image
+            source={props.logo}
+            resizeMode="contain"
+            style={{ height: 200, width: 200 }}
+          />
         </View>
         <View style={styles.splashAction}>
           <LoginButton
@@ -97,6 +105,19 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonStyle: {
+    backgroundColor: colors.EQUINOR_PRIMARY,
+    marginTop: 8,
+  },
+  buttonStyleEDS: {
+    width: 241,
+    height: 48,
+    borderRadius: 4,
+  },
+  textStyleEDS: {
+    fontWeight: '400',
+    fontSize: 16,
   },
 });
 
