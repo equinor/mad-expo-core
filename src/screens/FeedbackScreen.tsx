@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 const FeedbackScreen = (props: {
   locale: string;
   timezone: string;
-  scope: string;
+  scopes: string[];
   apiBaseUrl: string;
   product: string;
 }) => {
@@ -70,7 +70,7 @@ const FeedbackScreen = (props: {
 
   const sendFeedback = (data: feedbackData) => {
     setIsBusy(true);
-    authenticateSilently(props.scope).then((r) =>
+    authenticateSilently(props.scopes).then((r) =>
       fetch(`${props.apiBaseUrl}/feedback`, {
         method: 'POST',
         body: JSON.stringify(data),
