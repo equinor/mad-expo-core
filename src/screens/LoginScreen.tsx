@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
@@ -6,13 +6,11 @@ import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
-import { Button, Typography } from '../components/common';
-
-//import * as WebBrowser from 'expo-web-browser';
+import { Typography, Button } from '../components/common';
 
 export default function LoginScreen(props: {
   bundleIdentifier: string;
-  logo: any;
+  logo: ImageSourcePropType;
   mainRoute: string;
   navigation: any;
   scopes: string[];
@@ -68,16 +66,11 @@ export default function LoginScreen(props: {
             navigation={props.navigation}
             mainRoute={props.mainRoute}
           />
-          {props.showDemoButton && (
+             {props.showDemoButton && (
             <Button
-              disabled={!isMsalConnected()}
               title="Demo"
-              onPress={async () => {
-                if (props.onDemoPress) {
-                  props.onDemoPress();
-                }
-              }}
-              viewStyle={props.eds ? styles.buttonStyleEDS : styles.buttonStyle}
+              onPress={() => {if (props.onDemoPress) props.onDemoPress()}}
+              viewStyle={{ marginTop: 8 }}
             />
           )}
         </View>

@@ -1,6 +1,6 @@
+import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../stylesheets/colors';
 
 const styles = {
