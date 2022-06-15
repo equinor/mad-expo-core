@@ -17,7 +17,8 @@ const ServiceMessage = (props: {
     if (serviceMessage === 'REQUEST FAILED')
       return (
         <>
-          <View style={{ height: 80 }} />
+        <View>
+
           <Banner
             viewStyle={styles.bannerViewStyle}
             maxExpandedHeight={400}
@@ -25,12 +26,13 @@ const ServiceMessage = (props: {
             text={'Could not retrieve service message'}
             onDismiss={() => setServiceMessage(null)}
           />
+        </View>
         </>
       );
     if (!serviceMessage || !serviceMessage.status) return <></>;
     return (
       <>
-        <View style={{ height: 80 }} />
+      <View>
         <Banner
           viewStyle={StyleSheet.flatten([
             styles.bannerViewStyle,
@@ -45,6 +47,7 @@ const ServiceMessage = (props: {
           onDismiss={() => setServiceMessage(null)}
           url={serviceMessage.urlString}
         />
+        </View>
       </>
     );
   };
@@ -61,19 +64,15 @@ const ServiceMessage = (props: {
 
 const styles = StyleSheet.create({
   bannerViewStyle: {
-    position: 'absolute',
     zIndex: 3,
     alignSelf: 'center',
     flexDirection: 'row',
-    padding: 12,
-    left: 0,
-    right: 0,
-    borderRadius: 0,
+    paddingHorizontal: 12,
     shadowOffset: { height: 2, width: 0 },
     shadowRadius: 5,
     shadowColor: '#000000',
     shadowOpacity: 0.1,
-    top: 0,
+
   },
 });
 
