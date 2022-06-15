@@ -164,6 +164,7 @@
     "@typescript-eslint/parser": "^4.33.0",
     "axios": "^0.21.4",
     "expo-device": "^4.1.1",
+    "expo-linking": "^3.1.0",
     "expo-random": "*",
     "lodash": "^4.17.21"
   }
