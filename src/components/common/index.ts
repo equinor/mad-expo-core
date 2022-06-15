@@ -4,5 +4,6 @@ export { default as Spinner } from './atoms/Spinner';
 export { default as TextLink } from './atoms/TextLink';
 export { default as Typography } from './atoms/Typography';
 export { default as SimpleInfoItem } from './atoms/SimpleInfoItem';
+export { default as AppContainer } from './molecules/AppContainer';
 export { default as NavigationList } from './molecules/NavigationList';
 export { default as ServiceMessage } from './organisms/ServiceMessage';

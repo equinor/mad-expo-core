@@ -1,27 +1,27 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
 import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
-import { msalIsConnected } from '../services/auth';
-import { Typography } from '../components/common';
-
-//import * as WebBrowser from 'expo-web-browser';
+import { isMsalConnected } from '../services/auth';
+import { Typography, Button } from '../components/common';
 
 export default function LoginScreen(props: {
-  scope: string;
-  navigation: any;
   bundleIdentifier: string;
+  logo: ImageSourcePropType;
   mainRoute: string;
+  navigation: any;
+  scopes: string[];
   eds?: boolean;
   title?: string;
-  logo: any;
+  showDemoButton?: boolean;
+  onDemoPress?: () => void;
 }) {
   useEffect(() => {
-    msalIsConnected() &&
-      authenticateSilently(props.scope)
+    isMsalConnected() &&
+      authenticateSilently(props.scopes)
         .catch((e) => console.warn(e))
         .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
@@ -35,7 +35,7 @@ export default function LoginScreen(props: {
           style={{ height: 400, width: 400 }}
         />
         <LoginButton
-          scope={props.scope}
+          scopes={props.scopes}
           navigation={props.navigation}
           mainRoute={props.mainRoute}
           eds
@@ -54,10 +54,17 @@ export default function LoginScreen(props: {
         </View>
         <View style={styles.splashAction}>
           <LoginButton
-            scope={props.scope}
+            scopes={props.scopes}
             navigation={props.navigation}
             mainRoute={props.mainRoute}
           />
+             {props.showDemoButton && (
+            <Button
+              title="Demo"
+              onPress={() => {if (props.onDemoPress) props.onDemoPress()}}
+              viewStyle={{ marginTop: 8 }}
+            />
+          )}
         </View>
       </View>
     </View>

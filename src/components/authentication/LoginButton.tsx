@@ -1,23 +1,23 @@
 import { StyleSheet, View } from 'react-native';
-import { msalIsConnected, msalLogin } from '../../services/auth';
+import { isMsalConnected, msalLogin } from '../../services/auth';
 
 import Button from '../common/atoms/Button';
 import React from 'react';
 import colors from '../../stylesheets/colors';
 
 export default function LoginButton(props: {
-  scope: string;
-  navigation: any;
   mainRoute: string;
+  navigation: any;
+  scopes: string[];
   eds?: boolean
 }) {
   return (
     <View>
       <Button
-        disabled={!msalIsConnected()}
+        disabled={!isMsalConnected()}
         title="Login"
         onPress={async () => {
-          msalLogin(props.scope).then(() =>
+          msalLogin(props.scopes).then(() =>
             props.navigation.navigate(props.mainRoute)
           );
         }}
