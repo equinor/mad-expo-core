@@ -9,8 +9,8 @@ const Typography = (props: {
   bold?: boolean;
   italic?: boolean;
   size?: number;
-  style?: StyleProp<TextStyle>;
   numberOfLines?: number;
+  style?: StyleProp<TextStyle>;
   children?: any;
 }) => {
   let { variant, color, light, medium, bold, italic, size, style, children, numberOfLines } =
