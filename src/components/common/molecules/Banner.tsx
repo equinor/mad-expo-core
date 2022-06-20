@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Typography from '../atoms/Typography';
 import * as Linking from 'expo-linking';
-import Colors from 'src/stylesheets/colors';
+import Colors from "../../../stylesheets/colors";
 
 const styles = StyleSheet.create({
   bannerContainer: {
