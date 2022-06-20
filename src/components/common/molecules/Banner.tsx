@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 import Typography from '../atoms/Typography';
 import * as Linking from 'expo-linking';
+import Colors from 'src/stylesheets/colors';
 
 const styles = StyleSheet.create({
   bannerContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.WHITE,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -70,14 +71,14 @@ const Banner = (props: {
             styles.iconContainer,
             {
               backgroundColor:
-                props.bannerType === 'negative' ? '#ffe0e7' : '#deedee',
+                props.bannerType === 'negative' ? Colors.PINK_LIGHT : Colors.WHITE_GRAY,
             },
           ])}
         >
           <MaterialCommunityIcons
             name="information-variant"
             size={24}
-            color={props.bannerType === 'negative' ? '#eb0037' : '#007079'}
+            color={props.bannerType === 'negative' ? Colors.RED_LOGO : Colors.EQUINOR_PRIMARY}
           />
         </View>
         <Typography
@@ -94,11 +95,11 @@ const Banner = (props: {
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         { props.url &&
         <TouchableOpacity onPress={() => Linking.openURL(props.url)} style={{marginRight: 16}}>
-          <MaterialCommunityIcons name="link-variant" size={24} color={'#007079'} />
+          <MaterialCommunityIcons name="link-variant" size={24} color={Colors.EQUINOR_PRIMARY} />
         </TouchableOpacity>
         }
         <TouchableOpacity onPress={() => props.onDismiss()}>
-          <MaterialCommunityIcons name="close" size={24} color={'#007079'} />
+          <MaterialCommunityIcons name="close" size={24} color={Colors.EQUINOR_PRIMARY} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
