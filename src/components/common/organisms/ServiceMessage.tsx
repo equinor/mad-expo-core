@@ -55,7 +55,7 @@ const ServiceMessage = (props: {
   useEffect(() => {
     const environment: string = props.environment === "prod" ? `` : `${props.environment}/`;
     fetch(
-      `https://api.statoil.com/app/mad/${environment}/api/v1/ServiceMessage/${props.serviceName}`
+      `https://api.statoil.com/app/mad/${environment}api/v1/ServiceMessage/${props.serviceName}`
     )
       .then((res) => res.json().then((data) => setServiceMessage(data)))
       .catch(() => setServiceMessage('REQUEST FAILED'));
