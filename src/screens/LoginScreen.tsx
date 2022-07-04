@@ -1,5 +1,11 @@
-import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
-import React, { useEffect } from 'react';
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  View,
+  Pressable,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
 import { authenticateSilently } from '../services/auth';
@@ -19,6 +25,7 @@ export default function LoginScreen(props: {
   showDemoButton?: boolean;
   onDemoPress?: () => void;
 }) {
+  const [secretDemoPressCount, setSecretDemoPressCount] = useState(0);
   useEffect(() => {
     isMsalConnected() &&
       authenticateSilently(props.scopes)
@@ -28,18 +35,36 @@ export default function LoginScreen(props: {
   if (props.eds && props.title) {
     return (
       <View style={stylesEDS.container}>
-        <Typography variant="h1" bold color={'#3D3D3D'}>{props.title}</Typography>
-        <Image
-          source={props.logo}
-          resizeMode="contain"
-          style={{ height: 400, width: 400 }}
-        />
-        <LoginButton
-          scopes={props.scopes}
-          navigation={props.navigation}
-          mainRoute={props.mainRoute}
-          eds
-        />
+        <Typography variant="h1" bold color={'#3D3D3D'}>
+          {props.title}
+        </Typography>
+        <Pressable
+          onPress={() => setSecretDemoPressCount(secretDemoPressCount + 1)}
+        >
+          <Image
+            source={props.logo}
+            resizeMode="contain"
+            style={{ height: 400, width: 400 }}
+          />
+        </Pressable>
+
+        <View>
+          <LoginButton
+            scopes={props.scopes}
+            navigation={props.navigation}
+            mainRoute={props.mainRoute}
+            eds
+          />
+          {props.showDemoButton && secretDemoPressCount >= 5 && (
+            <Button
+              title="Demo"
+              onPress={() => {
+                if (props.onDemoPress) props.onDemoPress();
+              }}
+              viewStyle={{ marginTop: 8 }}
+            />
+          )}
+        </View>
       </View>
     );
   }
@@ -49,19 +74,21 @@ export default function LoginScreen(props: {
         <Image source={equinorLogo} />
       </View>
       <View style={styles.splashBottom}>
-        <View style={styles.splashAppLogo}>
+        <Pressable style={styles.splashAppLogo} onPress={() => setSecretDemoPressCount(secretDemoPressCount + 1)}>
           <Image source={props.logo} />
-        </View>
+        </Pressable>
         <View style={styles.splashAction}>
           <LoginButton
             scopes={props.scopes}
             navigation={props.navigation}
             mainRoute={props.mainRoute}
           />
-             {props.showDemoButton && (
+          {props.showDemoButton && secretDemoPressCount >= 5 && (
             <Button
               title="Demo"
-              onPress={() => {if (props.onDemoPress) props.onDemoPress()}}
+              onPress={() => {
+                if (props.onDemoPress) props.onDemoPress();
+              }}
               viewStyle={{ marginTop: 8 }}
             />
           )}
