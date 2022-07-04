@@ -9,6 +9,7 @@ import type { MSALAccount } from 'react-native-msal';
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;
   navigation: any;
+  onLogout?: () => void;
 }) => {
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
@@ -40,6 +41,9 @@ const SettingsScreen = (props: {
             title="Sign out"
             onPress={() => {
               logout().catch(e => console.warn(e)).then(() => props.navigation.navigate("Login"))
+              if (props.onLogout) {
+                props.onLogout();
+              }
             }}
           />
         </View>
