@@ -60,7 +60,7 @@ export default function LoginScreen(props: {
         </Typography>
         <Pressable
           onPress={() => {{
-            setSecretDemoPressCount(secretDemoPressCount => secretDemoPressCount + 1);
+            setSecretDemoPressCount((current) => current + 1);
             console.log("count", secretDemoPressCount);
           }}}
         >
@@ -87,7 +87,7 @@ export default function LoginScreen(props: {
       </View>
       <View style={styles.splashBottom}>
         <Pressable style={styles.splashAppLogo} onPress={() => {
-          setSecretDemoPressCount(secretDemoPressCount => secretDemoPressCount + 1);
+          setSecretDemoPressCount((current) => current + 1);
           console.log("count", secretDemoPressCount); 
         }
           }>
