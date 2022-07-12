@@ -32,6 +32,25 @@ export default function LoginScreen(props: {
         .catch((e) => console.warn(e))
         .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
+
+  const displayDemoButton = () => {
+    return <Button
+    title="Demo"
+    onPress={() => {
+      if (props.onDemoPress) props.onDemoPress();
+    }}
+    viewStyle={{ marginTop: 8 }}
+    />
+  }
+  const displayLoginButton = () => {
+    return <LoginButton
+    scopes={props.scopes}
+    navigation={props.navigation}
+    mainRoute={props.mainRoute}
+    eds
+  />
+  }
+  
   if (props.eds && props.title) {
     return (
       <View style={stylesEDS.container}>
@@ -39,7 +58,7 @@ export default function LoginScreen(props: {
           {props.title}
         </Typography>
         <Pressable
-          onPress={() => setSecretDemoPressCount(secretDemoPressCount + 1)}
+          onPress={() => setSecretDemoPressCount(prevCount => prevCount + 1)}
         >
           <Image
             source={props.logo}
@@ -49,20 +68,9 @@ export default function LoginScreen(props: {
         </Pressable>
 
         <View>
-          <LoginButton
-            scopes={props.scopes}
-            navigation={props.navigation}
-            mainRoute={props.mainRoute}
-            eds
-          />
+          {displayLoginButton()}
           {props.showDemoButton && secretDemoPressCount >= 5 && (
-            <Button
-              title="Demo"
-              onPress={() => {
-                if (props.onDemoPress) props.onDemoPress();
-              }}
-              viewStyle={{ marginTop: 8 }}
-            />
+           displayDemoButton()
           )}
         </View>
       </View>
@@ -74,23 +82,13 @@ export default function LoginScreen(props: {
         <Image source={equinorLogo} />
       </View>
       <View style={styles.splashBottom}>
-        <Pressable style={styles.splashAppLogo} onPress={() => setSecretDemoPressCount(secretDemoPressCount + 1)}>
+        <Pressable style={styles.splashAppLogo} onPress={() => setSecretDemoPressCount(prevCount => prevCount + 1)}>
           <Image source={props.logo} />
         </Pressable>
         <View style={styles.splashAction}>
-          <LoginButton
-            scopes={props.scopes}
-            navigation={props.navigation}
-            mainRoute={props.mainRoute}
-          />
+        {displayLoginButton()}
           {props.showDemoButton && secretDemoPressCount >= 5 && (
-            <Button
-              title="Demo"
-              onPress={() => {
-                if (props.onDemoPress) props.onDemoPress();
-              }}
-              viewStyle={{ marginTop: 8 }}
-            />
+            displayDemoButton()
           )}
         </View>
       </View>

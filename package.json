@@ -75,8 +75,9 @@
     "expo-localization": "*",
     "expo-random": "*",
     "react": "*",
-    "react-native": "*",
+    "react-native": ">= 0.63.0",
     "react-native-msal": "*",
+    "@types/react-native": "^0.69.1",
     "react-native-safe-area-context": "^3.3.2"
   },
   "jest": {
@@ -159,7 +160,6 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
-    "@types/react-native": "^0.69.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "axios": "^0.21.4",
