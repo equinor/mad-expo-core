@@ -58,7 +58,10 @@ export default function LoginScreen(props: {
           {props.title}
         </Typography>
         <Pressable
-          onPress={() => setSecretDemoPressCount(secretDemoPressCount => secretDemoPressCount + 1)}
+          onPress={() => {{
+            setSecretDemoPressCount(secretDemoPressCount => secretDemoPressCount + 1);
+            console.log("count", secretDemoPressCount);
+          }}}
         >
           <Image
             source={props.logo}
@@ -82,7 +85,11 @@ export default function LoginScreen(props: {
         <Image source={equinorLogo} />
       </View>
       <View style={styles.splashBottom}>
-        <Pressable style={styles.splashAppLogo} onPress={() => setSecretDemoPressCount(secretDemoPressCount => secretDemoPressCount + 1)}>
+        <Pressable style={styles.splashAppLogo} onPress={() => {
+          setSecretDemoPressCount(secretDemoPressCount => secretDemoPressCount + 1);
+          console.log("count", secretDemoPressCount); 
+        }
+          }>
           <Image source={props.logo} />
         </Pressable>
         <View style={styles.splashAction}>
