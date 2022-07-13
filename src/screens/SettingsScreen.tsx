@@ -10,6 +10,7 @@ const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;
   navigation: any;
   onLogout?: () => void;
+  routeAfterLogout: string;
 }) => {
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
@@ -40,7 +41,7 @@ const SettingsScreen = (props: {
           <Button
             title="Sign out"
             onPress={() => {
-              logout().catch(e => console.warn(e)).then(() => props.navigation.navigate("Login"))
+              logout().catch(e => console.warn(e)).then(() => props.navigation.navigate(props.routeAfterLogout))
               if (props.onLogout) {
                 props.onLogout();
               }
