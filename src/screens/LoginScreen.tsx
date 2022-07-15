@@ -26,7 +26,7 @@ export default function LoginScreen(props: {
   onDemoPress?: () => void;
 }) {
   const [logoPressCount, setLogoPressCount] = useState(0);
-  
+
   useEffect(() => {
     isMsalConnected() &&
       authenticateSilently(props.scopes)
@@ -67,7 +67,7 @@ export default function LoginScreen(props: {
           <Image
             source={props.logo}
             resizeMode="contain"
-            style={{height: 400, width: 400}}
+            style={{height: 800, width: 800}}
           />
         </Pressable>
 
