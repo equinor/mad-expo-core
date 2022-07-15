@@ -33,7 +33,7 @@ export default function LoginScreen(props: {
         .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
 
-  const displayDemoButton = () => {
+  const renderDemoButton = () => {
     return <Button
     title="Demo"
     onPress={() => {
@@ -42,7 +42,7 @@ export default function LoginScreen(props: {
     viewStyle={{ marginTop: 8 }}
     />
   }
-  const displayLoginButton = () => {
+  const renderLoginButton = () => {
     return <LoginButton
     scopes={props.scopes}
     navigation={props.navigation}
@@ -70,9 +70,9 @@ export default function LoginScreen(props: {
         </Pressable>
 
         <View>
-          {displayLoginButton()}
+          {renderLoginButton()}
           {props.showDemoButton && secretDemoPressCount >= 5 && (
-           displayDemoButton()
+           renderDemoButton()
           )}
         </View>
       </View>
@@ -91,9 +91,9 @@ export default function LoginScreen(props: {
           <Image source={props.logo} />
         </Pressable>
         <View style={styles.splashAction}>
-        {displayLoginButton()}
+        {renderLoginButton()}
           {props.showDemoButton && secretDemoPressCount >= 5 && (
-            displayDemoButton()
+            renderDemoButton()
           )}
         </View>
       </View>
