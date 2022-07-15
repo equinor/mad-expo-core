@@ -1,9 +1,9 @@
 import {
   Image,
   ImageSourcePropType,
+  Pressable,
   StyleSheet,
   View,
-  Pressable,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
@@ -12,10 +12,9 @@ import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
-import { Typography, Button } from '../components/common';
+import { Button, Typography } from '../components/common';
 
 export default function LoginScreen(props: {
-  bundleIdentifier: string;
   logo: ImageSourcePropType;
   mainRoute: string;
   navigation: any;
@@ -36,9 +35,9 @@ export default function LoginScreen(props: {
 
   const renderLoginButton = () => (
     <LoginButton
-      scopes={props.scopes}
-      navigation={props.navigation}
       mainRoute={props.mainRoute}
+      navigation={props.navigation}
+      scopes={props.scopes}
       eds
     />
   );
