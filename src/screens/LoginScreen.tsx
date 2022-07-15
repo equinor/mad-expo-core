@@ -34,24 +34,24 @@ export default function LoginScreen(props: {
         .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
 
-  const renderLoginButton = () => {
-    return <LoginButton
-    scopes={props.scopes}
-    navigation={props.navigation}
-    mainRoute={props.mainRoute}
-    eds
-  />
-  }
-
-  const renderDemoButton = () => {
-    return <Button
-    title="Demo"
-    onPress={() => {
-      if (props.onDemoPress) props.onDemoPress();
-    }}
-    viewStyle={{ marginTop: 8 }}
+  const renderLoginButton = () => (
+    <LoginButton
+      scopes={props.scopes}
+      navigation={props.navigation}
+      mainRoute={props.mainRoute}
+      eds
     />
-  }
+  );
+
+  const renderDemoButton = () => (
+    <Button
+      title="Demo"
+      onPress={() => {
+        if (props.onDemoPress) props.onDemoPress();
+      }}
+      viewStyle={{ marginTop: 8 }}
+    />
+  );
   
   if (props.eds && props.title) {
     return (
