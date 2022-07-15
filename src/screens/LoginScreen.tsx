@@ -65,7 +65,7 @@ export default function LoginScreen(props: {
           <Image
             source={props.logo}
             resizeMode="contain"
-            style={{ height: 400, width: 400 }}
+            style={styles.logo}
           />
         </Pressable>
 
@@ -81,14 +81,20 @@ export default function LoginScreen(props: {
   return (
     <View style={styles.container}>
       <View style={styles.splashTop}>
-        <Image source={equinorLogo} />
+        <Image 
+          source={equinorLogo} 
+          resizeMode="contain"
+          style={styles.logo}/>
       </View>
       <View style={styles.splashBottom}>
         <Pressable style={styles.splashAppLogo} onPress={() => {
           setLogoPressCount((prevlogoPressCount) => prevlogoPressCount + 1);
         }
           }>
-          <Image source={props.logo} />
+          <Image 
+            source={props.logo} 
+            resizeMode="contain"
+            style={styles.logo}/>
         </Pressable>
         <View style={styles.splashAction}>
         {renderLoginButton()}
@@ -128,6 +134,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  logo: {
+    width: 400,
+    height: 400
+  }
 });
 
 const stylesEDS = StyleSheet.create({
