@@ -26,6 +26,7 @@ export default function LoginScreen(props: {
   onDemoPress?: () => void;
 }) {
   const [logoPressCount, setLogoPressCount] = useState(0);
+  
   useEffect(() => {
     isMsalConnected() &&
       authenticateSilently(props.scopes)
