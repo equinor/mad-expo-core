@@ -33,6 +33,15 @@ export default function LoginScreen(props: {
         .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
 
+  const renderLoginButton = () => {
+    return <LoginButton
+    scopes={props.scopes}
+    navigation={props.navigation}
+    mainRoute={props.mainRoute}
+    eds
+  />
+  }
+
   const renderDemoButton = () => {
     return <Button
     title="Demo"
@@ -41,14 +50,6 @@ export default function LoginScreen(props: {
     }}
     viewStyle={{ marginTop: 8 }}
     />
-  }
-  const renderLoginButton = () => {
-    return <LoginButton
-    scopes={props.scopes}
-    navigation={props.navigation}
-    mainRoute={props.mainRoute}
-    eds
-  />
   }
   
   if (props.eds && props.title) {
