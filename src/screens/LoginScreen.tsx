@@ -25,7 +25,7 @@ export default function LoginScreen(props: {
   showDemoButton?: boolean;
   onDemoPress?: () => void;
 }) {
-  const [secretDemoPressCount, setSecretDemoPressCount] = useState(0);
+  const [logoPressCount, setLogoPressCount] = useState(0);
   useEffect(() => {
     isMsalConnected() &&
       authenticateSilently(props.scopes)
@@ -59,7 +59,7 @@ export default function LoginScreen(props: {
         </Typography>
         <Pressable
           onPress={() => {{
-            setSecretDemoPressCount((current) => current + 1);
+            setLogoPressCount((prevLogoPressCount) => prevLogoPressCount + 1);
           }}}
         >
           <Image
@@ -71,7 +71,7 @@ export default function LoginScreen(props: {
 
         <View>
           {renderLoginButton()}
-          {props.showDemoButton && secretDemoPressCount >= 5 && (
+          {props.showDemoButton && logoPressCount >= 5 && (
            renderDemoButton()
           )}
         </View>
@@ -85,14 +85,14 @@ export default function LoginScreen(props: {
       </View>
       <View style={styles.splashBottom}>
         <Pressable style={styles.splashAppLogo} onPress={() => {
-          setSecretDemoPressCount((current) => current + 1);
+          setLogoPressCount((prevlogoPressCount) => prevlogoPressCount + 1);
         }
           }>
           <Image source={props.logo} />
         </Pressable>
         <View style={styles.splashAction}>
         {renderLoginButton()}
-          {props.showDemoButton && secretDemoPressCount >= 5 && (
+          {props.showDemoButton && logoPressCount >= 5 && (
             renderDemoButton()
           )}
         </View>
