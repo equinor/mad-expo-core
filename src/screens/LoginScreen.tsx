@@ -66,7 +66,7 @@ export default function LoginScreen(props: {
           <Image
             source={props.logo}
             resizeMode="contain"
-            style={{height: 800, width: 800}}
+            style={{height: 360, width: 360}}
           />
         </Pressable>
 
