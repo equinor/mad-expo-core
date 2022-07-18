@@ -1,15 +1,20 @@
-import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
-import React, { useEffect } from 'react';
+import {
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
 import { authenticateSilently } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
-import { Typography, Button } from '../components/common';
+import { Button, Typography } from '../components/common';
 
 export default function LoginScreen(props: {
-  bundleIdentifier: string;
   logo: ImageSourcePropType;
   mainRoute: string;
   navigation: any;
@@ -19,51 +24,83 @@ export default function LoginScreen(props: {
   showDemoButton?: boolean;
   onDemoPress?: () => void;
 }) {
+  const [logoPressCount, setLogoPressCount] = useState(0);
+
   useEffect(() => {
     isMsalConnected() &&
       authenticateSilently(props.scopes)
         .catch((e) => console.warn(e))
         .then((res) => res && props.navigation.navigate(props.mainRoute));
   }, []);
+
+  const renderLoginButton = () => (
+    <LoginButton
+      mainRoute={props.mainRoute}
+      navigation={props.navigation}
+      scopes={props.scopes}
+      eds
+    />
+  );
+
+  const renderDemoButton = () => (
+    <Button
+      title="Demo"
+      onPress={() => {
+        if (props.onDemoPress) props.onDemoPress();
+      }}
+      viewStyle={{ marginTop: 8 }}
+    />
+  );
+  
   if (props.eds && props.title) {
     return (
       <View style={stylesEDS.container}>
-        <Typography variant="h1" bold color={'#3D3D3D'}>{props.title}</Typography>
-        <Image
-          source={props.logo}
-          resizeMode="contain"
-          style={{ height: 400, width: 400 }}
-        />
-        <LoginButton
-          scopes={props.scopes}
-          navigation={props.navigation}
-          mainRoute={props.mainRoute}
-          eds
-        />
+        <Typography variant="h1" bold color={'#3D3D3D'}>
+          {props.title}
+        </Typography>
+        <Pressable
+          onPress={() => {{
+            setLogoPressCount((prevLogoPressCount) => prevLogoPressCount + 1);
+          }}}
+        >
+          <Image
+            source={props.logo}
+            resizeMode="contain"
+            style={{height: 360, width: 360}}
+          />
+        </Pressable>
+
+        <View>
+          {renderLoginButton()}
+          {props.showDemoButton && logoPressCount >= 5 && (
+           renderDemoButton()
+          )}
+        </View>
       </View>
     );
   }
   return (
     <View style={styles.container}>
       <View style={styles.splashTop}>
-        <Image source={equinorLogo} />
+        <Image 
+          source={equinorLogo} 
+          resizeMode="contain"
+          style={styles.logo}/>
       </View>
       <View style={styles.splashBottom}>
-        <View style={styles.splashAppLogo}>
-          <Image source={props.logo} />
-        </View>
+        <Pressable style={styles.splashAppLogo} onPress={() => {
+          setLogoPressCount((prevlogoPressCount) => prevlogoPressCount + 1);
+        }
+          }>
+          <Image 
+            source={props.logo} 
+            resizeMode="contain"
+            style={styles.logo}/>
+        </Pressable>
         <View style={styles.splashAction}>
-          <LoginButton
-            scopes={props.scopes}
-            navigation={props.navigation}
-            mainRoute={props.mainRoute}
-          />
-             {props.showDemoButton && (
-            <Button
-              title="Demo"
-              onPress={() => {if (props.onDemoPress) props.onDemoPress()}}
-              viewStyle={{ marginTop: 8 }}
-            />
+        {renderLoginButton()}
+          {props.showDemoButton && logoPressCount >= 5 && (
+            renderDemoButton()
           )}
         </View>
       </View>
@@ -98,6 +135,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  logo: {
+    height: 200,
+    width: 200
+  }
 });
 
 const stylesEDS = StyleSheet.create({
