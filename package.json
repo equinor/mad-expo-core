@@ -73,7 +73,7 @@
     "@expo/vector-icons": "*",
     "@react-navigation/stack": ">=5.12.8",
     "@react-navigation/native": ">=5.8.10",
-    "expo": "^44.0.0",
+    "expo": ">=44.0.0",
     "expo-font": "^10.0.5",
     "expo-localization": "*",
     "expo-random": "*",
