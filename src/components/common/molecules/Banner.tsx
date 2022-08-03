@@ -47,6 +47,20 @@ const Banner = (props: {
 }) => {
   const [expanded, setExpanded] = useState(false);
   const { text, viewStyle, textStyle } = props;
+
+  const URLIcon = () => {
+    return (          
+      <TouchableOpacity onPress={() => Linking.openURL(props.url)} style={{marginRight: 16}} >
+        <MaterialCommunityIcons name="link-variant" size={24} color={Colors.EQUINOR_PRIMARY} />
+      </TouchableOpacity>)
+  }
+
+  const CloseIcon = () => {
+    return(      
+      <TouchableOpacity onPress={() => props.onDismiss()}>
+        <MaterialCommunityIcons name="close" size={24} color={Colors.EQUINOR_PRIMARY} />
+      </TouchableOpacity>)
+  }
   return (
     <TouchableOpacity
       style={StyleSheet.flatten([
@@ -93,14 +107,8 @@ const Banner = (props: {
         </Typography>
       </View>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        { props.url &&
-        <TouchableOpacity onPress={() => Linking.openURL(props.url)} style={{marginRight: 16}}>
-          <MaterialCommunityIcons name="link-variant" size={24} color={Colors.EQUINOR_PRIMARY} />
-        </TouchableOpacity>
-        }
-        <TouchableOpacity onPress={() => props.onDismiss()}>
-          <MaterialCommunityIcons name="close" size={24} color={Colors.EQUINOR_PRIMARY} />
-        </TouchableOpacity>
+        {props.url !== "" && <URLIcon />}
+        <CloseIcon />
       </View>
     </TouchableOpacity>
   );
