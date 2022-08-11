@@ -107,7 +107,7 @@ const Banner = (props: {
         </Typography>
       </View>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        {props.url !== "" && <URLIcon />}
+        {!(props.url === "" || props.url === null) && <URLIcon />}
         <CloseIcon />
       </View>
     </TouchableOpacity>
