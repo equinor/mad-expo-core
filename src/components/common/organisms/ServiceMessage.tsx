@@ -53,7 +53,7 @@ const ServiceMessage = (props: {
   };
 
   useEffect(() => {
-    const environment: string = props.environment === "prod" ? `` : `${props.environment}/`;
+    const environment: string = props.environment.toLowerCase() === "prod" ? `` : `${props.environment}/`;
     fetch(
       `https://api.statoil.com/app/mad/${environment}api/v1/ServiceMessage/${props.serviceName}`
     )
