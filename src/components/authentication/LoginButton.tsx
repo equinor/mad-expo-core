@@ -20,7 +20,7 @@ export default function LoginButton(props: {
         onPress={async () => {
           msalLogin(props.scopes).then(() =>{
             if (props.onLogin) props.onLogin()
-            //else props.navigation.navigate(props.mainRoute)
+            else props.navigation.navigate(props.mainRoute)
           }
           );
         }}

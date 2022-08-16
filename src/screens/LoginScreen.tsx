@@ -31,7 +31,11 @@ export default function LoginScreen(props: {
     isMsalConnected() &&
       authenticateSilently(props.scopes)
         .catch((e) => console.warn(e))
-        .then((res) => res && props.navigation.navigate(props.mainRoute));
+        .then((res) => {
+          if (!res) return;
+          if (props.onLogin) props.onLogin();
+          else props.navigation.navigate(props.mainRoute)
+        });
   }, []);
 
   const renderLoginButton = () => (
