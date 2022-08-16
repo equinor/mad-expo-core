@@ -20,7 +20,6 @@ const SettingsScreen = (props: {
       headerTintColor: Colors.EQUINOR_PRIMARY
     });
     getAccount().then((acc) => {
-      console.log(acc.claims);
       setAccount(acc);
     })
   }, [])
