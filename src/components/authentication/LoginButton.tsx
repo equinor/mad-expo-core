@@ -9,7 +9,8 @@ export default function LoginButton(props: {
   mainRoute: string;
   navigation: any;
   scopes: string[];
-  eds?: boolean
+  onLogin?: () => void;
+  eds?: boolean;
 }) {
   return (
     <View>
@@ -17,8 +18,10 @@ export default function LoginButton(props: {
         disabled={!isMsalConnected()}
         title="Login"
         onPress={async () => {
-          msalLogin(props.scopes).then(() =>
+          msalLogin(props.scopes).then(() =>{
+            props.onLogin()
             props.navigation.navigate(props.mainRoute)
+          }
           );
         }}
         viewStyle={props.eds ? styles.buttonStyleEDS : styles.buttonStyle}

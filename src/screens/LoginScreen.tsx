@@ -23,6 +23,7 @@ export default function LoginScreen(props: {
   title?: string;
   showDemoButton?: boolean;
   onDemoPress?: () => void;
+  onLogin?: () => void
 }) {
   const [logoPressCount, setLogoPressCount] = useState(0);
 
@@ -38,6 +39,7 @@ export default function LoginScreen(props: {
       mainRoute={props.mainRoute}
       navigation={props.navigation}
       scopes={props.scopes}
+      onLogin={props.onLogin}
       eds
     />
   );
