@@ -5,27 +5,26 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../stylesheets/colors';
 import { getAccount, logout } from '../services/auth';
 import type { MSALAccount } from 'react-native-msal';
-import { useNavigation } from '@react-navigation/native';
 
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;
   onLogout?: () => void;
   routeAfterLogout: string;
   backLabel?: string;
+  navigation: any;
 }) => {
   const [account, setAccount] = useState<MSALAccount>(null);
-  const navigation = useNavigation();
   useEffect(() => {
+    props.navigation.setOptions({
+      headerBackTitle: props.backLabel ?? "Back",
+      headerTintColor: Colors.EQUINOR_PRIMARY
+    });
     getAccount().then((acc) => {
-      console.log(acc.claims);
       setAccount(acc);
     })
   }, [])
 
-  navigation.setOptions({
-    headerBackTitle: props.backLabel ?? "Back",
-    headerTintColor: Colors.EQUINOR_PRIMARY
-  })
+
 
   const config = props.config;
   return (
@@ -37,6 +36,7 @@ const SettingsScreen = (props: {
             icon={item.icon}
             title={item.title}
             route={item.route}
+            navigation={props.navigation}
           />
         ))}
         <View style={{ paddingTop: 16 }}>
@@ -47,7 +47,7 @@ const SettingsScreen = (props: {
           <Button
             title="Sign out"
             onPress={() => {
-              logout().catch(e => console.warn(e)).then(() => navigation.navigate({key: props.routeAfterLogout}))
+              logout().catch(e => console.warn(e)).then(() => props.navigation.navigate(props.routeAfterLogout))
               if (props.onLogout) {
                 props.onLogout();
               }
@@ -63,12 +63,12 @@ const Setting = (props: {
   icon;
   title: string;
   route: string;
+  navigation: any;
 }) => {
-  const navigation = useNavigation()
   return (
     <MaterialIcons.Button
       name={props.icon}
-      onPress={() => navigation.navigate({key: props.route})}
+      onPress={() => props.navigation.navigate(props.route)}
       backgroundColor="transparent"
       color="#007079"
       underlayColor={Colors.GREEN_LIGHT}
