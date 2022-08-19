@@ -119,10 +119,9 @@ const FeedbackScreen = (props: {
         <Banner
           text={bannerMessage}
           textStyle={styles.textStyle}
-          viewStyle={
-            error !== '' ? styles.viewErrorStyle : styles.viewSuccessStyle
-          }
-        />
+          viewStyle={error !== '' ? styles.viewErrorStyle : styles.viewSuccessStyle} maxNonExpandedHeight={0} maxExpandedHeight={0} onDismiss={function (): void {
+            throw new Error('Function not implemented.');
+          } }        />
       )}
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
@@ -186,7 +185,7 @@ const DataField = (props: { itemKey: string; value: string }) => (
       display: 'flex',
       flexDirection: 'row',
       padding: 8,
-      borderColor: Colors.BORDER,
+      borderColor: Colors.GRAY_1,
       borderBottomWidth: 1,
       marginVertical: 8,
     }}
