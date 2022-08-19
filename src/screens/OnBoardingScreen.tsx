@@ -17,6 +17,7 @@ const OnBoardingScreen = (props: {
   );
   const config = props.config;
   const onboardingStorageKey = props.storageKey;
+  const onSubmitFunc = config.onSubmit;
   const storeData = async (value: Object | null) => {
     try {
       if (value) {
@@ -38,6 +39,7 @@ const OnBoardingScreen = (props: {
   }
 
   useEffect(() => {
+    console.log(props);
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem(onboardingStorageKey);
@@ -102,9 +104,14 @@ const OnBoardingScreen = (props: {
       <Button
         title="Submit"
         onPress={() => {
-          storeData(onboardingSettings);
+          {config.map((inputConfig) => {
+          if(inputConfig.onSubmit){
+            inputConfig.onSubmit(onboardingSettings);
+          } else {
+            storeData(onboardingSettings);
+          }
           props.navigation.replace('Root');
-        }}
+        })}}}
       />
     </View>
   );
