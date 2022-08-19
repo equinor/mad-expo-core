@@ -1,10 +1,8 @@
-import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as appJson from '../../app.json';
 import { Button, Checkbox, Typography } from '../components/common';
 import { View, TextInput } from 'react-native';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import Radiobutton from '../components/common/atoms/Radiobutton';
 
 const OnBoardingScreen = (props: {
@@ -17,7 +15,6 @@ const OnBoardingScreen = (props: {
   );
   const config = props.config;
   const onboardingStorageKey = props.storageKey;
-  const onSubmitFunc = config.onSubmit;
   const storeData = async (value: Object | null) => {
     try {
       if (value) {
