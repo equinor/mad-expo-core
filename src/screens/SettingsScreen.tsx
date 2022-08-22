@@ -12,11 +12,12 @@ const SettingsScreen = (props: {
   routeAfterLogout: string;
   backLabel?: string;
   navigation: any;
+  languageDict: any;
 }) => {
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
     props.navigation.setOptions({
-      headerBackTitle: props.backLabel ?? "Back",
+      headerBackTitle: props.backLabel ?? props.languageDict["settings.back"],
       headerTintColor: Colors.EQUINOR_PRIMARY
     });
     getAccount().then((acc) => {
@@ -37,15 +38,16 @@ const SettingsScreen = (props: {
             title={item.title}
             route={item.route}
             navigation={props.navigation}
+            languageDict={props.languageDict}
           />
         ))}
         <View style={{ paddingTop: 16 }}>
-          <Typography bold>Signed in as:</Typography>
+          <Typography bold>{props.languageDict["settings.loggedInAs"]}</Typography>
           {account && <Typography>
-            {account.username}
+            {account.username + "\n"}
           </Typography>}
           <Button
-            title="Sign out"
+            title={props.languageDict["settings.logOut"]}
             onPress={() => {
               logout().catch(e => console.warn(e)).then(() => props.navigation.navigate(props.routeAfterLogout))
               if (props.onLogout) {
@@ -64,7 +66,8 @@ const Setting = (props: {
   title: string;
   route: string;
   navigation: any;
-}) => {
+  languageDict: any
+}) => { 
   return (
     <MaterialIcons.Button
       name={props.icon}
@@ -75,7 +78,7 @@ const Setting = (props: {
       style={{ padding: 12 }}
     >
       <Typography medium color="#007079">
-        {props.title}
+        {props.title === "Feedback" ? props.languageDict["feedback.title"]: props.title}
       </Typography>
     </MaterialIcons.Button>
   );
