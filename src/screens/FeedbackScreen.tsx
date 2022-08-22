@@ -14,7 +14,6 @@ import { authenticateSilently, getAccount } from '../services/auth';
 import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
-//import * as Localization from 'expo-localization';
 import { useState } from 'react';
 
 const styles = StyleSheet.create({
@@ -40,7 +39,9 @@ const FeedbackScreen = (props: {
   scopes: string[];
   apiBaseUrl: string;
   product: string;
+  language: any;
 }) => {
+  const languageDict = props.language.languages.filter(item => item.name === props.language.currentLanguage.Language)[0].static;
   const [feedback, setFeedback] = useState('');
   const [bannerMessage, setBannerMessage] = useState('');
   const [error, setError] = useState('');
@@ -52,14 +53,14 @@ const FeedbackScreen = (props: {
     });
   }, []);
   const userData: { [key: string]: string } = {
-    'User': `${account?.username.substring(0, account?.username.indexOf('@'))}`,
-    'Device brand': `${Platform.OS === 'web' ? 'web' : Device.brand}`,
-    'Device': `${Platform.OS === 'web' ? 'web' : Device.modelName} `,
-    'Operating system': `${Device.osName} ${Device.osVersion}`,
-    'Timezone': `${props?.timezone}`,
-    'Locale': `${props?.locale}`,
+    [languageDict["feedback.user"]]: `${account?.username.substring(0, account?.username.indexOf('@'))}`,
+    [languageDict["feedback.deviceBrand"]]: `${Platform.OS === 'web' ? 'web' : Device.brand}`,
+    [languageDict["feedback.device"]]: `${Platform.OS === 'web' ? 'web' : Device.modelName} `,
+    [languageDict["feedback.OS"]]: `${Device.osName} ${Device.osVersion}`,
+    [languageDict["feedback.timezone"]]: `${props?.timezone}`,
+    [languageDict["feedback.locale"]]: `${props?.locale}`,
     'Feedback': feedback,
-  };
+  }
 
   interface feedbackData {
     product: string;
@@ -70,14 +71,15 @@ const FeedbackScreen = (props: {
 
   const sendFeedback = (data: feedbackData) => {
     setIsBusy(true);
-    authenticateSilently(props.scopes).then((r) =>
+    authenticateSilently(props.scopes).then((r) => (
+
       fetch(`${props.apiBaseUrl}/feedback`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${r.accessToken}`,
+          'Authorization': `Bearer ${r?.accessToken}`,
         },
       })
         .then((response) => {
@@ -94,8 +96,8 @@ const FeedbackScreen = (props: {
           console.error(error);
           setBannerMessage('Error sending your feedback.');
         })
-    );
-  };
+    ));
+  }
 
   const getSystemMessage = (): string => {
     let systemMsg = '\n\n';
@@ -125,11 +127,11 @@ const FeedbackScreen = (props: {
       )}
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
-          Have some feedback?
+          {languageDict["feedback.title"]}
         </Typography>
         <Typography medium>
           {
-            'We are collecting some information about your device as part of the feedback-process. By submitting you agree to share the following information:\n\n'
+            languageDict["feedback.info"]
           }
         </Typography>
 
@@ -152,7 +154,7 @@ const FeedbackScreen = (props: {
           }}
           onChangeText={(e) => setFeedback(e.toString())}
           multiline
-          placeholder="Type your feedback here"
+          placeholder={languageDict["feedback.placeHolderText"]}
           textAlignVertical={'top'}
           value={Platform.OS === 'web' ? feedback : undefined}
         >
