@@ -45,7 +45,7 @@ const FeedbackScreen = (props: {
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
-    console.log(error, bannerMessage);
+    console.log(error,  bannerMessage)
     getAccount().then((acc) => {
       setAccount(acc);
     });
@@ -89,7 +89,6 @@ const FeedbackScreen = (props: {
         .catch((error) => {
           setIsBusy(false);
           setError(error);
-          console.error(error);
           setBannerMessage("Error sending your feedback.");
         })
     );
