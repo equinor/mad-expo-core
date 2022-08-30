@@ -41,7 +41,7 @@ const FeedbackScreen = (props: {
   product: string;
   language: any;
 }) => {
-  const languageDict = props.language.languages.filter(item => item.name === props.language.currentLanguage.Language)[0].static;
+  const languageDict = props.language.languages.filter(item => item.name === props.language.currentLanguage.name)[0].static;
   const [feedback, setFeedback] = useState('');
   const [bannerMessage, setBannerMessage] = useState('');
   const [error, setError] = useState('');
