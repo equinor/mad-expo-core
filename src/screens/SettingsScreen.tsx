@@ -5,8 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../stylesheets/colors';
 import { getAccount, logout } from '../services/auth';
 import type { MSALAccount } from 'react-native-msal';
-import * as en from 'src/resources/language/en.json';
-import * as no from 'src/resources/language/no.json';
+import * as en from '../resources/language/en.json';
+import * as no from '../resources/language/no.json';
 const languages = {"en" : en, "no" : no};
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;

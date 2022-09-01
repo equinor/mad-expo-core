@@ -36,7 +36,6 @@ const OnBoardingScreen = (props: {
   }
 
   useEffect(() => {
-    console.log(props);
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem(onboardingStorageKey);
@@ -51,7 +50,7 @@ const OnBoardingScreen = (props: {
     getData();
   }, [onboardingStorageKey]);
 
-  if (Object.keys(onboardingSettings).length === 0) return <></>;
+  if (Object.keys(config).length === 0) return <></>;
   return (
     <View style={{ display: 'flex', padding: 20 }}>
       {config.map((inputConfig) => {

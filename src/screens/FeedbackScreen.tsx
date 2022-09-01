@@ -15,8 +15,8 @@ import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
-import * as en from 'src/resources/language/en.json';
-import * as no from 'src/resources/language/no.json';
+import * as en from '../resources/language/en.json';
+import * as no from '../resources/language/no.json';
 const languages = {"en" : en, "no" : no};
 
 const styles = StyleSheet.create({
