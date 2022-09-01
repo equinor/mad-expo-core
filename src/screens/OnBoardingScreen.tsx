@@ -51,7 +51,7 @@ const OnBoardingScreen = (props: {
     getData();
   }, [onboardingStorageKey]);
 
-  if (onboardingSettings == {}) return <></>;
+  if (Object.keys(onboardingSettings).length === 0) return <></>;
   return (
     <View style={{ display: 'flex', padding: 20 }}>
       {config.map((inputConfig) => {
@@ -102,13 +102,10 @@ const OnBoardingScreen = (props: {
         title="Submit"
         onPress={() => {
           {config.map((inputConfig) => {
-          if(inputConfig.onSubmit){
-            inputConfig.onSubmit(onboardingSettings);
-          } else {
-            storeData(onboardingSettings);
-          }
+          inputConfig.onSubmit ? inputConfig.onSubmit(onboardingSettings) : storeData(onboardingSettings);;
           props.navigation.replace('Root');
-        })}}}
+          })}
+        }}
       />
     </View>
   );

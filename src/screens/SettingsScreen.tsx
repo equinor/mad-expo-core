@@ -5,19 +5,22 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../stylesheets/colors';
 import { getAccount, logout } from '../services/auth';
 import type { MSALAccount } from 'react-native-msal';
-
+import * as en from 'src/resources/language/en.json';
+import * as no from 'src/resources/language/no.json';
+const languages = {"en" : en, "no" : no};
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;
   onLogout?: () => void;
   routeAfterLogout: string;
   backLabel?: string;
   navigation: any;
-  languageDict: any;
+  languageCode?: string;
 }) => {
+  const langDict = languages[props.languageCode] ?? en;
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
     props.navigation.setOptions({
-      headerBackTitle: props.backLabel ?? props.languageDict["settings.back"],
+      headerBackTitle: props.backLabel ?? langDict["settings.back"],
       headerTintColor: Colors.EQUINOR_PRIMARY
     });
     getAccount().then((acc) => {
@@ -38,16 +41,16 @@ const SettingsScreen = (props: {
             title={item.title}
             route={item.route}
             navigation={props.navigation}
-            languageDict={props.languageDict}
+            languageCode={props.languageCode}
           />
         ))}
         <View style={{ paddingTop: 16 }}>
-          <Typography bold>{props.languageDict["settings.loggedInAs"]}</Typography>
+          <Typography bold>{langDict["settings.loggedInAs"]}</Typography>
           {account && <Typography>
             {account.username + "\n"}
           </Typography>}
           <Button
-            title={props.languageDict["settings.logOut"]}
+            title={langDict["settings.logOut"]}
             onPress={() => {
               logout().catch(e => console.warn(e)).then(() => props.navigation.navigate(props.routeAfterLogout))
               if (props.onLogout) {
@@ -66,8 +69,9 @@ const Setting = (props: {
   title: string;
   route: string;
   navigation: any;
-  languageDict: any
-}) => { 
+  languageCode?: string;
+}) => {
+  const langDict = languages[props.languageCode] ?? en; 
   return (
     <MaterialIcons.Button
       name={props.icon}
@@ -78,7 +82,7 @@ const Setting = (props: {
       style={{ padding: 12 }}
     >
       <Typography medium color="#007079">
-        {props.title === "Feedback" ? props.languageDict["feedback.title"]: props.title}
+        {props.title === "Feedback" ? langDict["feedback.title"]: props.title}
       </Typography>
     </MaterialIcons.Button>
   );

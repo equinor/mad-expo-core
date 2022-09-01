@@ -15,6 +15,9 @@ import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
+import * as en from 'src/resources/language/en.json';
+import * as no from 'src/resources/language/no.json';
+const languages = {"en" : en, "no" : no};
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -39,9 +42,9 @@ const FeedbackScreen = (props: {
   scopes: string[];
   apiBaseUrl: string;
   product: string;
-  language: any;
+  languageCode?: string;
 }) => {
-  const languageDict = props.language.languages.filter(item => item.name === props.language.currentLanguage.name)[0].static;
+  const langDict = languages[props.languageCode] ?? en;
   const [feedback, setFeedback] = useState('');
   const [bannerMessage, setBannerMessage] = useState('');
   const [error, setError] = useState('');
@@ -53,12 +56,12 @@ const FeedbackScreen = (props: {
     });
   }, []);
   const userData: { [key: string]: string } = {
-    [languageDict["feedback.user"]]: `${account?.username.substring(0, account?.username.indexOf('@'))}`,
-    [languageDict["feedback.deviceBrand"]]: `${Platform.OS === 'web' ? 'web' : Device.brand}`,
-    [languageDict["feedback.device"]]: `${Platform.OS === 'web' ? 'web' : Device.modelName} `,
-    [languageDict["feedback.OS"]]: `${Device.osName} ${Device.osVersion}`,
-    [languageDict["feedback.timezone"]]: `${props?.timezone}`,
-    [languageDict["feedback.locale"]]: `${props?.locale}`,
+    [langDict["feedback.user"]]: `${account?.username.substring(0, account?.username.indexOf('@'))}`,
+    [langDict["feedback.deviceBrand"]]: `${Platform.OS === 'web' ? 'web' : Device.brand}`,
+    [langDict["feedback.device"]]: `${Platform.OS === 'web' ? 'web' : Device.modelName} `,
+    [langDict["feedback.OS"]]: `${Device.osName} ${Device.osVersion}`,
+    [langDict["feedback.timezone"]]: `${props?.timezone}`,
+    [langDict["feedback.locale"]]: `${props?.locale}`,
     'Feedback': feedback,
   }
 
@@ -127,11 +130,11 @@ const FeedbackScreen = (props: {
       )}
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
-          {languageDict["feedback.title"]}
+          {langDict["feedback.title"]}
         </Typography>
         <Typography medium>
           {
-            languageDict["feedback.info"]
+            langDict["feedback.info"]
           }
         </Typography>
 
@@ -154,7 +157,7 @@ const FeedbackScreen = (props: {
           }}
           onChangeText={(e) => setFeedback(e.toString())}
           multiline
-          placeholder={languageDict["feedback.placeHolderText"]}
+          placeholder={langDict["feedback.placeHolderText"]}
           textAlignVertical={'top'}
           value={Platform.OS === 'web' ? feedback : undefined}
         >
