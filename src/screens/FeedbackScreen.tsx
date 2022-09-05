@@ -105,12 +105,12 @@ const FeedbackScreen = (props: {
   const getSystemMessage = (): string => {
     let systemMsg = '\n\n';
     const feedbackItems = [
-    [langDict["feedback.user"]],
-    [langDict["feedback.deviceBrand"]],
-    [langDict["feedback.device"]],
-    [langDict["feedback.OS"]],
-    [langDict["feedback.timezone"]],
-    [langDict["feedback.locale"]]
+    langDict["feedback.user"],
+    langDict["feedback.deviceBrand"],
+    langDict["feedback.device"],
+    langDict["feedback.OS"],
+    langDict["feedback.timezone"],
+    langDict["feedback.locale"]
     ];
     feedbackItems.forEach(
       (item) => (systemMsg += `*${item}:* ${userData[item]}\n`)
