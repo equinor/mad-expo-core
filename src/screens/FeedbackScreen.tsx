@@ -105,11 +105,12 @@ const FeedbackScreen = (props: {
   const getSystemMessage = (): string => {
     let systemMsg = '\n\n';
     const feedbackItems = [
-      'Device brand',
-      'Device',
-      'Operating system',
-      'Timezone',
-      'Locale',
+    [langDict["feedback.user"]],
+    [langDict["feedback.deviceBrand"]],
+    [langDict["feedback.device"]],
+    [langDict["feedback.OS"]],
+    [langDict["feedback.timezone"]],
+    [langDict["feedback.locale"]]
     ];
     feedbackItems.forEach(
       (item) => (systemMsg += `*${item}:* ${userData[item]}\n`)
@@ -159,7 +160,7 @@ const FeedbackScreen = (props: {
           multiline
           placeholder={langDict["feedback.placeHolderText"]}
           textAlignVertical={'top'}
-          value={Platform.OS === 'web' ? feedback : undefined}
+          value={Platform.OS === 'web' ? undefined : feedback}
         >
           {Platform.OS === 'web' && <Typography medium>{feedback}</Typography>}
         </TextInput>
