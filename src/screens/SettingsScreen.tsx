@@ -5,18 +5,22 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../stylesheets/colors';
 import { getAccount, logout } from '../services/auth';
 import type { MSALAccount } from 'react-native-msal';
-
+import * as en from '../resources/language/en.json';
+import * as no from '../resources/language/no.json';
+const languages = {"en" : en, "no" : no};
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;
   onLogout?: () => void;
   routeAfterLogout: string;
   backLabel?: string;
   navigation: any;
+  languageCode?: string;
 }) => {
+  const langDict = languages[props.languageCode] ?? en;
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
     props.navigation.setOptions({
-      headerBackTitle: props.backLabel ?? "Back",
+      headerBackTitle: props.backLabel ?? langDict["settings.back"],
       headerTintColor: Colors.EQUINOR_PRIMARY
     });
     getAccount().then((acc) => {
@@ -37,15 +41,16 @@ const SettingsScreen = (props: {
             title={item.title}
             route={item.route}
             navigation={props.navigation}
+            languageCode={props.languageCode}
           />
         ))}
         <View style={{ paddingTop: 16 }}>
-          <Typography bold>Signed in as:</Typography>
+          <Typography bold>{langDict["settings.loggedInAs"]}</Typography>
           {account && <Typography>
-            {account.username}
+            {account.username + "\n"}
           </Typography>}
           <Button
-            title="Sign out"
+            title={langDict["settings.logOut"]}
             onPress={() => {
               logout().catch(e => console.warn(e)).then(() => props.navigation.navigate(props.routeAfterLogout))
               if (props.onLogout) {
@@ -64,7 +69,9 @@ const Setting = (props: {
   title: string;
   route: string;
   navigation: any;
+  languageCode?: string;
 }) => {
+  const langDict = languages[props.languageCode] ?? en; 
   return (
     <MaterialIcons.Button
       name={props.icon}
@@ -75,7 +82,7 @@ const Setting = (props: {
       style={{ padding: 12 }}
     >
       <Typography medium color="#007079">
-        {props.title}
+        {props.title === "Feedback" ? langDict["feedback.title"]: props.title}
       </Typography>
     </MaterialIcons.Button>
   );
