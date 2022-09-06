@@ -9,7 +9,7 @@ const OnBoardingScreen = (props: {
   config: any;
   storageKey: string;
   navigation: any;
-  onSubmitRoute: string;
+  onSubmitRoute?: string;
 }) => {
   const [onboardingSettings, setOnboardingSettings] = useState(
     JSON.parse(JSON.stringify({}))
