@@ -9,6 +9,7 @@ const OnBoardingScreen = (props: {
   config: any;
   storageKey: string;
   navigation: any;
+  onSubmitRoute?: string;
 }) => {
   const [onboardingSettings, setOnboardingSettings] = useState(
     JSON.parse(JSON.stringify({}))
@@ -102,7 +103,7 @@ const OnBoardingScreen = (props: {
         onPress={() => {
           {config.map((inputConfig) => {
           inputConfig.onSubmit ? inputConfig.onSubmit(onboardingSettings) : storeData(onboardingSettings);;
-          props.navigation.replace('Root');
+          props.navigation.replace(props.onSubmitRoute ?? 'Root');
           })}
         }}
       />
