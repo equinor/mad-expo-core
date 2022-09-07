@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as appJson from '../../app.json';
 import { Button, Checkbox, Typography } from '../components/common';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, SafeAreaView, StyleSheet } from 'react-native';
 import React, { useState, useEffect} from 'react';
 import Radiobutton from '../components/common/atoms/Radiobutton';
+import Colors from '../stylesheets/colors';
 
 const OnBoardingScreen = (props: {
   config: any;
@@ -53,7 +54,8 @@ const OnBoardingScreen = (props: {
 
   if (Object.keys(config).length === 0) return <></>;
   return (
-    <View style={{ display: 'flex', padding: 20 }}>
+    <SafeAreaView style={styles.container}>
+    <View style={{ display: 'flex', padding: 20}}>
       {config.map((inputConfig) => {
         if (inputConfig.inputType === 'text') {
           return (
@@ -108,8 +110,11 @@ const OnBoardingScreen = (props: {
         }}
       />
     </View>
+    </SafeAreaView>
   );
 };
+
+
 
 const Input = (props: {
   title: string;
@@ -117,16 +122,25 @@ const Input = (props: {
   callback: CallableFunction;
 }) => {
   return (
-    <View style={{ paddingVertical: 8 }}>
+    
+    <View style={{ paddingVertical: 8,  }}>
       <Typography variant="h6">{props.title}</Typography>
       <TextInput
-        style={{ padding: 8, marginTop: 8 }}
+        style={{ 
+          padding: 8,
+          marginTop: 8,
+          backgroundColor: Colors.GRAY_3,
+          borderStyle: "solid",
+          borderBottomWidth: 1,
+        }}
         onChangeText={(text) => props.callback(props.title, text)}
         value={props.text}
       />
     </View>
   );
 };
+
+
 
 const Select = (props: {
   title: string;
@@ -136,7 +150,7 @@ const Select = (props: {
   multiselect?: boolean;
 }) => {
   return (
-    <View style={{ paddingVertical: 8 }}>
+    <View style={{ paddingVertical: 20 }}>
       <Typography variant="h6">{props.title}</Typography>
       {props.values.map((value, index) => (
         <View
@@ -147,6 +161,8 @@ const Select = (props: {
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingVertical: 8,
+            borderBottomWidth: 1,
+            borderColor: Colors.GRAY_5
           }}
         >
           <Typography>{value}</Typography>
@@ -178,5 +194,15 @@ const Select = (props: {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  text: {
+    fontSize: 25,
+    fontWeight: '500',
+  }
+});
 
 export default OnBoardingScreen;
