@@ -79,10 +79,11 @@ const Setting = (props: {
       backgroundColor="transparent"
       color="#007079"
       underlayColor={Colors.GREEN_LIGHT}
-      style={{ padding: 12 }}
+      style={{ paddingVertical: 12, paddingLeft: 0
+      }}
     >
       <Typography medium color="#007079">
-        {props.title === "Feedback" ? langDict["feedback.title"]: props.title}
+        {langDict[props.title] ?? props.title}
       </Typography>
     </MaterialIcons.Button>
   );
