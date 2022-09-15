@@ -217,6 +217,7 @@ export enum metricKeys {
   API_UPLOAD = 'UPLOAD',
   API_DOWNLOAD = 'DOWNLOAD',
   NAVIGATE = 'NAVIGATE',
+  CUSTOM = 'CUSTOM',
 }
 
 export { reactPluginWeb, appInsightsMain, appInsightsLongTermLog };
