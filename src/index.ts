@@ -6,9 +6,15 @@ import {
   Spinner,
   TextLink,
   Typography,
-  ServiceMessage
+  ServiceMessage,
 } from './components/common';
-import { authenticateSilently, getAccount, logout, msalInit, msalLogin } from './services/auth';
+import {
+  authenticateSilently,
+  getAccount,
+  logout,
+  msalInit,
+  msalLogin,
+} from './services/auth';
 
 import AppContainer from './components/common/molecules/AppContainer';
 import Banner from './components/common/molecules/Banner';
@@ -21,8 +27,23 @@ import OnBoardingScreen from './screens/OnBoardingScreen';
 import Radiobutton from './components/common/atoms/Radiobutton';
 import SettingsButton from './components/common/molecules/SettingsButton';
 import SettingsScreen from './screens/SettingsScreen';
+import {
+  appInsightsInit,
+  track,
+  trackLongTerm,
+  trackNavigation,
+} from './services/appInsights';
+import BaseApiService from './services/BaseAPIServices';
+import { obfuscateUser, ObfuscatedUser } from './services/encrypt';
 
 export {
+  obfuscateUser,
+  ObfuscatedUser,
+  BaseApiService,
+  appInsightsInit,
+  track,
+  trackLongTerm,
+  trackNavigation,
   AppContainer,
   Button,
   Checkbox,
@@ -46,5 +67,5 @@ export {
   msalLogin,
   authenticateSilently,
   logout,
-  getAccount
+  getAccount,
 };
