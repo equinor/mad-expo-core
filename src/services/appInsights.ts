@@ -146,7 +146,8 @@ export const track = (
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
 
   trackEvent({ name: eventString }, extraData);
-  trackEventLongTerm({ name: eventString }, extraData);
+  if (appInsightsLongTermLog)
+    trackEventLongTerm({ name: eventString }, extraData);
 };
 
 /**
