@@ -12,7 +12,7 @@ In order to connect to AppInsights, you need the instrumentation key or connecti
 
 First, you need to initiate appInsights on app startup. This can be done in a useEffect in App.tsx:
 
-```other
+```tsx
 import { appInsightsInit } from "mad-expo-core";
 
 export default function App() {
@@ -28,7 +28,7 @@ export default function App() {
 
 If you want to use connection string instead, replace instrumentationKey with connectionString:
 
-```other
+```tsx
 import { appInsightsInit } from "mad-expo-core";
 
 export default function App() {
@@ -44,7 +44,7 @@ export default function App() {
 
 If you need a long term log, you can add this as well. Please note that you will need an additional Application Insights resource, and long term logs will hash the user’s ID automatically (using SHA256 by default, SHA1 is optional and should only be used in special circumstances, as it is not secure).
 
-```other
+```tsx
 import { appInsightsInit } from "mad-expo-core";
 
 export default function App() {
@@ -74,7 +74,7 @@ Next, you should look into logging all your API calls. In order to do this, you 
 
 Basic usage:
 
-```other
+```tsx
 import { BaseApiService } from "mad-expo-core";
 
 // example resource object. should be in your environment 
@@ -116,7 +116,7 @@ BaseAPIService also has support for post, put, patch and delete, as well as some
 
 Navigation logging has to be implemented in your app. We have a `trackNavigation` method you can use for this. [Here’s React Navigation’s official doc regarding this issue](https://reactnavigation.org/docs/screen-tracking/). Below is an example implementation taken from Expense and Pay (with some additional lines of code to make TypeScript happy). If implemented correctly, it should log all navigation to Application Insights!
 
-```other
+```tsx
 export default function Navigation() {
   const navigationRef = useNavigationContainerRef();
   const routeNameRef = useRef<string | undefined>();
@@ -154,7 +154,7 @@ If you need to add additional tracking to your app, we have some helper methods 
 
 Example:
 
-```other
+```tsx
 track(metricKeys.CUSTOM, undefined, "Custom event!", {param1: "param1", param2: "param2"});
 ```
 
