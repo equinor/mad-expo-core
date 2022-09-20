@@ -6,61 +6,69 @@ You need a resource in Azure you can use. Head to https://portal.azure.com, and 
 
 In order to connect to AppInsights, you need the instrumentation key or connection string from a resource. instrumentation keys are shorter, but might be deprecated in the future.
 
-***IMPORTANT: for any custom tracking/logging you add to your app, please make sure you don***’***t log sensitive information. Please also keep this in mind when looking at pull requests related to tracking.***
+**_IMPORTANT: for any custom tracking/logging you add to your app, please make sure you don_**’**_t log sensitive information. Please also keep this in mind when looking at pull requests related to tracking._**
+
+### Installation
+
+You need to install some packages in your project to make this package work. We need `@microsoft/applicationinsights-react-js`, `@microsoft/applicationinsights-react-native`, and `@microsoft/applicationinsights-web`. `@microsoft/applicationinsights-react-native` also requires `react-native-device-info`:
+
+```other
+npm i @microsoft/applicationinsights-react-js @microsoft/applicationinsights-react-native @microsoft/applicationinsights-web react-native-device-info
+```
 
 ### Implementation
 
 First, you need to initiate appInsights on app startup. This can be done in a useEffect in App.tsx:
 
 ```tsx
-import { appInsightsInit } from "mad-expo-core";
+import { appInsightsInit } from 'mad-expo-core';
 
 export default function App() {
   useEffect(() => {
     appInsightsInit({
-      instrumentationKey: "KEY FROM ENV CONFIG",
+      instrumentationKey: 'KEY FROM ENV CONFIG',
     });
   }, []);
 
-  return <>...</>
+  return <>...</>;
 }
 ```
 
 If you want to use connection string instead, replace instrumentationKey with connectionString:
 
 ```tsx
-import { appInsightsInit } from "mad-expo-core";
+import { appInsightsInit } from 'mad-expo-core';
 
 export default function App() {
   useEffect(() => {
     appInsightsInit({
-      connectionString: "CONNECTION STRING FROM ENV CONFIG",
+      connectionString: 'CONNECTION STRING FROM ENV CONFIG',
     });
   }, []);
 
-  return <>...</>
+  return <>...</>;
 }
 ```
 
 If you need a long term log, you can add this as well. Please note that you will need an additional Application Insights resource, and long term logs will hash the user’s ID automatically (using SHA256 by default, SHA1 is optional and should only be used in special circumstances, as it is not secure).
 
 ```tsx
-import { appInsightsInit } from "mad-expo-core";
+import { appInsightsInit } from 'mad-expo-core';
 
 export default function App() {
   useEffect(() => {
     appInsightsInit({
-      connectionString: "CONNECTION STRING FROM ENV CONFIG",
+      connectionString: 'CONNECTION STRING FROM ENV CONFIG',
       longTermLog: {
-        connectionString: "ANOTHER CONNECTION STRING FROM ENV CONFIG",
-        
-        //ONLY USE SHA1 IN SPECIAL CIRCUMSTANCES. IT'S _NOT_ SECURE
-        useSHA1: false
-      }
+        connectionString: 'ANOTHER CONNECTION STRING FROM ENV CONFIG',
+
+        //ONLY USE SHA1 IN SPECIAL CIRCUMSTANCES. IT'S _NOT_ SECURE. defaults to false
+        useSHA1: false,
+      },
     });
   }, []);
 
-  return <>...</>
+  return <>...</>;
 }
 ```
 
@@ -75,14 +83,14 @@ Next, you should look into logging all your API calls. In order to do this, you 
 Basic usage:
 
 ```tsx
-import { BaseApiService } from "mad-expo-core";
+import { BaseApiService } from 'mad-expo-core';
 
-// example resource object. should be in your environment 
+// example resource object. should be in your environment
 // config under resources.
 // scopes and apiBaseUrl is required, subscriptionKey is optional
 const resource = {
-  scopes: ["690a86bf-838c-4591-909c-9f45219445ab"],
-  apiBaseUrl: "https://api.statoil.com/app/mad/qa/api/v1",
+  scopes: ['690a86bf-838c-4591-909c-9f45219445ab'],
+  apiBaseUrl: 'https://api.statoil.com/app/mad/qa/api/v1',
   // subscriptionKey: "INSERT SUBSCRIPTION KEY",
 };
 
@@ -95,18 +103,18 @@ export function getServiceMessage() {
 
       // optional options object. You can disable authentication,
       // or add additional headers.
-      { 
+      {
         authenticate: false,
-        headers: {/*insert headers*/}
+        headers: {
+          /*insert headers*/
+        },
       }
     )
     .then((res) => res.data);
 }
 
 export function getServiceMessageCleanVersion() {
-  return commonAPI
-    .get(`/ServiceMessage/my_app`)
-    .then((res) => res.data);
+  return commonAPI.get(`/ServiceMessage/my_app`).then((res) => res.data);
 }
 ```
 
@@ -150,15 +158,17 @@ export default function Navigation() {
 
 **Custom tracking**
 
-If you need to add additional tracking to your app, we have some helper methods for that! use `track`  for both long and short term tracking, or `trackShortTerm` and `trackLongTerm` respectively.
+If you need to add additional tracking to your app, we have some helper methods for that! use `track` for both long and short term tracking, or `trackShortTerm` and `trackLongTerm` respectively.
 
 Example:
 
 ```tsx
-track(metricKeys.CUSTOM, undefined, "Custom event!", {param1: "param1", param2: "param2"});
+track(metricKeys.CUSTOM, undefined, 'Custom event!', {
+  param1: 'param1',
+  param2: 'param2',
+});
 ```
 
 **Final note**
 
 This implementation is new and not necessarily tested well. You might find bugs, or things to improve. Please don’t hesitate to create new issues in [mad-expo-core’s repository](https://github.com/equinor/mad-expo-core/issues)! We want to make this package great!
-
