@@ -170,6 +170,8 @@ function uploadFile2(payload: unknown) {
 
 _If you find any issues with it, please create a new issue in the mad-expo-core repo!_
 
+_Does NOT work for web_
+
 ```tsx
 const api = new BaseApiService(resource);
 
@@ -195,6 +197,8 @@ function uploadFileFromFileSystem2(fileUri: string, contentType: string) {
 **Download file to file system (expo-file-system implementation)**
 
 _If you find any issues with it, please create a new issue in the mad-expo-core repo!_
+
+_Does NOT work for web_
 
 This will return, among other things, a uri pointing to where the file was download to in the file system.
 
