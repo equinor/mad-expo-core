@@ -344,7 +344,7 @@ class BaseApiService {
     const apiUrl = this.url + path;
     const headers = { ...this.defaultHeader(tokenRes), ...options.headers };
     const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
-    if (Device.osName === 'ios') {
+    if (Device.osName === 'iOS') {
       track(
         metricKeys.API_DOWNLOAD,
         metricStatus.STARTED,
@@ -375,8 +375,7 @@ class BaseApiService {
     }
     if (Device.osName === 'web') {
       track(metricKeys.API_DOWNLOAD, metricStatus.FAILED, 'Web not supported');
-      // @ts-expect-error mad-expo-core doesn't know about web? idk
-      alert('Download not implemented for web');
+      throw 'Download not implemented for web';
     }
 
     return '';
