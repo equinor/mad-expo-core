@@ -32,6 +32,7 @@ class BaseApiService {
   }
 
   async get(path: string, options: BaseAPIOptions = defaultOptions) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
@@ -71,6 +72,7 @@ class BaseApiService {
     data: unknown,
     options: BaseAPIOptions = defaultOptions
   ) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
@@ -110,6 +112,7 @@ class BaseApiService {
     data: unknown,
     options: BaseAPIOptions = defaultOptions
   ) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
@@ -149,6 +152,7 @@ class BaseApiService {
     data: unknown,
     options: BaseAPIOptions = defaultOptions
   ) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
@@ -188,6 +192,7 @@ class BaseApiService {
     data?: unknown,
     options: BaseAPIOptions = defaultOptions
   ) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
@@ -235,6 +240,7 @@ class BaseApiService {
     formData: unknown,
     options: BaseAPIOptions = defaultOptions
   ) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
@@ -277,7 +283,6 @@ class BaseApiService {
    * upload file from the file system
    * @param path api path
    * @param fileUri path to file in file system
-   * @param slug custom SAP header, leave undefined if not in use
    * @param contentType file type
    * @param options provide additional headers, or disable authentication
    * @returns FileSystemUploadResult
@@ -285,10 +290,10 @@ class BaseApiService {
   async uploadFromFileSystem(
     path: string,
     fileUri: string,
-    slug: string | undefined,
     contentType: string,
     options: BaseAPIOptions = defaultOptions
   ) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
@@ -305,7 +310,6 @@ class BaseApiService {
         ...this.defaultHeader(tokenRes),
         ...options.headers,
         'content-type': contentType,
-        'SLUG': slug,
       },
     })
       .then((res) => {
@@ -328,11 +332,12 @@ class BaseApiService {
       });
   }
 
-  async downloadFromFileSystem(
+  async downloadToFileSystem(
     path: string,
     fileName: string,
     options: BaseAPIOptions = defaultOptions
   ) {
+    options = { ...defaultOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
