@@ -28,6 +28,8 @@ type BaseResource = {
 
 ## Usage
 
+For all API calls, authentication is turned on by default. If you want to turn it off, add `{authenticate: false}` to the options argument
+
 **Get**
 
 ```tsx
