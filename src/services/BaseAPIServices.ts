@@ -14,8 +14,18 @@ export type BaseAPIOptions = {
   authenticate?: boolean;
   headers?: Record<string, any>;
 };
+
+export type DownloadFileOptions = BaseAPIOptions & {
+  filePath?: string;
+};
+
 const defaultOptions = {
   authenticate: true,
+};
+
+const defaultFileDownloadOptions = {
+  ...defaultOptions,
+  filePath: FileSystem.cacheDirectory,
 };
 
 class BaseApiService {
@@ -335,15 +345,15 @@ class BaseApiService {
   async downloadToFileSystem(
     path: string,
     fileName: string,
-    options: BaseAPIOptions = defaultOptions
+    options: DownloadFileOptions = defaultFileDownloadOptions
   ) {
-    options = { ...defaultOptions, ...options };
+    options = { ...defaultFileDownloadOptions, ...options };
     const tokenRes = options.authenticate
       ? await authenticateSilently(this.scopes)
       : undefined;
     const apiUrl = this.url + path;
     const headers = { ...this.defaultHeader(tokenRes), ...options.headers };
-    const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
+    const fileUri = `${options.filePath}${fileName}`;
     if (Device.osName === 'iOS') {
       track(
         metricKeys.API_DOWNLOAD,
