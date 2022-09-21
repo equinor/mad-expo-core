@@ -10,11 +10,13 @@ import {
   setUsername,
   track,
 } from '../../services/appInsights';
+import type { MSALAccount } from 'react-native-msal';
 
 export default function LoginButton(props: {
   mainRoute: string;
   navigation: any;
   scopes: string[];
+  onLoginSuccessful?: (account: MSALAccount) => void;
   eds?: boolean;
 }) {
   return (
@@ -26,6 +28,7 @@ export default function LoginButton(props: {
           track(metricKeys.AUTHENTICATION, metricStatus.STARTED);
           msalLogin(props.scopes)
             .then((res) => {
+              if (props.onLoginSuccessful) props.onLoginSuccessful(res);
               setUsername(res.username, res.userId);
               track(metricKeys.AUTHENTICATION, metricStatus.SUCCESS);
               props.navigation.navigate(props.mainRoute);

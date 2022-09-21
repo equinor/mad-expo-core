@@ -19,6 +19,7 @@ import {
   track,
   validateAppInsightsInit,
 } from '../services/appInsights';
+import type { MSALAccount } from 'react-native-msal';
 
 export default function LoginScreen(props: {
   logo: ImageSourcePropType;
@@ -28,6 +29,7 @@ export default function LoginScreen(props: {
   eds?: boolean;
   title?: string;
   showDemoButton?: boolean;
+  onLoginSuccessful?: (account: MSALAccount) => void;
   onDemoPress?: () => void;
 }) {
   const [logoPressCount, setLogoPressCount] = useState(0);
@@ -39,6 +41,7 @@ export default function LoginScreen(props: {
         .catch((e) => console.warn(e))
         .then((res) => {
           if (res) {
+            if (props.onLoginSuccessful) props.onLoginSuccessful(res.account);
             setUsername(res.account.username, res.account.identifier);
             track(metricKeys.AUTHENTICATION_AUTOMATIC);
             props.navigation.navigate(props.mainRoute);
@@ -51,6 +54,7 @@ export default function LoginScreen(props: {
       mainRoute={props.mainRoute}
       navigation={props.navigation}
       scopes={props.scopes}
+      onLoginSuccessful={props.onLoginSuccessful}
       eds
     />
   );
