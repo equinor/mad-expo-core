@@ -213,6 +213,7 @@ function downloadToFileSystem(fileName: string) {
 function downloadToFileSystem2(fileName: string) {
   return api
     .uploadFromFileSystem('/endpoint', fileName, {
+      filepath: FileSystem.cacheDirectory //Optional, FileSystem.cacheDirectory is default
       authenticate: false,
       headers: {
         /*insert headers*/
