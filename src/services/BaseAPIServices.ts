@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, ResponseType } from 'axios';
 import { authenticateSilently } from './auth';
 import { metricKeys, metricStatus, track } from './appInsights';
 import * as FileSystem from 'expo-file-system';
@@ -13,6 +13,7 @@ export type BaseResource = {
 export type BaseAPIOptions = {
   authenticate?: boolean;
   headers?: Record<string, any>;
+  responseType?: ResponseType;
 };
 
 export type DownloadFileOptions = BaseAPIOptions & {
@@ -56,6 +57,7 @@ class BaseApiService {
     return axios
       .get(apiUrl, {
         headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -96,6 +98,7 @@ class BaseApiService {
     return axios
       .post(this.url + path, data, {
         headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -136,6 +139,7 @@ class BaseApiService {
     return axios
       .put(this.url + path, data, {
         headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -176,6 +180,7 @@ class BaseApiService {
     return axios
       .patch(this.url + path, data, {
         headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -217,6 +222,7 @@ class BaseApiService {
       .delete(this.url + path, {
         headers: { ...this.defaultHeader(tokenRes), ...options.headers },
         data: data ?? null,
+        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -268,6 +274,7 @@ class BaseApiService {
           ...options.headers,
           'content-type': 'multipart/form-data',
         },
+        responseType: options.responseType,
       })
       .then((res) => {
         track(
