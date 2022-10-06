@@ -4,16 +4,18 @@ import {
   Pressable,
   StyleSheet,
   View,
+  AppState
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 import LoginButton from '../components/authentication/LoginButton';
-import { authenticateSilently } from '../services/auth';
+import { authenticateSilently, IClaims } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
 import { Button, Typography } from '../components/common';
 import {
+  handleAppStatusChange,
   metricKeys,
   setUsername,
   track,
@@ -42,11 +44,14 @@ export default function LoginScreen(props: {
         .then((res) => {
           if (res) {
             if (props.onLoginSuccessful) props.onLoginSuccessful(res.account);
-            setUsername(res.account.username, res.account.identifier);
+            const objectId = (res.account.claims as IClaims)?.oid;
+            setUsername(res.account.username, objectId);
             track(metricKeys.AUTHENTICATION_AUTOMATIC);
             props.navigation.navigate(props.mainRoute);
           }
         });
+    const subscription = AppState.addEventListener("change", handleAppStatusChange);
+    return () => subscription.remove();
   }, []);
 
   const renderLoginButton = () => (

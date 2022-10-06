@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { isMsalConnected, msalLogin } from '../../services/auth';
+import { IClaims, isMsalConnected, msalLogin } from '../../services/auth';
 
 import Button from '../common/atoms/Button';
 import React from 'react';
@@ -29,7 +29,8 @@ export default function LoginButton(props: {
           msalLogin(props.scopes)
             .then((res) => {
               if (props.onLoginSuccessful) props.onLoginSuccessful(res);
-              setUsername(res.username, res.userId);
+              const objectId = (res.claims as IClaims)?.oid;
+              setUsername(res.username, objectId);
               track(metricKeys.AUTHENTICATION, metricStatus.SUCCESS);
               props.navigation.navigate(props.mainRoute);
             })
