@@ -146,9 +146,22 @@ export const track = (
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
 
   trackEvent({ name: eventString }, extraData);
-  if (appInsightsLongTermLog)
+  if (appInsightsLongTermLog && longTermLogFilter(eventName))
     trackEventLongTerm({ name: eventString }, extraData);
 };
+
+//Currently there are only a few metrics we want to save long term.
+const longTermLogFilter = (eventName: string): boolean => {
+  const logTermEvents = [
+    metricKeys.APP_STARTED,
+    metricKeys.APP_ACTIVE,
+    metricKeys.APP_BACKGROUND,
+    metricKeys.AUTHENTICATION,
+    metricKeys.AUTHENTICATION_AUTOMATIC,
+    metricKeys.AUTHENTICATION_DEMO
+  ]
+  return logTermEvents.some((metric) => metric === eventName);
+}
 
 /**
  * Track something for short term logs. status, modifier & extraData is optional
