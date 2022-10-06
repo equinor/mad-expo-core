@@ -146,8 +146,9 @@ export const track = (
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
 
   trackEvent({ name: eventString }, extraData);
-  if (appInsightsLongTermLog && longTermLogFilter(eventName))
+  if (appInsightsLongTermLog && longTermLogFilter(eventName)){
     trackEventLongTerm({ name: eventString }, extraData);
+  }
 };
 
 //Currently there are only a few metrics we want to save long term.
