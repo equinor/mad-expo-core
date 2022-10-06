@@ -103,7 +103,7 @@ export const validateAppInsightsInit = () => {
 
 export const setUsername = (username: string, userIdentifier) => {
   validateAppInsightsInit();
-  appInsightsMain.setAuthenticatedUserContext(username, username, true);
+  appInsightsMain.setAuthenticatedUserContext(username, userIdentifier, true);
   if (appInsightsLongTermLog) {
     const obfuscatedUser = obfuscateUser(username, userIdentifier, useSHA1).id;
     appInsightsLongTermLog.setAuthenticatedUserContext(
@@ -196,6 +196,29 @@ export const trackNavigation = (routeName: string, longTerm?: boolean) => {
   track(metricKeys.NAVIGATE, undefined, routeName);
   if (longTerm) trackLongTerm(metricKeys.NAVIGATE, undefined, routeName);
 };
+
+/**
+ * Handle changes in app state
+ * @param nextState - name of next state
+ */
+export const handleAppStatusChange = (nextState: appStateStatus) => {
+  switch(nextState){
+    case "active":{
+      track(metricKeys.APP_ACTIVE);
+      break;
+    }
+    case "background":{
+      track(metricKeys.APP_BACKGROUND);
+      break;
+    }
+  }
+}
+
+export enum appStateStatus{
+  ACTIVE = "active",
+  BACKGROUND = "background",
+  INACTIVE = "inactive"
+}
 
 export enum metricStatus {
   STARTED = 'STARTED',
