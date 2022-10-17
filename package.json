@@ -71,8 +71,8 @@
   },
   "peerDependencies": {
     "@expo/vector-icons": "*",
-    "@react-navigation/stack": ">=5.12.8",
     "@react-navigation/native": ">=5.8.10",
+    "@react-navigation/stack": ">=5.12.8",
     "expo": ">=44.0.0",
     "expo-font": "^10.0.5",
     "expo-localization": "*",
@@ -168,6 +168,7 @@
     "expo-device": "^4.1.1",
     "expo-linking": "^3.1.0",
     "expo-random": "*",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5"
   }
 }
