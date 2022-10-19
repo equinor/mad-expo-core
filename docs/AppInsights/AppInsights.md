@@ -76,6 +76,18 @@ If implemented correctly, you should be able to test it by using your app and lo
 
 ![Image.png](AppInsights.assets/Image.png)
 
+Furthermore, if you want to add general telemetry to the logs, you can add it in the same useEffect! import `addTelemetryInitializer` from mad-expo-core, and create a telemetryInitializer function like in the example below. This can be useful if you want to always include for example `plantId` in your logs.
+Example:
+
+```tsx
+const telemetryInitializer = (envelope: ITelemetryItem) => {
+  if (envelope.data) {
+    envelope.data['tormod-test'] = 'Tormod Test';
+  }
+};
+addTelemetryInitializer(telemetryInitializer);
+```
+
 **API Calls**
 
 Next, you should look into logging all your API calls. In order to do this, you should use the BaseAPIService service from mad-expo-core. BaseAPIService is created to make API calls easier. It authenticates silently for you by default, and adds tracking. It uses Axios under the hood. You can disable authentication and add additional headers if necessary:

@@ -29,6 +29,7 @@ import SettingsButton from './components/common/molecules/SettingsButton';
 import SettingsScreen from './screens/SettingsScreen';
 import {
   appInsightsInit,
+  addTelemetryInitializer,
   track,
   trackLongTerm,
   trackNavigation,
@@ -41,6 +42,7 @@ export {
   ObfuscatedUser,
   BaseApiService,
   appInsightsInit,
+  addTelemetryInitializer,
   track,
   trackLongTerm,
   trackNavigation,

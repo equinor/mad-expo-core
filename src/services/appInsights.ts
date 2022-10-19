@@ -4,6 +4,7 @@ import {
   ApplicationInsights,
   ICustomProperties,
   IEventTelemetry,
+  ITelemetryItem,
 } from '@microsoft/applicationinsights-web';
 import { createBrowserHistory } from 'history';
 import { Platform } from 'react-native';
@@ -146,9 +147,16 @@ export const track = (
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
 
   trackEvent({ name: eventString }, extraData);
-  if (appInsightsLongTermLog && longTermLogFilter(eventName)){
+  if (appInsightsLongTermLog && longTermLogFilter(eventName)) {
     trackEventLongTerm({ name: eventString }, extraData);
   }
+};
+
+export const addTelemetryInitializer = (
+  envelope: (item: ITelemetryItem) => boolean | void
+) => {
+  appInsightsMain.addTelemetryInitializer(envelope);
+  appInsightsLongTermLog.addTelemetryInitializer(envelope);
 };
 
 //Currently there are only a few metrics we want to save long term.
@@ -159,10 +167,10 @@ const longTermLogFilter = (eventName: string): boolean => {
     metricKeys.APP_BACKGROUND,
     metricKeys.AUTHENTICATION,
     metricKeys.AUTHENTICATION_AUTOMATIC,
-    metricKeys.AUTHENTICATION_DEMO
-  ]
+    metricKeys.AUTHENTICATION_DEMO,
+  ];
   return logTermEvents.some((metric) => metric === eventName);
-}
+};
 
 /**
  * Track something for short term logs. status, modifier & extraData is optional
@@ -216,22 +224,22 @@ export const trackNavigation = (routeName: string, longTerm?: boolean) => {
  * @param nextState - name of next state
  */
 export const handleAppStatusChange = (nextState: appStateStatus) => {
-  switch(nextState){
-    case "active":{
+  switch (nextState) {
+    case 'active': {
       track(metricKeys.APP_ACTIVE);
       break;
     }
-    case "background":{
+    case 'background': {
       track(metricKeys.APP_BACKGROUND);
       break;
     }
   }
-}
+};
 
-export enum appStateStatus{
-  ACTIVE = "active",
-  BACKGROUND = "background",
-  INACTIVE = "inactive"
+export enum appStateStatus {
+  ACTIVE = 'active',
+  BACKGROUND = 'background',
+  INACTIVE = 'inactive',
 }
 
 export enum metricStatus {
