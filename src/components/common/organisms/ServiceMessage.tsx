@@ -53,12 +53,20 @@ const ServiceMessage = (props: {
   };
 
   useEffect(() => {
+    function fetchServiceMessage(environment : string) {
+      fetch(
+        `https://api.statoil.com/app/mad/${environment}api/v1/ServiceMessage/${props.serviceName}`
+      )
+        .then((res) => res.json().then((data) => setServiceMessage(data)))
+        .catch(() => setServiceMessage('REQUEST FAILED'));
+    }
+
     const environment: string = props.environment.toLowerCase() === "prod" ? `` : `${props.environment}/`;
-    fetch(
-      `https://api.statoil.com/app/mad/${environment}api/v1/ServiceMessage/${props.serviceName}`
-    )
-      .then((res) => res.json().then((data) => setServiceMessage(data)))
-      .catch(() => setServiceMessage('REQUEST FAILED'));
+    fetchServiceMessage(environment);
+    const interval = setInterval(() => fetchServiceMessage(environment), 300000);
+    return () => {
+      clearInterval(interval);
+    }
   }, []);
   return <>{displayBanner()}</>;
 };
