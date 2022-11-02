@@ -12,7 +12,8 @@ const ServiceMessage = (props: {
     ServiceMessage | 'REQUEST FAILED'
   >(null);
   const safeAreaInsets = useSafeAreaInsets();
-
+  let serviceMessageShown = false;
+  
   const displayBanner = () => {
     if (serviceMessage === 'REQUEST FAILED')
       return (
@@ -29,7 +30,8 @@ const ServiceMessage = (props: {
         </View>
         </>
       );
-    if (!serviceMessage || !serviceMessage.status) return <></>;
+    if (!serviceMessage || !serviceMessage.status || serviceMessageShown) return <></>;
+    serviceMessageShown = true;
     return (
       <>
       <View>
