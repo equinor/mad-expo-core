@@ -11,8 +11,10 @@ const ServiceMessage = (props: {
   const [serviceMessage, setServiceMessage] = useState<
     ServiceMessage | 'REQUEST FAILED'
   >(null);
+  const [serviceMessageShown, setServiceMessageShown] = useState<
+  boolean
+>(false);
   const safeAreaInsets = useSafeAreaInsets();
-  let serviceMessageShown = false;
   
   const displayBanner = () => {
     if (serviceMessage === 'REQUEST FAILED')
@@ -21,17 +23,22 @@ const ServiceMessage = (props: {
         <View>
 
           <Banner
-            viewStyle={styles.bannerViewStyle}
+            viewStyle={StyleSheet.flatten([
+              styles.bannerViewStyle,
+              {
+                paddingTop: safeAreaInsets.top,
+                minHeight: 80 + safeAreaInsets.top,
+              },
+            ])}
             maxExpandedHeight={400}
             maxNonExpandedHeight={80 + safeAreaInsets.top}
             text={'Could not retrieve service message'}
-            onDismiss={() => setServiceMessage(null)}
+            onDismiss={() => setServiceMessageShown(true)}
           />
         </View>
         </>
       );
     if (!serviceMessage || !serviceMessage.status || serviceMessageShown) return <></>;
-    serviceMessageShown = true;
     return (
       <>
       <View>
@@ -46,7 +53,7 @@ const ServiceMessage = (props: {
           maxExpandedHeight={400}
           maxNonExpandedHeight={80 + safeAreaInsets.top}
           text={serviceMessage.message}
-          onDismiss={() => setServiceMessage(null)}
+          onDismiss={() => setServiceMessageShown(true)}
           url={serviceMessage.urlString}
         />
         </View>
@@ -59,7 +66,12 @@ const ServiceMessage = (props: {
       fetch(
         `https://api.statoil.com/app/mad/${environment}api/v1/ServiceMessage/${props.serviceName}`
       )
-        .then((res) => res.json().then((data) => setServiceMessage(data)))
+        .then((res) => res.json().then((data : ServiceMessage) => {
+          if(!serviceMessage || (serviceMessage !== 'REQUEST FAILED' && data.alertName !== serviceMessage.alertName)){
+            setServiceMessage(data);
+            setServiceMessageShown(false);
+          }
+        }))
         .catch(() => setServiceMessage('REQUEST FAILED'));
     }
 
