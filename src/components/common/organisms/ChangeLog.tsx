@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, StyleSheet, Pressable } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import Spinner from '../atoms/Spinner';
 import Colors from 'src/stylesheets/colors';
 
