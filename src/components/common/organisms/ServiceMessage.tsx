@@ -42,7 +42,6 @@ const ServiceMessage = (props: {
     if (!lastInterval.current) fetchServiceMessage(environment);
     if (lastInterval.current) clearInterval(lastInterval.current);
     lastInterval.current = setInterval(() => {
-      console.log('SERVICE MESSAGE:', serviceMessage);
       fetchServiceMessage(environment);
     }, 300000);
 
