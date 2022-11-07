@@ -24,9 +24,9 @@ const ReleaseNoteScreen = (props: {
   const storeData = async (value: string | null) => {
     try {
       if (value) {
-        await AsyncStorage.setItem("version", value);
+        await AsyncStorage.setItem(props.versionStorageKey, value);
       } else {
-        await AsyncStorage.removeItem("version");
+        await AsyncStorage.removeItem(props.versionStorageKey);
       }
     } catch (e) {
       // saving error
@@ -35,18 +35,18 @@ const ReleaseNoteScreen = (props: {
 
   useEffect(() => {
 
-    const checkVersion = async () => {
+    const fetchChangelog = (async () => {
+
       try {
-        const version = await AsyncStorage.getItem("version");
+        const version = await AsyncStorage.getItem(props.versionStorageKey);
         if (version === props.version) {
-          props.navigation.navigate('Root');
+          setFetching(false)
+          return;
         }
       } catch (e) {
         // error reading value
       }
-    };
 
-    const fetchChangelog = (() => {
       const environment = props.environment === 'prod' ? `` : `${props.environment}/`;
       if(props.demoMode){
         setReleaseNote(mockData.ReleaseNotes);
@@ -71,19 +71,19 @@ const ReleaseNoteScreen = (props: {
       }
     });
     
-    checkVersion();
     fetchChangelog();
   }, []);
-  if(error){ 
+  if(error || (!fetching && !releaseNote.changes)){ 
     props.navigation.navigate('Root');
-  };
-
-  return (
-    <ChangeLog releaseNote={releaseNote} fetching={fetching} affirm={() => { 
-      storeData(props.version);
-      props.navigation.navigate('Root')
-    }} />
-  );
+    return <></>;
+  } else {
+    return (
+      <ChangeLog releaseNote={releaseNote} fetching={fetching} affirm={() => { 
+        storeData(props.version);
+        props.navigation.navigate('Root')
+      }} />
+    );
+  }
 };
 
 export default ReleaseNoteScreen;
