@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
-import Colors from 'src/stylesheets/colors';
+import Colors from "../../../stylesheets/colors";
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
@@ -33,7 +34,7 @@ const ChangeLog = (props: {
   }
 
   
-  const { container, footer, titleHeader, buttonStyle } = styles;
+  const { container, footer, titleHeader} = styles;
 
   const { releaseNote, affirm, fetching } = props;
 
@@ -46,9 +47,10 @@ const ChangeLog = (props: {
       <Text style={titleHeader}>{featureTitle}</Text>
       {renderChangeLog(releaseNote)}
       <View style={footer}>
-        <Pressable style={buttonStyle} onPress={affirm}>
-          <Text>{affirmText}</Text>
-        </Pressable>
+        <Button
+          title={affirmText}
+          onPress={affirm}
+        />
       </View>
     </View>
   );
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.GRAY_4,
   },
   footer: {
-    height: 50,
+    height: 80,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -92,10 +94,6 @@ const styles = StyleSheet.create({
     marginVertical: 1,
     marginRight: 5,
     color: Colors.GRAY_1,
-  },
-  buttonStyle: {
-    backgroundColor: '#0288D1',
-    margin: 20,
   },
   bulletList: {
     flexDirection: 'row',

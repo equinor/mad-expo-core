@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useState } from 'react';
-import ChangeLog from 'src/components/common/organisms/ChangeLog';
+import ChangeLog from '../components/common/organisms/ChangeLog';
 import * as mockData from '../resources/mock-data.json';
 
 
@@ -22,6 +22,7 @@ const ReleaseNoteScreen = (props: {
       const environment = props.environment === 'prod' ? `` : `${props.environment}/`;
       if(props.demoMode){
         setReleaseNote(mockData.ReleaseNotes);
+        setFetching(false);
       } else{
           fetch(
             `https://api.statoil.com/app/mad/${environment}api/v1/ReleaseNote/${props.name}/${props.version}`
