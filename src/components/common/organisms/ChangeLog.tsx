@@ -13,7 +13,7 @@ const ChangeLog = (props: {
     affirm: any;
   }) => {
 
-  const renderChangeLog = (release) => {
+  const renderChangeLog = (release : any) => {
     const { changelogItem, subtitleHeader, changelogText, bullet, bulletList } = styles;
 
     const changes = release.changes || [];
@@ -22,7 +22,7 @@ const ChangeLog = (props: {
         <Text style={subtitleHeader}>{release.header}</Text>
         <Text style={changelogText}>{release.subHeader}</Text>
         <View style={{ margin: 5, marginLeft: 10 }}>
-          {changes.map((change, index) => (
+          {changes.map((change: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined, index: { toString: () => React.Key | null | undefined; }) => (
             <View key={index.toString()} style={bulletList}>
               <Text style={bullet}>{'\u2022'}</Text>
               <Text style={changelogText}>{change}</Text>
