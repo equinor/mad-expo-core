@@ -62,7 +62,10 @@ const ReleaseNoteScreen = (props: {
             .then((res) => res.json().then((data) => {
               setReleaseNote(data);
               setFetching(false);
-            }))
+            })).catch((error) => {
+              setError(error);
+              setFetching(false);
+            })
           }).catch((error) => {
             setError(error);
             setFetching(false);
