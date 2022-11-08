@@ -3,15 +3,21 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Banner from '../molecules/Banner';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as en from '../../../resources/language/en.json';
+import * as no from '../../../resources/language/no.json';
+
+const languages = { en, no };
 
 const ServiceMessage = (props: {
   serviceName: string;
   environment: 'dev' | 'test' | 'qa' | 'prod';
+  languageCode?: string;
 }) => {
+  const langDict = languages[props.languageCode] ?? en;
   const [serviceMessage, setServiceMessage] = useState<
     ServiceMessage | 'REQUEST FAILED'
   >(null);
-  const [serviceMessageShown, setServiceMessageShown] = useState<boolean>(true);
+  const [serviceMessageShown, setServiceMessageShown] = useState(true);
   const safeAreaInsets = useSafeAreaInsets();
 
   const lastInterval = useRef<NodeJS.Timer>();
@@ -33,7 +39,9 @@ const ServiceMessage = (props: {
             }
           })
         )
-        .catch(() => setServiceMessage('REQUEST FAILED'));
+        .catch(() => {
+          setServiceMessage('REQUEST FAILED');
+        });
     }
 
     const environment: string =
@@ -51,6 +59,7 @@ const ServiceMessage = (props: {
   }, [serviceMessage]);
 
   const displayBanner = () => {
+    if (!serviceMessage || !serviceMessageShown) return <></>;
     if (serviceMessage === 'REQUEST FAILED')
       return (
         <>
@@ -65,14 +74,12 @@ const ServiceMessage = (props: {
               ])}
               maxExpandedHeight={400}
               maxNonExpandedHeight={80 + safeAreaInsets.top}
-              text={'Could not retrieve service message'}
+              text={langDict['serviceMessage.couldNotRetrieve']}
               onDismiss={() => setServiceMessageShown(false)}
             />
           </View>
         </>
       );
-    if (!serviceMessage || !serviceMessage.status || !serviceMessageShown)
-      return <></>;
     return (
       <>
         <View>
