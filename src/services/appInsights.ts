@@ -106,10 +106,11 @@ export const setUsername = (username: string, userIdentifier) => {
   validateAppInsightsInit();
   appInsightsMain.setAuthenticatedUserContext(username, userIdentifier, true);
   if (appInsightsLongTermLog) {
-    const obfuscatedUser = obfuscateUser(username, userIdentifier, useSHA1).id;
+    const obfuscatedUserName = obfuscateUser(userIdentifier, username, useSHA1).id;  
+    const obfuscatedUserId = obfuscateUser(username, userIdentifier, useSHA1).id;
     appInsightsLongTermLog.setAuthenticatedUserContext(
-      obfuscatedUser,
-      obfuscatedUser,
+      obfuscatedUserName,
+      obfuscatedUserId,
       true
     );
   }
@@ -145,9 +146,10 @@ export const track = (
   extraData?: ICustomProperties
 ) => {
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
+  if (excludeLogFilter(eventString, ["Ping", "ServiceMessage"])) return;
 
   trackEvent({ name: eventString }, extraData);
-  if (appInsightsLongTermLog && longTermLogFilter(eventName)) {
+  if (appInsightsLongTermLog) {
     trackEventLongTerm({ name: eventString }, extraData);
   }
 };
@@ -159,18 +161,7 @@ export const addTelemetryInitializer = (
   appInsightsLongTermLog.addTelemetryInitializer(envelope);
 };
 
-//Currently there are only a few metrics we want to save long term.
-const longTermLogFilter = (eventName: string): boolean => {
-  const logTermEvents = [
-    metricKeys.APP_STARTED,
-    metricKeys.APP_ACTIVE,
-    metricKeys.APP_BACKGROUND,
-    metricKeys.AUTHENTICATION,
-    metricKeys.AUTHENTICATION_AUTOMATIC,
-    metricKeys.AUTHENTICATION_DEMO,
-  ];
-  return logTermEvents.some((metric) => metric === eventName);
-};
+const excludeLogFilter = (eventString: string, excludeStrings: Array<string>): boolean => excludeStrings.some(excludeString => eventString.includes(excludeString))
 
 /**
  * Track something for short term logs. status, modifier & extraData is optional
