@@ -11,9 +11,10 @@ const ReleaseNoteScreen = (props: {
   name: string;
   version: string;
   environment: 'dev' | 'test' | 'qa' | 'prod';
-  scope: string;
+  scopes: string[];
   navigation: any;
   versionStorageKey: string;
+  redirectRoute: string;
   demoMode?: boolean;
   languageCode?: string;
 }) => {
@@ -52,7 +53,7 @@ const ReleaseNoteScreen = (props: {
         setReleaseNote(mockData.ReleaseNotes);
         setFetching(false);
       } else{
-          authenticateSilently([props.scope]).then(response => {
+          authenticateSilently(props.scopes).then(response => {
             fetch(`https://api.statoil.com/app/mad/${environment}api/v1/ReleaseNote/${props.name}/${props.version}`, { 
             method: 'GET', 
             headers: new Headers({
@@ -77,13 +78,13 @@ const ReleaseNoteScreen = (props: {
     fetchChangelog();
   }, []);
   if(error || (!fetching && !releaseNote.changes)){ 
-    props.navigation.navigate('Root');
+    props.navigation.navigate(props.redirectRoute);
     return <></>;
   } else {
     return (
       <ChangeLog releaseNote={releaseNote} fetching={fetching} affirm={() => { 
         storeData(props.version);
-        props.navigation.navigate('Root')
+        props.navigation.navigate(props.redirectRoute)
       }} />
     );
   }
