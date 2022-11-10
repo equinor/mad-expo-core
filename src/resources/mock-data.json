@@ -1,0 +1,11 @@
+{
+    "ReleaseNotes": {
+        "header": "New features and fixes",
+        "subHeader": "v0.2.0 ( 29.08.22)",
+        "changes": [
+          "Added some new features",
+          "Fixed a few bugs",
+          "Improved performance"
+        ]
+      }
+}

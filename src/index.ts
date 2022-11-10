@@ -25,6 +25,7 @@ import LoginButton from './components/authentication/LoginButton';
 import LoginScreen from './screens/LoginScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
 import Radiobutton from './components/common/atoms/Radiobutton';
+import ReleaseNoteScreen from './screens/ReleaseNoteScreen';
 import SettingsButton from './components/common/molecules/SettingsButton';
 import SettingsScreen from './screens/SettingsScreen';
 import {
@@ -64,6 +65,7 @@ export {
   FeedbackScreen,
   LoginScreen,
   OnBoardingScreen,
+  ReleaseNoteScreen,
   SettingsScreen,
   msalInit,
   msalLogin,

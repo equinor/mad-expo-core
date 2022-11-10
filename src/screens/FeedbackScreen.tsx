@@ -3,8 +3,9 @@ import * as Device from 'expo-device';
 import { Button, Typography } from '../components/common';
 import React, { useEffect } from 'react';
 import {
+  InputAccessoryView,
+  Keyboard,
   Platform,
-  ScrollView,
   StyleSheet,
   TextInput,
   View,
@@ -17,7 +18,8 @@ import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
 import * as en from '../resources/language/en.json';
 import * as no from '../resources/language/no.json';
-const languages = {"en" : en, "no" : no};
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+const languages = { en: en, no: no };
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -56,14 +58,22 @@ const FeedbackScreen = (props: {
     });
   }, []);
   const userData: { [key: string]: string } = {
-    [langDict["feedback.user"]]: `${account?.username.substring(0, account?.username.indexOf('@'))}`,
-    [langDict["feedback.deviceBrand"]]: `${Platform.OS === 'web' ? 'web' : Device.brand}`,
-    [langDict["feedback.device"]]: `${Platform.OS === 'web' ? 'web' : Device.modelName} `,
-    [langDict["feedback.OS"]]: `${Device.osName} ${Device.osVersion}`,
-    [langDict["feedback.timezone"]]: `${props?.timezone}`,
-    [langDict["feedback.locale"]]: `${props?.locale}`,
-    'Feedback': feedback,
-  }
+    [langDict['feedback.user']]: `${account?.username.substring(
+      0,
+      account?.username.indexOf('@')
+    )}`,
+    [langDict['feedback.deviceBrand']]: `${
+      Platform.OS === 'web' ? 'web' : Device.brand
+    }`,
+    [langDict['feedback.device']]: `${
+      Platform.OS === 'web' ? 'web' : Device.modelName
+    } `,
+    [langDict['feedback.OS']]: `${Device.osName} ${Device.osVersion}`,
+    [langDict['feedback.timezone']]: `${props?.timezone}`,
+    [langDict['feedback.locale']]: `${props?.locale}`,
+    Feedback: feedback,
+  };
+  const feedbackInputAccessoryViewID = 'feedbackInput';
 
   interface feedbackData {
     product: string;
@@ -74,8 +84,7 @@ const FeedbackScreen = (props: {
 
   const sendFeedback = (data: feedbackData) => {
     setIsBusy(true);
-    authenticateSilently(props.scopes).then((r) => (
-
+    authenticateSilently(props.scopes).then((r) =>
       fetch(`${props.apiBaseUrl}/feedback`, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -99,18 +108,18 @@ const FeedbackScreen = (props: {
           console.error(error);
           setBannerMessage('Error sending your feedback.');
         })
-    ));
-  }
+    );
+  };
 
   const getSystemMessage = (): string => {
     let systemMsg = '\n\n';
     const feedbackItems = [
-    langDict["feedback.user"],
-    langDict["feedback.deviceBrand"],
-    langDict["feedback.device"],
-    langDict["feedback.OS"],
-    langDict["feedback.timezone"],
-    langDict["feedback.locale"]
+      langDict['feedback.user'],
+      langDict['feedback.deviceBrand'],
+      langDict['feedback.device'],
+      langDict['feedback.OS'],
+      langDict['feedback.timezone'],
+      langDict['feedback.locale'],
     ];
     feedbackItems.forEach(
       (item) => (systemMsg += `*${item}:* ${userData[item]}\n`)
@@ -118,26 +127,27 @@ const FeedbackScreen = (props: {
 
     return `${systemMsg}`;
   };
-
   return (
-    <ScrollView>
+    <KeyboardAwareScrollView>
       {bannerMessage !== '' && (
         <Banner
           text={bannerMessage}
           textStyle={styles.textStyle}
-          viewStyle={error !== '' ? styles.viewErrorStyle : styles.viewSuccessStyle} maxNonExpandedHeight={0} maxExpandedHeight={0} onDismiss={function (): void {
+          viewStyle={
+            error !== '' ? styles.viewErrorStyle : styles.viewSuccessStyle
+          }
+          maxNonExpandedHeight={0}
+          maxExpandedHeight={0}
+          onDismiss={function (): void {
             throw new Error('Function not implemented.');
-          } }        />
+          }}
+        />
       )}
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
-          {langDict["feedback.title"]}
+          {langDict['feedback.title']}
         </Typography>
-        <Typography medium>
-          {
-            langDict["feedback.info"]
-          }
-        </Typography>
+        <Typography medium>{langDict['feedback.info']}</Typography>
 
         {Object.entries(userData)
           .filter(([key]) => key !== 'Feedback')
@@ -158,12 +168,16 @@ const FeedbackScreen = (props: {
           }}
           onChangeText={(e) => setFeedback(e.toString())}
           multiline
-          placeholder={langDict["feedback.placeHolderText"]}
+          placeholder={langDict['feedback.placeHolderText']}
           textAlignVertical={'top'}
           value={Platform.OS === 'web' ? undefined : feedback}
+          inputAccessoryViewID={feedbackInputAccessoryViewID}
         >
           {Platform.OS === 'web' && <Typography medium>{feedback}</Typography>}
         </TextInput>
+        <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
+          <Button onPress={() => Keyboard.dismiss()} title="Done" />
+        </InputAccessoryView>
         <Button
           title="Send"
           viewStyle={{ width: '100%' }}
@@ -181,7 +195,7 @@ const FeedbackScreen = (props: {
           }
         />
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
