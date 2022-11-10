@@ -14,7 +14,7 @@ const ReleaseNoteScreen = (props: {
   scopes: string[];
   navigation: any;
   versionStorageKey: string;
-  redirectRoute: string
+  redirectRoute: string;
   demoMode?: boolean;
   languageCode?: string;
 }) => {
