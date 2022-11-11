@@ -16,6 +16,29 @@ const commonApi = new BaseApiService(commonResource);
 const payslipApi = new BaseApiService(payslipResource);
 ```
 
+You can optionally add app specific headers by passing a function that returns a header as a second argument. This can be useful if you want to set the language of the response.
+
+```tsx
+import { getLanguage } from '../languages/dictionary';
+
+export const defaultHeader = () => ({
+  'Accept-Language': getLanguage(),
+});
+```
+
+```tsx
+import { BaseApiService } from 'mad-expo-core';
+import { defaultHeader } from './DefaultHeader';
+
+const commonResource = envConfig.Resources.common as Resource;
+const payslipResource = envConfig.Resources.payslip as Resource;
+
+const commonApi = new BaseApiService(commonResource, defaultHeader);
+const payslipApi = new BaseApiService(payslipResource, defaultHeader);
+```
+
+app specific default headers MAY overwrite BaseApiService's default headers, so make sure you know what you're doing if you include `Authorization` or `Ocp-Apim-Subscription-Key` in your app specific default headers. BaseApiService should be able to handle access tokens and subscription keys automatically, so it's not necessary to include those headers.
+
 resources are expected to contain `apiBaseUrl` and `scopes`. `subscriptionKey` is optional, but will automatically be added to the header if it exists. The expected type is found below:
 
 ```tsx

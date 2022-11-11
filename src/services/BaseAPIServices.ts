@@ -36,10 +36,21 @@ class BaseApiService {
 
   subscriptionKey?: string;
 
-  constructor(resource: BaseResource) {
+  appSpecificDefaultHeaderFunction?: (() => Record<string, any>) | (() => {});
+
+  constructor(
+    resource: BaseResource,
+
+    /**
+     * Function that should return a header to be used in all api calls.
+     */
+    appSpecificDefaultHeaderFunction?: () => Record<string, any>
+  ) {
     this.url = resource.apiBaseUrl;
     this.scopes = resource.scopes;
     this.subscriptionKey = resource.subscriptionKey;
+    this.appSpecificDefaultHeaderFunction =
+      appSpecificDefaultHeaderFunction || (() => ({}));
   }
 
   async get(path: string, options: BaseAPIOptions = defaultOptions) {
@@ -56,7 +67,11 @@ class BaseApiService {
     );
     return axios
       .get(apiUrl, {
-        headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        headers: {
+          ...this.defaultHeader(tokenRes),
+          ...this.appSpecificDefaultHeaderFunction(),
+          ...options.headers,
+        },
         responseType: options.responseType,
       })
       .then((res) => {
@@ -97,7 +112,11 @@ class BaseApiService {
     );
     return axios
       .post(this.url + path, data, {
-        headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        headers: {
+          ...this.defaultHeader(tokenRes),
+          ...this.appSpecificDefaultHeaderFunction(),
+          ...options.headers,
+        },
         responseType: options.responseType,
       })
       .then((res) => {
@@ -138,7 +157,11 @@ class BaseApiService {
     );
     return axios
       .put(this.url + path, data, {
-        headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        headers: {
+          ...this.defaultHeader(tokenRes),
+          ...this.appSpecificDefaultHeaderFunction(),
+          ...options.headers,
+        },
         responseType: options.responseType,
       })
       .then((res) => {
@@ -179,7 +202,11 @@ class BaseApiService {
     );
     return axios
       .patch(this.url + path, data, {
-        headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        headers: {
+          ...this.defaultHeader(tokenRes),
+          ...this.appSpecificDefaultHeaderFunction(),
+          ...options.headers,
+        },
         responseType: options.responseType,
       })
       .then((res) => {
@@ -220,7 +247,11 @@ class BaseApiService {
     );
     return axios
       .delete(this.url + path, {
-        headers: { ...this.defaultHeader(tokenRes), ...options.headers },
+        headers: {
+          ...this.defaultHeader(tokenRes),
+          ...this.appSpecificDefaultHeaderFunction(),
+          ...options.headers,
+        },
         data: data ?? null,
         responseType: options.responseType,
       })
@@ -271,6 +302,7 @@ class BaseApiService {
       .post(this.url + path, formData, {
         headers: {
           ...this.defaultHeader(tokenRes),
+          ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
           'content-type': 'multipart/form-data',
         },
@@ -325,6 +357,7 @@ class BaseApiService {
       httpMethod: 'POST',
       headers: {
         ...this.defaultHeader(tokenRes),
+        ...this.appSpecificDefaultHeaderFunction(),
         ...options.headers,
         'content-type': contentType,
       },
@@ -359,7 +392,11 @@ class BaseApiService {
       ? await authenticateSilently(this.scopes)
       : undefined;
     const apiUrl = this.url + path;
-    const headers = { ...this.defaultHeader(tokenRes), ...options.headers };
+    const headers = {
+      ...this.defaultHeader(tokenRes),
+      ...this.appSpecificDefaultHeaderFunction(),
+      ...options.headers,
+    };
     const fileUri = `${options.filePath}${fileName}`;
     if (Device.osName === 'iOS') {
       track(
