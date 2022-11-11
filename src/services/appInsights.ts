@@ -146,7 +146,7 @@ export const track = (
   extraData?: ICustomProperties
 ) => {
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
-  if (excludeLogFilter(eventString, ["Ping", "ServiceMessage"])) return;
+  if (excludeLogFilter(eventString, ["Ping", "ServiceMessage,", "STARTED"])) return;
 
   trackEvent({ name: eventString }, extraData);
   if (appInsightsLongTermLog) {
