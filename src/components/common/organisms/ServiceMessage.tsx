@@ -17,7 +17,7 @@ const ServiceMessage = (props: {
   const [serviceMessage, setServiceMessage] = useState<
     ServiceMessage | 'REQUEST FAILED'
   >(null);
-  const [serviceMessageShown, setServiceMessageShown] = useState(true);
+  const [serviceMessageShown, setServiceMessageShown] = useState(false);
   const safeAreaInsets = useSafeAreaInsets();
 
   const lastInterval = useRef<NodeJS.Timer>();
