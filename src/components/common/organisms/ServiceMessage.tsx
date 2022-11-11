@@ -35,7 +35,7 @@ const ServiceMessage = (props: {
                 data.alertName !== serviceMessage.alertName)
             ) {
               setServiceMessage(data);
-              setServiceMessageShown(true);
+              if (data.message) setServiceMessageShown(true);
             }
           })
         )
