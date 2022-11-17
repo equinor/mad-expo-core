@@ -398,7 +398,7 @@ class BaseApiService {
       ...options.headers,
     };
     const fileUri = `${options.filePath}${fileName}`;
-    if (Device.osName === 'iOS') {
+    if (Device.osName === 'iOS' || Device.osName === 'iPadOS') {
       track(
         metricKeys.API_DOWNLOAD,
         metricStatus.STARTED,
