@@ -19,7 +19,7 @@ const OnBoardingScreen = (props: {
   const [onboardingSettings, setOnboardingSettings] = useState(
     JSON.parse(JSON.stringify({}))
   );
-  const langDict = languages[props.languageCode ?? ""] ?? en;
+  const langDict = languages[props.languageCode] ?? en;
   const config = props.config;
   const onboardingStorageKey = props.storageKey;
   const storeData = async (value: Object | null) => {
