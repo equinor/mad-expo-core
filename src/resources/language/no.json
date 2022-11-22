@@ -10,7 +10,12 @@
   "feedback.selectFeedbackType": "Velg tilbakemelding type",
   "feedback.feedBackOnContent": "Tilbakemelding innhold",
   "feedback.feedBackOnApp": "Tilbakemelding app",
-  "feedback.placeHolderText": "Skriv Tilbakemelding her",
+  "feedback.placeHolderText": "Skriv tilbakemelding her",
+
+  "Language": "Språk",
+  "English": "Engelsk",
+  "Norwegian": "Norsk",
+  "Submit": "Velg",
 
   "settings.title": "Innstillinger",
   "settings.aboutApp": "Om App'en",

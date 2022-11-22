@@ -5,16 +5,21 @@ import { View, TextInput, SafeAreaView, StyleSheet } from 'react-native';
 import React, { useState, useEffect} from 'react';
 import Radiobutton from '../components/common/atoms/Radiobutton';
 import Colors from '../stylesheets/colors';
+import * as en from '../resources/language/en.json';
+import * as no from '../resources/language/no.json';
+const languages = { en: en, no: no };
 
 const OnBoardingScreen = (props: {
   config: any;
   storageKey: string;
   navigation: any;
   onSubmitRoute?: string;
+  languageCode?: string;
 }) => {
   const [onboardingSettings, setOnboardingSettings] = useState(
     JSON.parse(JSON.stringify({}))
   );
+  const langDict = languages[props.languageCode ?? ""] ?? en;
   const config = props.config;
   const onboardingStorageKey = props.storageKey;
   const storeData = async (value: Object | null) => {
@@ -79,6 +84,7 @@ const OnBoardingScreen = (props: {
               }
               values={inputConfig.values}
               callback={setOnboardingValue}
+              langDict={langDict}
             />
           );
         }
@@ -94,6 +100,7 @@ const OnBoardingScreen = (props: {
               }
               values={inputConfig.values}
               callback={setOnboardingValue}
+              langDict={langDict}
               multiselect
             />
           );
@@ -101,7 +108,7 @@ const OnBoardingScreen = (props: {
         return <></>;
       })}
       <Button
-        title="Submit"
+        title={langDict["Submit"] ?? "Submit"}
         onPress={() => {
           {config.map((inputConfig) => {
           inputConfig.onSubmit ? inputConfig.onSubmit(onboardingSettings) : ()=>{};
@@ -149,10 +156,11 @@ const Select = (props: {
   selectedValues: string[];
   callback: CallableFunction;
   multiselect?: boolean;
+  langDict: any;
 }) => {
   return (
     <View style={{ paddingVertical: 20 }}>
-      <Typography variant="h6">{props.title}</Typography>
+      <Typography variant="h6">{props.langDict[props.title] ?? props.title}</Typography>
       {props.values.map((value, index) => (
         <View
           key={index}
@@ -166,7 +174,7 @@ const Select = (props: {
             borderColor: Colors.GRAY_5
           }}
         >
-          <Typography>{value}</Typography>
+          <Typography>{props.langDict[value] ?? value}</Typography>
           {props.multiselect ? (
             <Checkbox
               checked={props.selectedValues.includes(value)}
