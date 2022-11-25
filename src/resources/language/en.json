@@ -12,6 +12,11 @@
   "feedback.feedBackOnApp": "Feedback on app",
   "feedback.placeHolderText": "Write your feedback here",
 
+  "Language": "Language",
+  "English": "English",
+  "Norwegian": "Norwegian",
+  "Submit": "Submit",
+
   "settings.title": "Settings",
   "settings.aboutApp": "About App",
   "settings.loggedInAs": "Logged in as",
