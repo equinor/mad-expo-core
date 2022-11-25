@@ -1,11 +1,10 @@
 import { authenticateSilently } from '../services/auth';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useState } from 'react';
 import ChangeLog from '../components/common/organisms/ChangeLog';
 import * as mockData from '../resources/mock-data.json';
-
 
 const ReleaseNoteScreen = (props: {
   name: string;
@@ -34,58 +33,73 @@ const ReleaseNoteScreen = (props: {
     }
   };
 
-  useEffect(() => {
-
-    const fetchChangelog = (async () => {
-
-      try {
-        const version = await AsyncStorage.getItem(props.versionStorageKey);
+  useLayoutEffect(() => {
+    try {
+      AsyncStorage.getItem(props.versionStorageKey).then((version) => {
         if (version === props.version) {
-          setFetching(false)
+          props.navigation.navigate(props.redirectRoute);
           return;
         }
-      } catch (e) {
-        // error reading value
-      }
+      });
+    } catch (e) {
+      // error reading value
+    }
+  }, []);
 
-      const environment = props.environment === 'prod' ? `` : `${props.environment}/`;
-      if(props.demoMode){
+  useEffect(() => {
+    const fetchChangelog = async () => {
+      const environment =
+        props.environment === 'prod' ? `` : `${props.environment}/`;
+      if (props.demoMode) {
         setReleaseNote(mockData.ReleaseNotes);
         setFetching(false);
-      } else{
-          authenticateSilently(props.scopes).then(response => {
-            fetch(`https://api.statoil.com/app/mad/${environment}api/v1/ReleaseNote/${props.name}/${props.version}`, { 
-            method: 'GET', 
-            headers: new Headers({
-                'Authorization': response ? `Bearer ${response.accessToken}` : "", 
-            }),
+      } else {
+        authenticateSilently(props.scopes)
+          .then((response) => {
+            fetch(
+              `https://api.statoil.com/app/mad/${environment}api/v1/ReleaseNote/${props.name}/${props.version}`,
+              {
+                method: 'GET',
+                headers: new Headers({
+                  Authorization: response
+                    ? `Bearer ${response.accessToken}`
+                    : '',
+                }),
+              }
+            )
+              .then((res) =>
+                res.json().then((data) => {
+                  setReleaseNote(data);
+                  setFetching(false);
+                })
+              )
+              .catch((error) => {
+                setError(error);
+                setFetching(false);
+              });
           })
-            .then((res) => res.json().then((data) => {
-              setReleaseNote(data);
-              setFetching(false);
-            })).catch((error) => {
-              setError(error);
-              setFetching(false);
-            })
-          }).catch((error) => {
+          .catch((error) => {
             setError(error);
             setFetching(false);
-            }
-          );
+          });
       }
-    });
-    
+    };
+
     fetchChangelog();
   }, []);
-  if(error || (!fetching && !releaseNote.changes)){ 
+  if (error || (!fetching && !releaseNote.changes)) {
     props.navigation.navigate(props.redirectRoute);
     return <></>;
   } else {
     return (
-      <ChangeLog releaseNote={releaseNote} fetching={fetching} affirm={() => { 
-        storeData(props.version);
-        props.navigation.navigate(props.redirectRoute)
-      }} />
+      <ChangeLog
+        releaseNote={releaseNote}
+        fetching={fetching}
+        affirm={() => {
+          storeData(props.version);
+          props.navigation.navigate(props.redirectRoute);
+        }}
+      />
     );
   }
 };
