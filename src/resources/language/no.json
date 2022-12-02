@@ -24,5 +24,7 @@
   "settings.logOut": "Logg av",
   "settings.back": "Tilbake",
 
+  "keyboard.done": "Ferdig",
+
   "serviceMessage.couldNotRetrieve": "Kunne ikke hente tjenestemelding"
 }

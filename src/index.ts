@@ -37,6 +37,8 @@ import {
 } from './services/appInsights';
 import BaseApiService from './services/BaseAPIServices';
 import { obfuscateUser, ObfuscatedUser } from './services/encrypt';
+import { DoneButtonInputAccessoryView } from './components/common/atoms/textInputWithDoneButton/DoneButtonInputAccessoryView';
+import { TextInputWithDoneButton } from './components/common/atoms/textInputWithDoneButton/TextInputWithDoneButton';
 
 export {
   obfuscateUser,
@@ -72,4 +74,6 @@ export {
   authenticateSilently,
   logout,
   getAccount,
+  DoneButtonInputAccessoryView,
+  TextInputWithDoneButton,
 };
