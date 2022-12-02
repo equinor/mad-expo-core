@@ -3,6 +3,7 @@ import { InputAccessoryView, Keyboard, StyleSheet, View } from 'react-native';
 import Button from '../Button';
 import * as en from '../../../../resources/language/en.json';
 import * as no from '../../../../resources/language/no.json';
+import { EQUINOR_GREEN, GRAY_BORDER } from '../../../../assets/color/colors';
 const languages = { en: en, no: no };
 
 export const DoneButtonInputAccessoryView = (props: {
@@ -26,11 +27,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: 'white',
     borderTopWidth: 1,
-    borderTopColor: '#DCDCDC',
+    borderTopColor: GRAY_BORDER,
   },
   buttonViewStyle: {
     backgroundColor: 'transparent',
     margin: 8,
   },
-  buttonTextStyle: { color: '#007079', fontWeight: 'bold' },
+  buttonTextStyle: { color: EQUINOR_GREEN, fontWeight: 'bold' },
 });
