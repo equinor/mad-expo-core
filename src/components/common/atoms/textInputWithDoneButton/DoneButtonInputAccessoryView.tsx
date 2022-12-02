@@ -36,5 +36,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 8,
   },
-  buttonTextStyle: { color: EQUINOR_GREEN, fontWeight: 'bold' },
+  buttonTextStyle: {
+    color: EQUINOR_GREEN,
+    fontFamily: 'Equinor-Medium',
+  },
 });
