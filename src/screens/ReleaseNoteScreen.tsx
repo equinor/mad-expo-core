@@ -54,7 +54,7 @@ const ReleaseNoteScreen = (props: {
         setFetching(false);
       } else{
           authenticateSilently(props.scopes).then(response => {
-            fetch(`https://api.statoil.com/app/mad/${environment}api/v1/ReleaseNote/${props.name}/${props.version}`, { 
+            fetch(`https://api.statoil.com/app/mad/${environment}api/v1.1/ReleaseNote/${props.name}/${props.version}`, { 
             method: 'GET', 
             headers: new Headers({
                 'Authorization': response ? `Bearer ${response.accessToken}` : "", 
@@ -77,7 +77,7 @@ const ReleaseNoteScreen = (props: {
     
     fetchChangelog();
   }, []);
-  if(error || (!fetching && !releaseNote.changes)){ 
+  if(error || (!fetching && !releaseNote.releaseNote)){ 
     props.navigation.navigate(props.redirectRoute);
     return <></>;
   } else {
