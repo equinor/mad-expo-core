@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
 import Colors from "../../../stylesheets/colors";
+import Markdown from 'react-native-markdown-package';
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
@@ -14,14 +15,14 @@ const ChangeLog = (props: {
   }) => {
 
   const renderChangeLog = (release : any) => {
-    const { changelogItem, subtitleHeader, changelogText } = styles;
+    const { changelogItem, titleHeader, subtitleHeader, changelogText } = styles;
 
     return (
       <ScrollView style={changelogItem}>
-        <Text style={subtitleHeader}>{release.version}</Text>
-        <Text style={changelogText}>{release.modified}</Text>
+        <Text style={titleHeader}>{release.version}</Text>
+        <Text style={subtitleHeader}>{release.modified}</Text>
         <View style={{ margin: 5, marginLeft: 10 }}>
-              <Text style={changelogText}>{release.releaseNote}</Text>
+          <Markdown style={changelogText}>{release.releaseNote}</Markdown>
         </View>
       </ScrollView>
     );

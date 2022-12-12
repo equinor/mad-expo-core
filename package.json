@@ -77,7 +77,6 @@
     "@microsoft/applicationinsights-react-js": "^3.4.0",
     "@microsoft/applicationinsights-react-native": "^3.0.0",
     "@microsoft/applicationinsights-web": "^2.8.6",
-    "react-native-device-info": "^10.0.2",
     "@react-navigation/native": ">=5.8.10",
     "@react-navigation/stack": ">=5.12.8",
     "expo": ">=44.0.0",
@@ -86,6 +85,7 @@
     "expo-random": "*",
     "react": "*",
     "react-native": ">=0.63.0",
+    "react-native-device-info": "^10.0.2",
     "react-native-msal": "*",
     "react-native-safe-area-context": ">=3.3.2"
   },
@@ -180,6 +180,7 @@
     "expo-random": "*",
     "history": "^5.3.0",
     "lodash": "^4.17.21",
-    "react-native-keyboard-aware-scroll-view": "^0.9.5"
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-markdown-package": "^1.8.2"
   }
 }
