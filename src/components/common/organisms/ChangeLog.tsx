@@ -3,10 +3,13 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
 import Colors from "../../../stylesheets/colors";
-import Markdown from 'react-native-markdown-package';
+import * as showdown from "showdown";
+import RenderHtml from "react-native-render-html"
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
+const converter = new showdown.Converter()
+
 
 const ChangeLog = (props: {
     releaseNote: string;
@@ -15,14 +18,17 @@ const ChangeLog = (props: {
   }) => {
 
   const renderChangeLog = (release : any) => {
-    const { changelogItem, titleHeader, subtitleHeader, changelogText } = styles;
-
+    const { changelogItem, titleHeader, subtitleHeader } = styles;
+    const html = {html: converter.makeHtml(release.releaseNote)};
     return (
       <ScrollView style={changelogItem}>
         <Text style={titleHeader}>{release.version}</Text>
         <Text style={subtitleHeader}>{release.modified}</Text>
         <View style={{ margin: 5, marginLeft: 10 }}>
-          <Markdown style={changelogText}>{release.releaseNote}</Markdown>
+          <RenderHtml
+            contentWidth={1}
+            source={html}
+          />
         </View>
       </ScrollView>
     );
