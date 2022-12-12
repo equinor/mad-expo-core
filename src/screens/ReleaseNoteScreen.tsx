@@ -21,7 +21,6 @@ const ReleaseNoteScreen = (props: {
   const [releaseNote, setReleaseNote] = useState(Object);
   const [error, setError] = useState('');
   const [fetching, setFetching] = useState(true);
-
   const storeData = async (value: string | null) => {
     try {
       if (value) {
@@ -74,7 +73,7 @@ const ReleaseNoteScreen = (props: {
           );
       }
     });
-    
+
     fetchChangelog();
   }, []);
   if(error || (!fetching && !releaseNote.releaseNote)){ 

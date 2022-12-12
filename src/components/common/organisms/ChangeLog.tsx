@@ -1,15 +1,21 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
 import Colors from "../../../stylesheets/colors";
 import * as showdown from "showdown";
-import RenderHtml from "react-native-render-html"
+import RenderHtml, { defaultSystemFonts } from "react-native-render-html"
+import moment from 'moment';
+import { Typography } from 'mad-expo-core';
+
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
-const converter = new showdown.Converter()
+const converter = new showdown.Converter();
+converter.setOption("tables", true);
+converter.setOption("emoji", true);
 
+const systemFonts = [...defaultSystemFonts, "Equinor-Medium"]
 
 const ChangeLog = (props: {
     releaseNote: string;
@@ -18,16 +24,20 @@ const ChangeLog = (props: {
   }) => {
 
   const renderChangeLog = (release : any) => {
-    const { changelogItem, titleHeader, subtitleHeader } = styles;
+    const { changelogItem, versionHeader, subtitleHeader } = styles;
     const html = {html: converter.makeHtml(release.releaseNote)};
+    console.log(html)
+    const date = moment(release.releaseDate).format('MMM DD, YYYY');
     return (
       <ScrollView style={changelogItem}>
-        <Text style={titleHeader}>{release.version}</Text>
-        <Text style={subtitleHeader}>{release.modified}</Text>
-        <View style={{ margin: 5, marginLeft: 10 }}>
+        <Typography style={versionHeader} bold={true}>{release.version}</Typography>
+        <Typography style={subtitleHeader} medium={true}>{date}</Typography>
+        <View>
           <RenderHtml
-            contentWidth={1}
+            contentWidth={useWindowDimensions().width}
             source={html}
+            systemFonts={systemFonts}
+            tagsStyles={{li: {marginBottom: 10, fontFamily: 'Equinor-Medium', fontSize: 18, color: Colors.GRAY_1}}}
           />
         </View>
       </ScrollView>
@@ -45,7 +55,7 @@ const ChangeLog = (props: {
 
   return (
     <View style={container}>
-      <Text style={titleHeader}>{featureTitle}</Text>
+      <Typography style={titleHeader} medium={true}>{featureTitle}</Typography>
       {renderChangeLog(releaseNote)}
       <View style={footer}>
         <Button
@@ -80,8 +90,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: Colors.GRAY_1,
   },
+  versionHeader: {
+    marginVertical: 15,
+    fontWeight: '500',
+    fontSize: 24,
+    color: Colors.GRAY_1,
+  },
   subtitleHeader: {
-    fontSize: 20,
+    fontSize: 18,
     marginVertical: 5,
     color: Colors.GRAY_1,
   },
@@ -89,6 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 1,
     color: Colors.GRAY_1,
+    fontFamily: "Equinor-Regular"
   },
   bullet: {
     fontSize: 16,
