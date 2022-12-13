@@ -12,10 +12,7 @@ import { Typography } from 'mad-expo-core';
 const featureTitle = "What's new";
 const affirmText = 'OK';
 const converter = new showdown.Converter();
-converter.setOption("tables", true);
-converter.setOption("emoji", true);
-
-const systemFonts = [...defaultSystemFonts, "Equinor-Medium"]
+const systemFonts = [...defaultSystemFonts, "Equinor-Regular", "Equinor-Medium"]
 
 const ChangeLog = (props: {
     releaseNote: string;
@@ -26,11 +23,10 @@ const ChangeLog = (props: {
   const renderChangeLog = (release : any) => {
     const { changelogItem, versionHeader, subtitleHeader } = styles;
     const html = {html: converter.makeHtml(release.releaseNote)};
-    console.log(html)
     const date = moment(release.releaseDate).format('MMM DD, YYYY');
     return (
       <ScrollView style={changelogItem}>
-        <Typography style={versionHeader} bold={true}>{release.version}</Typography>
+        <Typography style={versionHeader} medium={true}>{release.version}</Typography>
         <Typography style={subtitleHeader} medium={true}>{date}</Typography>
         <View>
           <RenderHtml
@@ -44,7 +40,6 @@ const ChangeLog = (props: {
     );
   }
 
-  
   const { container, footer, titleHeader} = styles;
 
   const { releaseNote, affirm, fetching } = props;
@@ -55,7 +50,7 @@ const ChangeLog = (props: {
 
   return (
     <View style={container}>
-      <Typography style={titleHeader} medium={true}>{featureTitle}</Typography>
+      <Typography style={titleHeader} medium variant="h4">{featureTitle}</Typography>
       {renderChangeLog(releaseNote)}
       <View style={footer}>
         <Button
@@ -93,28 +88,13 @@ const styles = StyleSheet.create({
   versionHeader: {
     marginVertical: 15,
     fontWeight: '500',
-    fontSize: 24,
+    fontSize: 36,
     color: Colors.GRAY_1,
   },
   subtitleHeader: {
     fontSize: 18,
     marginVertical: 5,
     color: Colors.GRAY_1,
-  },
-  changelogText: {
-    fontSize: 16,
-    marginVertical: 1,
-    color: Colors.GRAY_1,
-    fontFamily: "Equinor-Regular"
-  },
-  bullet: {
-    fontSize: 16,
-    marginVertical: 1,
-    marginRight: 5,
-    color: Colors.GRAY_1,
-  },
-  bulletList: {
-    flexDirection: 'row',
   },
   changelogItem: {
     marginBottom: 15,
