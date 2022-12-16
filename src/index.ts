@@ -37,6 +37,7 @@ import {
 } from './services/appInsights';
 import BaseApiService from './services/BaseAPIServices';
 import { obfuscateUser, ObfuscatedUser } from './services/encrypt';
+import { getDateString, getDateFromIsoString, getShortDate } from './utils/Date';
 
 export {
   obfuscateUser,
@@ -72,4 +73,7 @@ export {
   authenticateSilently,
   logout,
   getAccount,
+  getDateString, 
+  getDateFromIsoString, 
+  getShortDate
 };
