@@ -8,9 +8,8 @@ import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
 import Colors from '../../../stylesheets/colors';
 import * as showdown from 'showdown';
-import moment from "moment";
 import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
-import { Typography } from 'mad-expo-core';
+import { getDateFromIsoString, getShortDate, Typography } from 'mad-expo-core';
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
@@ -31,14 +30,16 @@ const ChangeLog = (props: {
 
     const { changelogItem, versionHeader, subtitleHeader } = styles;
     const html = {html: converter.makeHtml(release.releaseNote)};
-    const date = moment(release.releaseDate).format('MMM DD, YYYY');
+    const date = getDateFromIsoString(release.releaseDate);
+    const shortDate = getShortDate(date);
+
     return (
       <ScrollView style={changelogItem}>
         <Typography style={versionHeader} medium={true}>
           {release.version}
         </Typography>
         <Typography style={subtitleHeader} medium={true}>
-          {date}
+          {shortDate}
         </Typography>
         <View
           onLayout={(event) => {
