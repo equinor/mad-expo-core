@@ -8,12 +8,12 @@ export function getDateString(date: DateTime | null, includeTime: boolean) {
 
 export function getDateFromIsoString(dateString: string) {
   const date = DateTime.fromISO(dateString);
-  if (date.isValid()) return date;
+  if (date.isValid) return date;
   return undefined;
 }
 
 export function getShortDate(date: DateTime) {
-  if (date.isValid()) return date.toFormat('MMM dd, yyyy');
+  if (date.isValid) return date.toFormat('MMM dd, yyyy');
   console.error('Error: Date invalid');
   return undefined;
 }
