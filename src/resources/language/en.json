@@ -24,5 +24,7 @@
   "settings.logOut": "Log out",
   "settings.back": "Back",
 
+  "keyboard.done": "Done",
+
   "serviceMessage.couldNotRetrieve": "Could not retrieve service message"
 }

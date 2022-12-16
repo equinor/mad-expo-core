@@ -37,7 +37,13 @@ import {
 } from './services/appInsights';
 import BaseApiService from './services/BaseAPIServices';
 import { obfuscateUser, ObfuscatedUser } from './services/encrypt';
-import { getDateString, getDateFromIsoString, getShortDate } from './utils/Date';
+import { DoneButtonInputAccessoryView } from './components/common/atoms/textInputWithDoneButton/DoneButtonInputAccessoryView';
+import { TextInputWithDoneButton } from './components/common/atoms/textInputWithDoneButton/TextInputWithDoneButton';
+import {
+  getDateString,
+  getDateFromIsoString,
+  getShortDate,
+} from './utils/Date';
 
 export {
   obfuscateUser,
@@ -73,7 +79,9 @@ export {
   authenticateSilently,
   logout,
   getAccount,
-  getDateString, 
-  getDateFromIsoString, 
-  getShortDate
+  DoneButtonInputAccessoryView,
+  TextInputWithDoneButton,
+  getDateString,
+  getDateFromIsoString,
+  getShortDate,
 };
