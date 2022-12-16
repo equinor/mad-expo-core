@@ -183,7 +183,6 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
-    "react-native-markdown-package": "^1.8.2",
     "react-native-render-html": "^6.3.4",
     "showdown": "^2.1.0"
   }

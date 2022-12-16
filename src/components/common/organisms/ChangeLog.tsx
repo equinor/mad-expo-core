@@ -1,46 +1,70 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
-import Colors from "../../../stylesheets/colors";
-import * as showdown from "showdown";
-import RenderHtml, { defaultSystemFonts } from "react-native-render-html"
-import moment from 'moment';
+import Colors from '../../../stylesheets/colors';
+import * as showdown from 'showdown';
+import moment from "moment";
+import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { Typography } from 'mad-expo-core';
-
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
 const converter = new showdown.Converter();
-const systemFonts = [...defaultSystemFonts, "Equinor-Regular", "Equinor-Medium"]
+const systemFonts = [
+  ...defaultSystemFonts,
+  'Equinor-Regular',
+  'Equinor-Medium',
+];
 
 const ChangeLog = (props: {
-    releaseNote: string;
-    fetching: boolean;
-    affirm: any;
-  }) => {
+  releaseNote: string;
+  fetching: boolean;
+  affirm: any;
+}) => {
+  const renderChangeLog = (release: any) => {
+    const [width, setWidth] = useState(0);
 
-  const renderChangeLog = (release : any) => {
     const { changelogItem, versionHeader, subtitleHeader } = styles;
     const html = {html: converter.makeHtml(release.releaseNote)};
     const date = moment(release.releaseDate).format('MMM DD, YYYY');
     return (
       <ScrollView style={changelogItem}>
-        <Typography style={versionHeader} medium={true}>{release.version}</Typography>
-        <Typography style={subtitleHeader} medium={true}>{date}</Typography>
-        <View>
+        <Typography style={versionHeader} medium={true}>
+          {release.version}
+        </Typography>
+        <Typography style={subtitleHeader} medium={true}>
+          {date}
+        </Typography>
+        <View
+          onLayout={(event) => {
+            let { width } = event.nativeEvent.layout;
+            setWidth(width);
+          }}
+        >
           <RenderHtml
-            contentWidth={useWindowDimensions().width}
+            contentWidth={width}
             source={html}
             systemFonts={systemFonts}
-            tagsStyles={{li: {marginBottom: 10, fontFamily: 'Equinor-Medium', fontSize: 18, color: Colors.GRAY_1}}}
+            tagsStyles={{
+              li: {
+                marginBottom: 10,
+                fontFamily: 'Equinor-Medium',
+                fontSize: 18,
+                color: Colors.GRAY_1,
+              },
+            }}
           />
         </View>
       </ScrollView>
     );
-  }
+  };
 
-  const { container, footer, titleHeader} = styles;
+  const { container, footer, titleHeader } = styles;
 
   const { releaseNote, affirm, fetching } = props;
 
@@ -50,18 +74,16 @@ const ChangeLog = (props: {
 
   return (
     <View style={container}>
-      <Typography style={titleHeader} medium variant="h4">{featureTitle}</Typography>
+      <Typography style={titleHeader} medium variant="h4">
+        {featureTitle}
+      </Typography>
       {renderChangeLog(releaseNote)}
       <View style={footer}>
-        <Button
-          title={affirmText}
-          onPress={affirm}
-        />
+        <Button title={affirmText} onPress={affirm} />
       </View>
     </View>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   container: {
