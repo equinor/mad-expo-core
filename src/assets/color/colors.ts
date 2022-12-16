@@ -30,3 +30,5 @@ export const RED_LOGO = '#FF1243';
 
 export const EQUINOR_BLACK = '#253746';
 export const EQUINOR_GREEN = '#007079';
+
+export const GRAY_BORDER = '#DCDCDC';

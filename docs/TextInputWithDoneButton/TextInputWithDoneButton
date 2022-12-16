@@ -1,0 +1,30 @@
+### How to implement
+
+1. Add `<DoneButtonInputAccessoryView languageCode={languageCode} />` to your App.tsx file:
+
+```tsx
+return (
+  <StoreProvider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <MenuProvider>
+          <ServiceMessage
+            serviceName="EXPENSE & PAY"
+            environment={ENVIRONMENT.BuildConfiguration as ENVType}
+          />
+
+          <DoneButtonInputAccessoryView languageCode={getLanguage()} />
+
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar style="dark" />
+        </MenuProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
+  </StoreProvider>
+);
+```
+
+2. Replace your TextInput components with `TextInputWithDoneButton` from `mad-expo-core`. The new component inherits props from TextInput, so it should be pretty easy to replace.
+
+And that's it!
+![Image.png](TextInputWithDoneButton.assets/Image.png)
