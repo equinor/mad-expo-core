@@ -14,6 +14,7 @@ export type BaseAPIOptions = {
   authenticate?: boolean;
   headers?: Record<string, any>;
   responseType?: ResponseType;
+  timeout?: number;
 };
 
 export type DownloadFileOptions = BaseAPIOptions & {
@@ -22,6 +23,7 @@ export type DownloadFileOptions = BaseAPIOptions & {
 
 const defaultOptions = {
   authenticate: true,
+  timeout: 0,
 };
 
 const defaultFileDownloadOptions = {
@@ -118,7 +120,8 @@ class BaseApiService {
           ...options.headers,
         },
         responseType: options.responseType,
-      })
+        timeout : options.timeout
+      },)
       .then((res) => {
         track(
           metricKeys.API_POST,
