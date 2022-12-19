@@ -30,10 +30,14 @@ import SettingsButton from './components/common/molecules/SettingsButton';
 import SettingsScreen from './screens/SettingsScreen';
 import {
   appInsightsInit,
+  appStateStatus,
+  metricStatus,
+  metricKeys,
   addTelemetryInitializer,
   track,
   trackLongTerm,
   trackNavigation,
+  
 } from './services/appInsights';
 import BaseApiService from './services/BaseAPIServices';
 import { obfuscateUser, ObfuscatedUser } from './services/encrypt';
@@ -84,4 +88,7 @@ export {
   getDateString,
   getDateFromIsoString,
   getShortDate,
+  appStateStatus,
+  metricKeys,
+  metricStatus
 };
