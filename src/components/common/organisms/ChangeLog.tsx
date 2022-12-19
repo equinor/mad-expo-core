@@ -22,6 +22,10 @@ const ChangeLog = (props: {
   fetching: boolean;
   affirm: any;
 }) => {
+
+  const { container, footer, titleHeader } = styles;
+  const { release, affirm, fetching } = props;
+
   const renderChangeLog = (release: Release) => {
     const [width, setWidth] = useState(0);
 
@@ -61,10 +65,6 @@ const ChangeLog = (props: {
       </ScrollView>
     );
   };
-
-  const { container, footer, titleHeader } = styles;
-
-  const { release, affirm, fetching } = props;
 
   if (fetching) {
     return <Spinner />;
