@@ -7,7 +7,6 @@ import ChangeLog from '../components/common/organisms/ChangeLog';
 import * as mockData from '../resources/mock-data.json';
 import { Typography } from 'mad-expo-core';
 
-
 const ReleaseNoteScreen = (props: {
   name: string;
   version: string;
@@ -35,61 +34,73 @@ const ReleaseNoteScreen = (props: {
   };
 
   useEffect(() => {
-
-    const fetchChangelog = (async () => {
-
-      /* try {
+    const fetchChangelog = async () => {
+      try {
         const version = await AsyncStorage.getItem(props.versionStorageKey);
         if (version === props.version) {
-          setFetching(false)
+          setFetching(false);
           return;
         }
       } catch (e) {
         // error reading value
-      } */
+      }
 
-      const environment = props.environment === 'prod' ? `` : `${props.environment}/`;
-      if(props.demoMode){
+      const environment =
+        props.environment === 'prod' ? `` : `${props.environment}/`;
+      if (props.demoMode) {
         setRelease(mockData);
         setFetching(false);
-      } else{
-          authenticateSilently(props.scopes).then(response => {
-            fetch(`https://api.statoil.com/app/mad/${environment}api/v1.1/ReleaseNote/${props.name}/${props.version}`, { 
-            method: 'GET', 
-            headers: new Headers({
-                'Authorization': response ? `Bearer ${response.accessToken}` : "", 
-            }),
+      } else {
+        authenticateSilently(props.scopes)
+          .then((response) => {
+            fetch(
+              `https://api.statoil.com/app/mad/${environment}api/v1.1/ReleaseNote/${props.name}/${props.version}`,
+              {
+                method: 'GET',
+                headers: new Headers({
+                  Authorization: response
+                    ? `Bearer ${response.accessToken}`
+                    : '',
+                }),
+              }
+            )
+              .then((res) =>
+                res.json().then((data) => {
+                  setRelease(() => ({
+                    ...data,
+                  }));
+                  setFetching(false);
+                })
+              )
+              .catch((error) => {
+                setError(error);
+                setFetching(false);
+              });
           })
-            .then((res) => res.json().then((data) => {
-              setRelease(() => ({
-                ...data
-              }));
-              setFetching(false);
-            })).catch((error) => {
-              setError(error);
-              setFetching(false);
-            })
-          }).catch((error) => {
+          .catch((error) => {
             setError(error);
             setFetching(false);
-            }
-          );
+          });
       }
-    });
+    };
 
     fetchChangelog();
   }, []);
-  if(error || (!fetching && !release)){ 
+  if (error || (!fetching && !release)) {
     props.navigation.navigate(props.redirectRoute);
     return <></>;
   } else {
-    if (!release) return <Typography>Test</Typography>
-    
+    if (!release) return <Typography>Test</Typography>;
+
     return (
-      <ChangeLog release={release} fetching={fetching} affirm={() => { 
-        storeData(props.version);
-        props.navigation.navigate(props.redirectRoute)
-      }} />
+      <ChangeLog
+        release={release}
+        fetching={fetching}
+        affirm={() => {
+          storeData(props.version);
+          props.navigation.navigate(props.redirectRoute);
+        }}
+      />
     );
   }
 };
@@ -100,6 +111,6 @@ export interface Release {
   modified: string;
   releaseNote: string;
   releaseDate: string;
-} 
+}
 
 export default ReleaseNoteScreen;
