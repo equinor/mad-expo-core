@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
 import Colors from '../../../stylesheets/colors';
 import * as showdown from 'showdown';
 import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
 import { getDateFromIsoString, getShortDate, Typography } from 'mad-expo-core';
+import type { Release } from '../../../screens/ReleaseNoteScreen';
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
@@ -21,15 +18,15 @@ const systemFonts = [
 ];
 
 const ChangeLog = (props: {
-  releaseNote: string;
+  release: Release;
   fetching: boolean;
   affirm: any;
 }) => {
-  const renderChangeLog = (release: any) => {
+  const renderChangeLog = (release: Release) => {
     const [width, setWidth] = useState(0);
 
     const { changelogItem, versionHeader, subtitleHeader } = styles;
-    const html = {html: converter.makeHtml(release.releaseNote)};
+    const html = { html: converter.makeHtml(release.releaseNote) };
     const date = getDateFromIsoString(release.releaseDate);
     const shortDate = getShortDate(date);
 
@@ -67,7 +64,7 @@ const ChangeLog = (props: {
 
   const { container, footer, titleHeader } = styles;
 
-  const { releaseNote, affirm, fetching } = props;
+  const { release, affirm, fetching } = props;
 
   if (fetching) {
     return <Spinner />;
@@ -78,7 +75,7 @@ const ChangeLog = (props: {
       <Typography style={titleHeader} medium variant="h4">
         {featureTitle}
       </Typography>
-      {renderChangeLog(releaseNote)}
+      {renderChangeLog(release)}
       <View style={footer}>
         <Button title={affirmText} onPress={affirm} />
       </View>

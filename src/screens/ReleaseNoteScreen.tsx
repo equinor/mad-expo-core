@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import ChangeLog from '../components/common/organisms/ChangeLog';
 import * as mockData from '../resources/mock-data.json';
+import { Typography } from 'mad-expo-core';
 
 
 const ReleaseNoteScreen = (props: {
@@ -18,7 +19,7 @@ const ReleaseNoteScreen = (props: {
   demoMode?: boolean;
   languageCode?: string;
 }) => {
-  const [releaseNote, setReleaseNote] = useState(Object);
+  const [release, setRelease] = useState<Release>();
   const [error, setError] = useState('');
   const [fetching, setFetching] = useState(true);
   const storeData = async (value: string | null) => {
@@ -37,7 +38,7 @@ const ReleaseNoteScreen = (props: {
 
     const fetchChangelog = (async () => {
 
-      try {
+      /* try {
         const version = await AsyncStorage.getItem(props.versionStorageKey);
         if (version === props.version) {
           setFetching(false)
@@ -45,11 +46,11 @@ const ReleaseNoteScreen = (props: {
         }
       } catch (e) {
         // error reading value
-      }
+      } */
 
       const environment = props.environment === 'prod' ? `` : `${props.environment}/`;
       if(props.demoMode){
-        setReleaseNote(mockData.ReleaseNotes);
+        setRelease(mockData);
         setFetching(false);
       } else{
           authenticateSilently(props.scopes).then(response => {
@@ -60,7 +61,9 @@ const ReleaseNoteScreen = (props: {
             }),
           })
             .then((res) => res.json().then((data) => {
-              setReleaseNote(data);
+              setRelease(() => ({
+                ...data
+              }));
               setFetching(false);
             })).catch((error) => {
               setError(error);
@@ -76,17 +79,27 @@ const ReleaseNoteScreen = (props: {
 
     fetchChangelog();
   }, []);
-  if(error || (!fetching && !releaseNote.releaseNote)){ 
+  if(error || (!fetching && !release)){ 
     props.navigation.navigate(props.redirectRoute);
     return <></>;
   } else {
+    if (!release) return <Typography>Test</Typography>
+    
     return (
-      <ChangeLog releaseNote={releaseNote} fetching={fetching} affirm={() => { 
+      <ChangeLog release={release} fetching={fetching} affirm={() => { 
         storeData(props.version);
         props.navigation.navigate(props.redirectRoute)
       }} />
     );
   }
 };
+
+export interface Release {
+  app: string;
+  version: string;
+  modified: string;
+  releaseNote: string;
+  releaseDate: string;
+} 
 
 export default ReleaseNoteScreen;
