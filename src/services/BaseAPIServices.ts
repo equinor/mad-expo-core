@@ -12,9 +12,6 @@ export type BaseResource = {
 
 export type BaseAPIOptions = AxiosRequestConfig & {
   authenticate?: boolean;
-  /* headers?: Record<string, any>;
-  responseType?: ResponseType;
-  timeout?: number; */
 };
 
 export type DownloadFileOptions = BaseAPIOptions & {
