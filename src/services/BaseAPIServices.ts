@@ -1,4 +1,4 @@
-import axios, { AxiosError, ResponseType } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { authenticateSilently } from './auth';
 import { metricKeys, metricStatus, track } from './appInsights';
 import * as FileSystem from 'expo-file-system';
@@ -10,11 +10,11 @@ export type BaseResource = {
   subscriptionKey?: string;
 };
 
-export type BaseAPIOptions = {
+export type BaseAPIOptions = AxiosRequestConfig & {
   authenticate?: boolean;
-  headers?: Record<string, any>;
+  /* headers?: Record<string, any>;
   responseType?: ResponseType;
-  timeout?: number;
+  timeout?: number; */
 };
 
 export type DownloadFileOptions = BaseAPIOptions & {
@@ -23,7 +23,6 @@ export type DownloadFileOptions = BaseAPIOptions & {
 
 const defaultOptions = {
   authenticate: true,
-  timeout: 0,
 };
 
 const defaultFileDownloadOptions = {
@@ -69,12 +68,12 @@ class BaseApiService {
     );
     return axios
       .get(apiUrl, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -114,13 +113,12 @@ class BaseApiService {
     );
     return axios
       .post(this.url + path, data, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
         },
-        responseType: options.responseType,
-        timeout : options.timeout
       },)
       .then((res) => {
         track(
