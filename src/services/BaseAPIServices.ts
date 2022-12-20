@@ -72,7 +72,7 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          ...options.headers,
+          
         },
       })
       .then((res) => {
@@ -117,7 +117,6 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          ...options.headers,
         },
       },)
       .then((res) => {
@@ -158,12 +157,12 @@ class BaseApiService {
     );
     return axios
       .put(this.url + path, data, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          ...options.headers,
+          
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -203,12 +202,12 @@ class BaseApiService {
     );
     return axios
       .patch(this.url + path, data, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          ...options.headers,
+          
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -248,13 +247,13 @@ class BaseApiService {
     );
     return axios
       .delete(this.url + path, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          ...options.headers,
+          
         },
         data: data ?? null,
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -301,13 +300,13 @@ class BaseApiService {
     );
     return axios
       .post(this.url + path, formData, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          ...options.headers,
+          
           'content-type': 'multipart/form-data',
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
