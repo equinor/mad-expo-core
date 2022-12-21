@@ -69,7 +69,7 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          
+          ...options.headers,
         },
       })
       .then((res) => {
@@ -114,6 +114,7 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
+          ...options.headers,
         },
       },)
       .then((res) => {
@@ -158,7 +159,7 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          
+          ...options.headers,
         },
       })
       .then((res) => {
@@ -203,7 +204,7 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          
+          ...options.headers,
         },
       })
       .then((res) => {
@@ -248,7 +249,7 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          
+          ...options.headers,
         },
         data: data ?? null,
       })
@@ -301,7 +302,7 @@ class BaseApiService {
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
-          
+          ...options.headers,
           'content-type': 'multipart/form-data',
         },
       })
