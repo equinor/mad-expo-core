@@ -51,7 +51,46 @@ type BaseResource = {
 
 ## Usage
 
-For all API calls, authentication is turned on by default. If you want to turn it off, add `{authenticate: false}` to the options argument
+For all API calls, authentication is turned on by default. If you want to turn it off, add `{authenticate: false}` to the options argument. The options argument may also accept any configurations accepted by axiosRequest. See exhaustive list below:
+
+```tsx
+export interface AxiosRequestConfig {
+  url?: string;
+  method?: Method;
+  baseURL?: string;
+  transformRequest?: AxiosTransformer | AxiosTransformer[];
+  transformResponse?: AxiosTransformer | AxiosTransformer[];
+  headers?: any;
+  params?: any;
+  paramsSerializer?: (params: any) => string;
+  data?: any;
+  timeout?: number;
+  timeoutErrorMessage?: string;
+  withCredentials?: boolean;
+  adapter?: AxiosAdapter;
+  auth?: AxiosBasicCredentials;
+  responseType?: ResponseType;
+  xsrfCookieName?: string;
+  xsrfHeaderName?: string;
+  onUploadProgress?: (progressEvent: any) => void;
+  onDownloadProgress?: (progressEvent: any) => void;
+  maxContentLength?: number;
+  validateStatus?: ((status: number) => boolean) | null;
+  maxBodyLength?: number;
+  maxRedirects?: number;
+  socketPath?: string | null;
+  httpAgent?: any;
+  httpsAgent?: any;
+  proxy?: AxiosProxyConfig | false;
+  cancelToken?: CancelToken;
+  decompress?: boolean;
+  transitional?: TransitionalOptions
+}
+
+export type BaseAPIOptions = AxiosRequestConfig & {
+  authenticate?: boolean;
+};
+```
 
 **Get**
 
@@ -62,7 +101,7 @@ function getDataFromEndpoint() {
   return api.get('/endpoint').then((res) => res.data);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function getDataFromEndpoint2() {
   return api
     .get('/endpoint', {
@@ -70,6 +109,7 @@ function getDataFromEndpoint2() {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
     })
     .then((res) => res.data);
 }
@@ -84,7 +124,7 @@ function postDataToEndpoint(payload) {
   return api.post('/endpoint', payload).then((res) => res.data);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function postDataToEndpoint2(payload) {
   return api
     .post('/endpoint', payload, {
@@ -92,6 +132,7 @@ function postDataToEndpoint2(payload) {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
     })
     .then((res) => res.data);
 }
@@ -106,7 +147,7 @@ function putDataToEndpoint(payload) {
   return api.put('/endpoint', payload).then((res) => res.data);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function putDataToEndpoint2(payload) {
   return api
     .put('/endpoint', payload, {
@@ -114,6 +155,8 @@ function putDataToEndpoint2(payload) {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
+
     })
     .then((res) => res.data);
 }
@@ -128,7 +171,7 @@ function patchDataToEndpoint(payload) {
   return api.patch('/endpoint', payload).then((res) => res.data);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function patchDataToEndpoint2(payload) {
   return api
     .patch('/endpoint', payload, {
@@ -136,6 +179,7 @@ function patchDataToEndpoint2(payload) {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
     })
     .then((res) => res.data);
 }
@@ -150,7 +194,7 @@ function deleteData(payload?: unknown) {
   return api.delete('/endpoint', payload).then((res) => res.data);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function deleteData2(payload?: unknown) {
   return api
     .delete('/endpoint', payload, {
@@ -158,6 +202,7 @@ function deleteData2(payload?: unknown) {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
     })
     .then((res) => res.data);
 }
@@ -176,7 +221,7 @@ function uploadFile(payload: unknown) {
   return api.uploadFile('/endpoint', payload).then((res) => res.data);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function uploadFile2(payload: unknown) {
   return api
     .uploadFile('/endpoint', payload, {
@@ -184,6 +229,7 @@ function uploadFile2(payload: unknown) {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
     })
     .then((res) => res.data);
 }
@@ -204,7 +250,7 @@ function uploadFileFromFileSystem(fileUri: string, contentType: string) {
     .then((res) => res.data);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function uploadFileFromFileSystem2(fileUri: string, contentType: string) {
   return api
     .uploadFromFileSystem('/endpoint', fileUri, contentType, {
@@ -212,6 +258,7 @@ function uploadFileFromFileSystem2(fileUri: string, contentType: string) {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
     })
     .then((res) => res.data);
 }
@@ -232,7 +279,7 @@ function downloadToFileSystem(fileName: string) {
   return api.downloadToFileSystem('/endpoint', fileName).then((res) => res.uri);
 }
 
-// You can also disable authentication, and add extra headers
+// You can also disable authentication, and add extra headers or axiosRequestConfig parameters
 function downloadToFileSystem2(fileName: string) {
   return api
     .uploadFromFileSystem('/endpoint', fileName, {
@@ -241,6 +288,7 @@ function downloadToFileSystem2(fileName: string) {
       headers: {
         /*insert headers*/
       },
+      timeout: 20_000,
     })
     .then((res) => res.uri);
 }

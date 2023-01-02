@@ -1,4 +1,4 @@
-import axios, { AxiosError, ResponseType } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { authenticateSilently } from './auth';
 import { metricKeys, metricStatus, track } from './appInsights';
 import * as FileSystem from 'expo-file-system';
@@ -10,10 +10,8 @@ export type BaseResource = {
   subscriptionKey?: string;
 };
 
-export type BaseAPIOptions = {
+export type BaseAPIOptions = AxiosRequestConfig & {
   authenticate?: boolean;
-  headers?: Record<string, any>;
-  responseType?: ResponseType;
 };
 
 export type DownloadFileOptions = BaseAPIOptions & {
@@ -67,12 +65,12 @@ class BaseApiService {
     );
     return axios
       .get(apiUrl, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -112,13 +110,13 @@ class BaseApiService {
     );
     return axios
       .post(this.url + path, data, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
         },
-        responseType: options.responseType,
-      })
+      },)
       .then((res) => {
         track(
           metricKeys.API_POST,
@@ -157,12 +155,12 @@ class BaseApiService {
     );
     return axios
       .put(this.url + path, data, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -202,12 +200,12 @@ class BaseApiService {
     );
     return axios
       .patch(this.url + path, data, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -247,13 +245,13 @@ class BaseApiService {
     );
     return axios
       .delete(this.url + path, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
         },
         data: data ?? null,
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
@@ -300,13 +298,13 @@ class BaseApiService {
     );
     return axios
       .post(this.url + path, formData, {
+        ...options,
         headers: {
           ...this.defaultHeader(tokenRes),
           ...this.appSpecificDefaultHeaderFunction(),
           ...options.headers,
           'content-type': 'multipart/form-data',
         },
-        responseType: options.responseType,
       })
       .then((res) => {
         track(
