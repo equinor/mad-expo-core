@@ -1,42 +1,70 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import Button from '../atoms/Button';
 import Spinner from '../atoms/Spinner';
-import Colors from "../../../stylesheets/colors";
+import Colors from '../../../stylesheets/colors';
+import * as showdown from 'showdown';
+import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
+import { getDateFromIsoString, getShortDate, Typography } from 'mad-expo-core';
+import type { Release } from '../../../screens/ReleaseNoteScreen';
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
+const converter = new showdown.Converter();
+const systemFonts = [
+  ...defaultSystemFonts,
+  'Equinor-Regular',
+  'Equinor-Medium',
+];
 
 const ChangeLog = (props: {
-    releaseNote: string;
-    fetching: boolean;
-    affirm: any;
-  }) => {
+  release: Release;
+  fetching: boolean;
+  affirm: any;
+}) => {
 
-  const renderChangeLog = (release : any) => {
-    const { changelogItem, subtitleHeader, changelogText, bullet, bulletList } = styles;
+  const { container, footer, titleHeader } = styles;
+  const { release, affirm, fetching } = props;
 
-    const changes = release.changes || [];
+  const renderChangeLog = (release: Release) => {
+    const [width, setWidth] = useState(0);
+
+    const { changelogItem, versionHeader, subtitleHeader } = styles;
+    const html = { html: converter.makeHtml(release.releaseNote) };
+    const date = getDateFromIsoString(release.releaseDate);
+    const shortDate = getShortDate(date);
+
     return (
       <ScrollView style={changelogItem}>
-        <Text style={subtitleHeader}>{release.header}</Text>
-        <Text style={changelogText}>{release.subHeader}</Text>
-        <View style={{ margin: 5, marginLeft: 10 }}>
-          {changes.map((change: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined, index: { toString: () => React.Key | null | undefined; }) => (
-            <View key={index.toString()} style={bulletList}>
-              <Text style={bullet}>{'\u2022'}</Text>
-              <Text style={changelogText}>{change}</Text>
-            </View>
-          ))}
+        <Typography style={versionHeader} medium={true}>
+          {release.version}
+        </Typography>
+        <Typography style={subtitleHeader} medium={true}>
+          {shortDate}
+        </Typography>
+        <View
+          onLayout={(event) => {
+            let { width } = event.nativeEvent.layout;
+            setWidth(width);
+          }}
+        >
+          <RenderHtml
+            contentWidth={width}
+            source={html}
+            systemFonts={systemFonts}
+            tagsStyles={{
+              li: {
+                marginBottom: 10,
+                fontFamily: 'Equinor-Medium',
+                fontSize: 18,
+                color: Colors.GRAY_1,
+              },
+            }}
+          />
         </View>
       </ScrollView>
     );
-  }
-
-  
-  const { container, footer, titleHeader} = styles;
-
-  const { releaseNote, affirm, fetching } = props;
+  };
 
   if (fetching) {
     return <Spinner />;
@@ -44,18 +72,16 @@ const ChangeLog = (props: {
 
   return (
     <View style={container}>
-      <Text style={titleHeader}>{featureTitle}</Text>
-      {renderChangeLog(releaseNote)}
+      <Typography style={titleHeader} medium variant="h4">
+        {featureTitle}
+      </Typography>
+      {renderChangeLog(release)}
       <View style={footer}>
-        <Button
-          title={affirmText}
-          onPress={affirm}
-        />
+        <Button title={affirmText} onPress={affirm} />
       </View>
     </View>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -79,24 +105,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: Colors.GRAY_1,
   },
+  versionHeader: {
+    marginVertical: 15,
+    fontWeight: '500',
+    fontSize: 36,
+    color: Colors.GRAY_1,
+  },
   subtitleHeader: {
-    fontSize: 20,
+    fontSize: 18,
     marginVertical: 5,
     color: Colors.GRAY_1,
-  },
-  changelogText: {
-    fontSize: 16,
-    marginVertical: 1,
-    color: Colors.GRAY_1,
-  },
-  bullet: {
-    fontSize: 16,
-    marginVertical: 1,
-    marginRight: 5,
-    color: Colors.GRAY_1,
-  },
-  bulletList: {
-    flexDirection: 'row',
   },
   changelogItem: {
     marginBottom: 15,
