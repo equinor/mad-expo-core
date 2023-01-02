@@ -71,7 +71,7 @@ const Setting = (props: {
   navigation: any;
   languageCode?: string;
 }) => {
-  const langDict = languages[props.languageCode] ?? en; 
+  const langDict = languages[props.languageCode] ? languages[props.languageCode] : en;
   return (
     <MaterialIcons.Button
       name={props.icon}
@@ -83,7 +83,7 @@ const Setting = (props: {
       }}
     >
       <Typography medium color="#007079">
-        {langDict[props.title] ?? props.title}
+        {langDict[props.title] ? langDict[props.title] : props.title}
       </Typography>
     </MaterialIcons.Button>
   );
