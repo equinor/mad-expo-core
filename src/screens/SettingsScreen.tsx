@@ -16,11 +16,11 @@ const SettingsScreen = (props: {
   navigation: any;
   languageCode?: string;
 }) => {
-  const langDict = languages[props.languageCode] ?? en;
+  const langDict = languages[props.languageCode] ? languages[props.languageCode] : en;
   const [account, setAccount] = useState<MSALAccount>(null);
   useEffect(() => {
     props.navigation.setOptions({
-      headerBackTitle: props.backLabel ?? langDict["settings.back"],
+      headerBackTitle: props.backLabel ? props.backLabel : langDict["settings.back"],
       headerTintColor: Colors.EQUINOR_PRIMARY
     });
     getAccount().then((acc) => {
