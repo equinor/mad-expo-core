@@ -16,10 +16,8 @@ import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
-import * as en from '../resources/language/en.json';
-import * as no from '../resources/language/no.json';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const languages = { en: en, no: no };
+import { dictionary, setLanguage } from 'src/resources/language/dictionary';
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -46,7 +44,7 @@ const FeedbackScreen = (props: {
   product: string;
   languageCode?: string;
 }) => {
-  const langDict = languages[props.languageCode] ?? en;
+  props.languageCode ? setLanguage(props.languageCode) : setLanguage('en');
   const [feedback, setFeedback] = useState('');
   const [bannerMessage, setBannerMessage] = useState('');
   const [error, setError] = useState('');
@@ -58,19 +56,19 @@ const FeedbackScreen = (props: {
     });
   }, []);
   const userData: { [key: string]: string } = {
-    [langDict['feedback.user']]: `${account?.username.substring(
+    [dictionary('feedback.user')]: `${account?.username.substring(
       0,
       account?.username.indexOf('@')
     )}`,
-    [langDict['feedback.deviceBrand']]: `${
+    [dictionary('feedback.deviceBrand')]: `${
       Platform.OS === 'web' ? 'web' : Device.brand
     }`,
-    [langDict['feedback.device']]: `${
+    [dictionary('feedback.device')]: `${
       Platform.OS === 'web' ? 'web' : Device.modelName
     } `,
-    [langDict['feedback.OS']]: `${Device.osName} ${Device.osVersion}`,
-    [langDict['feedback.timezone']]: `${props?.timezone}`,
-    [langDict['feedback.locale']]: `${props?.locale}`,
+    [dictionary('feedback.OS')]: `${Device.osName} ${Device.osVersion}`,
+    [dictionary('feedback.timezone')]: `${props?.timezone}`,
+    [dictionary('feedback.locale')]: `${props?.locale}`,
     Feedback: feedback,
   };
   const feedbackInputAccessoryViewID = 'feedbackInput';
@@ -114,12 +112,12 @@ const FeedbackScreen = (props: {
   const getSystemMessage = (): string => {
     let systemMsg = '\n\n';
     const feedbackItems = [
-      langDict['feedback.user'],
-      langDict['feedback.deviceBrand'],
-      langDict['feedback.device'],
-      langDict['feedback.OS'],
-      langDict['feedback.timezone'],
-      langDict['feedback.locale'],
+      dictionary('feedback.user'),
+      dictionary('feedback.deviceBrand'),
+      dictionary('feedback.device'),
+      dictionary('feedback.OS'),
+      dictionary('feedback.timezone'),
+      dictionary('feedback.locale'),
     ];
     feedbackItems.forEach(
       (item) => (systemMsg += `*${item}:* ${userData[item]}\n`)
@@ -145,9 +143,9 @@ const FeedbackScreen = (props: {
       )}
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
-          {langDict['feedback.title']}
+          {dictionary('feedback.title')}
         </Typography>
-        <Typography medium>{langDict['feedback.info']}</Typography>
+        <Typography medium>{dictionary('feedback.info')}</Typography>
 
         {Object.entries(userData)
           .filter(([key]) => key !== 'Feedback')
@@ -168,7 +166,7 @@ const FeedbackScreen = (props: {
           }}
           onChangeText={(e) => setFeedback(e.toString())}
           multiline
-          placeholder={langDict['feedback.placeHolderText']}
+          placeholder={dictionary('feedback.placeHolderText')}
           textAlignVertical={'top'}
           value={Platform.OS === 'web' ? undefined : feedback}
           inputAccessoryViewID={feedbackInputAccessoryViewID}
