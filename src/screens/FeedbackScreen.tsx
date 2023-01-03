@@ -167,15 +167,16 @@ const FeedbackScreen = (props: {
           onChangeText={(e) => setFeedback(e.toString())}
           multiline
           placeholder={dictionary('feedback.placeHolderText')}
+          defaultValue={dictionary('feedback.placeHolderText')}
           textAlignVertical={'top'}
           value={Platform.OS === 'web' ? undefined : feedback}
           inputAccessoryViewID={feedbackInputAccessoryViewID}
         >
           {Platform.OS === 'web' && <Typography medium>{feedback}</Typography>}
         </TextInput>
-        <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
+        {Platform.OS !== 'web' && <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
           <Button onPress={() => Keyboard.dismiss()} title="Done" />
-        </InputAccessoryView>
+        </InputAccessoryView>}
         <Button
           title="Send"
           viewStyle={{ width: '100%' }}
