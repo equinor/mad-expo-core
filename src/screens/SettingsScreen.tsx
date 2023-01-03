@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../stylesheets/colors';
 import { getAccount, logout } from '../services/auth';
 import type { MSALAccount } from 'react-native-msal';
-import { DictionaryObject, dictionary, setLanguage } from 'src/resources/language/dictionary';
+import { DictionaryObject, dictionary, setLanguage } from '../resources/language/dictionary';
 
 const SettingsScreen = (props: {
   config: Array<{ icon: string; title: string; route: string }>;

@@ -17,7 +17,7 @@ import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { dictionary, setLanguage } from 'src/resources/language/dictionary';
+import { dictionary, setLanguage } from '../resources/language/dictionary';
 
 const styles = StyleSheet.create({
   textStyle: {

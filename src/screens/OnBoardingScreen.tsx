@@ -8,7 +8,7 @@ import {
   DictionaryObject,
   dictionary,
   setLanguage,
-} from 'src/resources/language/dictionary';
+} from '../resources/language/dictionary';
 
 const OnBoardingScreen = (props: {
   config: any;
