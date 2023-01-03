@@ -21,16 +21,9 @@ export function getLanguage(){
 
 export function dictionary(key: keyof DictionaryObject) {
   if(!language){
-    console.error("Language not set");
-    return dictionaries.en[key] || key;
+    return key;
   }
-
   const str = dictionaries[language][key];
-  if (!str) {
-    console.error(`"${key}" for language "${language}" is not defined`);
-      return dictionaries.en[key] || key;
-    } 
-  
-  return str;
+  return str || key;
 
 }
