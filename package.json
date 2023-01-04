@@ -85,12 +85,11 @@
     "expo-localization": "*",
     "expo-random": "*",
     "react": "*",
-    "react-dom": "17.0.1",
     "react-native": ">=0.63.0",
     "react-native-device-info": "^10.0.2",
     "react-native-msal": "*",
     "react-native-safe-area-context": ">=3.3.2",
-    "react-native-web": "0.17.1"
+    "react-native-web": "*"
   },
   "jest": {
     "preset": "react-native",
