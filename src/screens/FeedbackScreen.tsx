@@ -10,6 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { TextInput as WebTextInput } from 'react-native-web';
 import { authenticateSilently, getAccount } from '../services/auth';
 
 import { Banner } from 'mad-expo-core';
@@ -18,23 +19,6 @@ import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { dictionary, setLanguage } from '../resources/language/dictionary';
-
-const styles = StyleSheet.create({
-  textStyle: {
-    color: Colors.WHITE,
-    fontSize: 16,
-  },
-  viewErrorStyle: {
-    padding: 12,
-    paddingTop: 24,
-    backgroundColor: Colors.RED,
-  },
-  viewSuccessStyle: {
-    padding: 12,
-    paddingTop: 24,
-    backgroundColor: Colors.EQUINOR_PRIMARY,
-  },
-});
 
 const FeedbackScreen = (props: {
   locale: string;
@@ -50,6 +34,9 @@ const FeedbackScreen = (props: {
   const [error, setError] = useState('');
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<MSALAccount>(null);
+
+  const isWeb = Platform.OS === 'web';
+
   useEffect(() => {
     getAccount().then((acc) => {
       setAccount(acc);
@@ -60,12 +47,8 @@ const FeedbackScreen = (props: {
       0,
       account?.username.indexOf('@')
     )}`,
-    [dictionary('feedback.deviceBrand')]: `${
-      Platform.OS === 'web' ? 'web' : Device.brand
-    }`,
-    [dictionary('feedback.device')]: `${
-      Platform.OS === 'web' ? 'web' : Device.modelName
-    } `,
+    [dictionary('feedback.deviceBrand')]: `${isWeb ? 'web' : Device.brand}`,
+    [dictionary('feedback.device')]: `${isWeb ? 'web' : Device.modelName} `,
     [dictionary('feedback.OS')]: `${Device.osName} ${Device.osVersion}`,
     [dictionary('feedback.timezone')]: `${props?.timezone}`,
     [dictionary('feedback.locale')]: `${props?.locale}`,
@@ -152,30 +135,32 @@ const FeedbackScreen = (props: {
           .map(([key, value]) => {
             return <DataField key={key} itemKey={key} value={value} />;
           })}
-        <TextInput
-          style={{
-            height: 200,
-            width: '100%',
-            backgroundColor: 'white',
-            padding: 16,
-            paddingTop: 16,
-            marginVertical: 16,
-            borderRadius: 4,
-            borderWidth: 1,
-            borderColor: 'gray',
-          }}
-          onChangeText={(e) => setFeedback(e.toString())}
-          multiline
-          placeholder={Platform.OS === 'web' ? undefined : dictionary('feedback.placeHolderText')}
-          textAlignVertical={'top'}
-          value={Platform.OS === 'web' ? undefined : feedback}
-          inputAccessoryViewID={feedbackInputAccessoryViewID}
-        >
-          {Platform.OS === 'web' && <Typography medium>{feedback}</Typography>}
-        </TextInput>
-        {Platform.OS !== 'web' && <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
-          <Button onPress={() => Keyboard.dismiss()} title="Done" />
-        </InputAccessoryView>}
+        {isWeb ? (
+          <WebTextInput
+            style={styles.textFieldStyle}
+            onChangeText={(e) => setFeedback(e.toString())}
+            multiline
+            placeholder={dictionary('feedback.placeHolderText')}
+            textAlignVertical={'top'}
+          >
+            <Typography medium>{feedback}</Typography>
+          </WebTextInput>
+        ) : (
+          <TextInput
+            style={styles.textFieldStyle}
+            onChangeText={(e) => setFeedback(e.toString())}
+            multiline
+            placeholder={dictionary('feedback.placeHolderText')}
+            textAlignVertical={'top'}
+            value={feedback}
+            inputAccessoryViewID={feedbackInputAccessoryViewID}
+          />
+        )}
+        {!isWeb && (
+          <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
+            <Button onPress={() => Keyboard.dismiss()} title="Done" />
+          </InputAccessoryView>
+        )}
         <Button
           title="Send"
           viewStyle={{ width: '100%' }}
@@ -212,4 +197,33 @@ const DataField = (props: { itemKey: string; value: string }) => (
     <Typography style={{ width: '50%' }}>{props.value}</Typography>
   </View>
 );
+
+const styles = StyleSheet.create({
+  textStyle: {
+    color: Colors.WHITE,
+    fontSize: 16,
+  },
+  viewErrorStyle: {
+    padding: 12,
+    paddingTop: 24,
+    backgroundColor: Colors.RED,
+  },
+  viewSuccessStyle: {
+    padding: 12,
+    paddingTop: 24,
+    backgroundColor: Colors.EQUINOR_PRIMARY,
+  },
+  textFieldStyle: {
+    height: 200,
+    width: '100%',
+    backgroundColor: 'white',
+    padding: 16,
+    paddingTop: 16,
+    marginVertical: 16,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'gray',
+  },
+});
+
 export default FeedbackScreen;
