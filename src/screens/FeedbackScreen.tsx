@@ -166,8 +166,7 @@ const FeedbackScreen = (props: {
           }}
           onChangeText={(e) => setFeedback(e.toString())}
           multiline
-          placeholder={dictionary('feedback.placeHolderText')}
-          defaultValue={dictionary('feedback.placeHolderText')}
+          placeholder={Platform.OS === 'web' ? undefined : dictionary('feedback.placeHolderText')}
           textAlignVertical={'top'}
           value={Platform.OS === 'web' ? undefined : feedback}
           inputAccessoryViewID={feedbackInputAccessoryViewID}
