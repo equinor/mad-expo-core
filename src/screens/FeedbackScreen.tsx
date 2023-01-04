@@ -10,7 +10,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { TextInput as WebTextInput } from 'react-native-web';
 import { authenticateSilently, getAccount } from '../services/auth';
 
 import { Banner } from 'mad-expo-core';
@@ -135,28 +134,15 @@ const FeedbackScreen = (props: {
           .map(([key, value]) => {
             return <DataField key={key} itemKey={key} value={value} />;
           })}
-        {isWeb ? (
-          <WebTextInput
-            style={styles.textFieldStyle}
-            onChangeText={(e) => setFeedback(e.toString())}
-            multiline
-            placeholder={dictionary('feedback.placeHolderText')}
-            textAlignVertical={'top'}
-            value={feedback}
-          >
-            <Typography medium>{feedback}</Typography>
-          </WebTextInput>
-        ) : (
-          <TextInput
-            style={styles.textFieldStyle}
-            onChangeText={(e) => setFeedback(e.toString())}
-            multiline
-            placeholder={dictionary('feedback.placeHolderText')}
-            textAlignVertical={'top'}
-            value={feedback}
-            inputAccessoryViewID={feedbackInputAccessoryViewID}
-          />
-        )}
+        <TextInput
+          style={styles.textFieldStyle}
+          onChangeText={(e) => setFeedback(e.toString())}
+          multiline
+          placeholder={dictionary('feedback.placeHolderText')}
+          textAlignVertical={'top'}
+          value={feedback}
+          inputAccessoryViewID={feedbackInputAccessoryViewID}
+        />
         {!isWeb && (
           <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
             <Button onPress={() => Keyboard.dismiss()} title="Done" />

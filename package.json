@@ -88,8 +88,7 @@
     "react-native": ">=0.63.0",
     "react-native-device-info": "^10.0.2",
     "react-native-msal": "*",
-    "react-native-safe-area-context": ">=3.3.2",
-    "react-native-web": "*"
+    "react-native-safe-area-context": ">=3.3.2"
   },
   "jest": {
     "preset": "react-native",
