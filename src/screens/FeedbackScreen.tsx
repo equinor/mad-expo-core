@@ -142,6 +142,7 @@ const FeedbackScreen = (props: {
             multiline
             placeholder={dictionary('feedback.placeHolderText')}
             textAlignVertical={'top'}
+            value={feedback}
           >
             <Typography medium>{feedback}</Typography>
           </WebTextInput>
