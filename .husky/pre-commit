@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run test-silently
+npm run typescript
+npm run lint
+npm run check-languages
