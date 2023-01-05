@@ -24,13 +24,15 @@
   "scripts": {
     "test": "jest",
     "typescript": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "prepare": "bob build",
     "release-it": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "release": "standard-version"
+    "release": "standard-version",
+    "test-silently": "jest",
+    "check-languages": "npx ts-node ./languages/dictionaryCheck.ts"
   },
   "keywords": [
     "react-native",
