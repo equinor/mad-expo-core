@@ -16,27 +16,8 @@ import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
-import * as en from '../resources/language/en.json';
-import * as no from '../resources/language/no.json';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-const languages = { en: en, no: no };
-
-const styles = StyleSheet.create({
-  textStyle: {
-    color: Colors.WHITE,
-    fontSize: 16,
-  },
-  viewErrorStyle: {
-    padding: 12,
-    paddingTop: 24,
-    backgroundColor: Colors.RED,
-  },
-  viewSuccessStyle: {
-    padding: 12,
-    paddingTop: 24,
-    backgroundColor: Colors.EQUINOR_PRIMARY,
-  },
-});
+import { dictionary, setLanguage } from '../resources/language/dictionary';
 
 const FeedbackScreen = (props: {
   locale: string;
@@ -46,31 +27,30 @@ const FeedbackScreen = (props: {
   product: string;
   languageCode?: string;
 }) => {
-  const langDict = languages[props.languageCode] ?? en;
+  props.languageCode ? setLanguage(props.languageCode) : setLanguage('en');
   const [feedback, setFeedback] = useState('');
   const [bannerMessage, setBannerMessage] = useState('');
   const [error, setError] = useState('');
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<MSALAccount>(null);
+
+  const isWeb = Platform.OS === 'web';
+
   useEffect(() => {
     getAccount().then((acc) => {
       setAccount(acc);
     });
   }, []);
   const userData: { [key: string]: string } = {
-    [langDict['feedback.user']]: `${account?.username.substring(
+    [dictionary('feedback.user')]: `${account?.username.substring(
       0,
       account?.username.indexOf('@')
     )}`,
-    [langDict['feedback.deviceBrand']]: `${
-      Platform.OS === 'web' ? 'web' : Device.brand
-    }`,
-    [langDict['feedback.device']]: `${
-      Platform.OS === 'web' ? 'web' : Device.modelName
-    } `,
-    [langDict['feedback.OS']]: `${Device.osName} ${Device.osVersion}`,
-    [langDict['feedback.timezone']]: `${props?.timezone}`,
-    [langDict['feedback.locale']]: `${props?.locale}`,
+    [dictionary('feedback.deviceBrand')]: `${isWeb ? 'web' : Device.brand}`,
+    [dictionary('feedback.device')]: `${isWeb ? 'web' : Device.modelName} `,
+    [dictionary('feedback.OS')]: `${Device.osName} ${Device.osVersion}`,
+    [dictionary('feedback.timezone')]: `${props?.timezone}`,
+    [dictionary('feedback.locale')]: `${props?.locale}`,
     Feedback: feedback,
   };
   const feedbackInputAccessoryViewID = 'feedbackInput';
@@ -114,12 +94,12 @@ const FeedbackScreen = (props: {
   const getSystemMessage = (): string => {
     let systemMsg = '\n\n';
     const feedbackItems = [
-      langDict['feedback.user'],
-      langDict['feedback.deviceBrand'],
-      langDict['feedback.device'],
-      langDict['feedback.OS'],
-      langDict['feedback.timezone'],
-      langDict['feedback.locale'],
+      dictionary('feedback.user'),
+      dictionary('feedback.deviceBrand'),
+      dictionary('feedback.device'),
+      dictionary('feedback.OS'),
+      dictionary('feedback.timezone'),
+      dictionary('feedback.locale'),
     ];
     feedbackItems.forEach(
       (item) => (systemMsg += `*${item}:* ${userData[item]}\n`)
@@ -145,9 +125,9 @@ const FeedbackScreen = (props: {
       )}
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
-          {langDict['feedback.title']}
+          {dictionary('feedback.title')}
         </Typography>
-        <Typography medium>{langDict['feedback.info']}</Typography>
+        <Typography medium>{dictionary('feedback.info')}</Typography>
 
         {Object.entries(userData)
           .filter(([key]) => key !== 'Feedback')
@@ -155,29 +135,19 @@ const FeedbackScreen = (props: {
             return <DataField key={key} itemKey={key} value={value} />;
           })}
         <TextInput
-          style={{
-            height: 200,
-            width: '100%',
-            backgroundColor: 'white',
-            padding: 16,
-            paddingTop: 16,
-            marginVertical: 16,
-            borderRadius: 4,
-            borderWidth: 1,
-            borderColor: 'gray',
-          }}
+          style={styles.textFieldStyle}
           onChangeText={(e) => setFeedback(e.toString())}
           multiline
-          placeholder={langDict['feedback.placeHolderText']}
+          placeholder={dictionary('feedback.placeHolderText')}
           textAlignVertical={'top'}
-          value={Platform.OS === 'web' ? undefined : feedback}
+          value={feedback}
           inputAccessoryViewID={feedbackInputAccessoryViewID}
-        >
-          {Platform.OS === 'web' && <Typography medium>{feedback}</Typography>}
-        </TextInput>
-        <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
-          <Button onPress={() => Keyboard.dismiss()} title="Done" />
-        </InputAccessoryView>
+        />
+        {!isWeb && (
+          <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
+            <Button onPress={() => Keyboard.dismiss()} title="Done" />
+          </InputAccessoryView>
+        )}
         <Button
           title="Send"
           viewStyle={{ width: '100%' }}
@@ -214,4 +184,33 @@ const DataField = (props: { itemKey: string; value: string }) => (
     <Typography style={{ width: '50%' }}>{props.value}</Typography>
   </View>
 );
+
+const styles = StyleSheet.create({
+  textStyle: {
+    color: Colors.WHITE,
+    fontSize: 16,
+  },
+  viewErrorStyle: {
+    padding: 12,
+    paddingTop: 24,
+    backgroundColor: Colors.RED,
+  },
+  viewSuccessStyle: {
+    padding: 12,
+    paddingTop: 24,
+    backgroundColor: Colors.EQUINOR_PRIMARY,
+  },
+  textFieldStyle: {
+    height: 200,
+    width: '100%',
+    backgroundColor: 'white',
+    padding: 16,
+    paddingTop: 16,
+    marginVertical: 16,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'gray',
+  },
+});
+
 export default FeedbackScreen;
