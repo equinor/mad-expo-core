@@ -37,9 +37,13 @@ const FeedbackScreen = (props: {
   const isWeb = Platform.OS === 'web';
 
   useEffect(() => {
-    getAccount().then((acc) => {
-      setAccount(acc);
-    });
+    getAccount()
+      .then((acc) => {
+        setAccount(acc);
+      })
+      .catch((error) => {
+        throw error;
+      });
   }, []);
   const userData: { [key: string]: string } = {
     [dictionary('feedback.user')]: `${account?.username.substring(
@@ -64,31 +68,35 @@ const FeedbackScreen = (props: {
 
   const sendFeedback = (data: feedbackData) => {
     setIsBusy(true);
-    authenticateSilently(props.scopes).then((r) =>
-      fetch(`${props.apiBaseUrl}/feedback`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${r?.accessToken}`,
-        },
-      })
-        .then((response) => {
-          if (response.ok) {
+    authenticateSilently(props.scopes)
+      .then((r) =>
+        fetch(`${props.apiBaseUrl}/feedback`, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${r?.accessToken}`,
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              setIsBusy(false);
+              setFeedback('');
+              setBannerMessage('Thank you! Feedback sent.');
+              setTimeout(() => setBannerMessage(''), 2000);
+            }
+          })
+          .catch((error) => {
             setIsBusy(false);
-            setFeedback('');
-            setBannerMessage('Thank you! Feedback sent.');
-            setTimeout(() => setBannerMessage(''), 2000);
-          }
-        })
-        .catch((error) => {
-          setIsBusy(false);
-          setError(error);
-          console.error(error);
-          setBannerMessage('Error sending your feedback.');
-        })
-    );
+            setError(error);
+            console.error(error);
+            setBannerMessage('Error sending your feedback.');
+          })
+      )
+      .catch((error) => {
+        throw error;
+      });
   };
 
   const getSystemMessage = (): string => {

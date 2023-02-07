@@ -109,10 +109,8 @@ const OnBoardingScreen = (props: {
           title={dictionary('Submit')}
           onPress={() => {
             {
-              config.map((inputConfig) => {
-                inputConfig.onSubmit
-                  ? inputConfig.onSubmit(onboardingSettings)
-                  : () => {};
+              config.forEach((inputConfig) => {
+                if(inputConfig.onSubmit) inputConfig.onSubmit(onboardingSettings);
                 storeData(onboardingSettings);
                 props.navigation.replace(props.onSubmitRoute ?? 'Root');
               });
