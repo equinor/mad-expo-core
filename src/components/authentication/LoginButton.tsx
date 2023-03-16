@@ -23,7 +23,7 @@ export default function LoginButton(props: {
     <View>
       <Button
         disabled={!isMsalConnected()}
-        title="Login"
+        title="Log in"
         onPress={async () => {
           track(metricKeys.AUTHENTICATION, metricStatus.STARTED);
           msalLogin(props.scopes)
