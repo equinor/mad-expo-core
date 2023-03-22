@@ -12,8 +12,9 @@ const Typography = (props: {
   numberOfLines?: number;
   style?: StyleProp<TextStyle>;
   children?: any;
+  onPress?: () => void;
 }) => {
-  let { variant, color, light, medium, bold, italic, size, style, children, numberOfLines } =
+  let { variant, color, light, medium, bold, italic, size, style, children, numberOfLines, onPress } =
     props;
   function validateProps() {
     if ((light && medium) || (light && bold) || (medium && bold))
@@ -67,7 +68,7 @@ const Typography = (props: {
   }
 
   return (
-    <Text numberOfLines={numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
+    <Text onPress={onPress} numberOfLines={numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
       {children}
     </Text>
   );
