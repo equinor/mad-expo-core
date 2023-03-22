@@ -1,4 +1,5 @@
 import {
+  Accordion,
   Button,
   Checkbox,
   NavigationList,
@@ -37,7 +38,7 @@ import {
   track,
   trackLongTerm,
   trackNavigation,
-  
+
 } from './services/appInsights';
 import BaseApiService from './services/BaseAPIServices';
 import { obfuscateUser, ObfuscatedUser } from './services/encrypt';
@@ -50,6 +51,7 @@ import {
 } from './utils/Date';
 
 export {
+  Accordion,
   obfuscateUser,
   ObfuscatedUser,
   BaseApiService,

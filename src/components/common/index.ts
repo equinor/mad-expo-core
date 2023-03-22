@@ -1,3 +1,4 @@
+export { default as Accordion} from './atoms/Accordion';
 export { default as Button } from './atoms/Button';
 export { default as Checkbox } from './atoms/Checkbox';
 export { default as Spinner } from './atoms/Spinner';
