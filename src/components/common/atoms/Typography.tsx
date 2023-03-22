@@ -68,7 +68,7 @@ const Typography = (props: {
   }
 
   return (
-    <Text onPress={onPress} numberOfLines={numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]}>
+    <Text numberOfLines={numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]} onPress={onPress}>
       {children}
     </Text>
   );
