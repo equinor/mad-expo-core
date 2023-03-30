@@ -16,6 +16,7 @@ import { setDepartmentId } from 'src/services/departmentId';
 export default function LoginButton(props: {
   mainRoute: string;
   navigation: any;
+  useDepartmentId?: boolean;
   scopes: string[];
   onLoginSuccessful?: (account: MSALAccount) => void;
   eds?: boolean;
@@ -35,9 +36,11 @@ export default function LoginButton(props: {
               setUsername(res.username, objectId);
               track(metricKeys.AUTHENTICATION, metricStatus.SUCCESS);
               props.navigation.navigate(props.mainRoute);
-
-              const departmentId = await fetchDepartmentId();
-              setDepartmentId(departmentId);
+              if(props.useDepartmentId)
+              {
+                const departmentId = await fetchDepartmentId();
+                setDepartmentId(departmentId)
+              }
             })
             .catch((e: Error) => {
               console.warn(e);

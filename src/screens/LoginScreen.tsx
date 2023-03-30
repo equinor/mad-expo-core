@@ -31,6 +31,7 @@ export default function LoginScreen(props: {
   eds?: boolean;
   title?: string;
   showDemoButton?: boolean;
+  useDepartmentId?: boolean;
   onLoginSuccessful?: (account: MSALAccount) => void;
   onDemoPress?: () => void;
 }) {
@@ -59,6 +60,7 @@ export default function LoginScreen(props: {
       mainRoute={props.mainRoute}
       navigation={props.navigation}
       scopes={props.scopes}
+      useDepartmentId={props.useDepartmentId}
       onLoginSuccessful={props.onLoginSuccessful}
       eds
     />

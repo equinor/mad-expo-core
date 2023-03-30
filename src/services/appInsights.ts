@@ -149,9 +149,9 @@ export const track = (
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
   if (excludeLogFilter(eventString, ["Ping", "ServiceMessage,", "STARTED"])) return;
   const departmentId = getDepartmentId()
-  trackEvent({ name: eventString }, {...extraData, departmentId});
+  trackEvent({ name: eventString }, departmentId != "0" ?  {...extraData, departmentId} : extraData);
   if (appInsightsLongTermLog) {
-    trackEventLongTerm({ name: eventString }, {...extraData, departmentId});
+    trackEventLongTerm({ name: eventString },  departmentId != "0" ?  {...extraData, departmentId} : extraData);
   }
 };
 
