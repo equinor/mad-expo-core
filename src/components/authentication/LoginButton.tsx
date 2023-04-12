@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { IClaims, isMsalConnected, msalLogin } from '../../services/auth';
+import { fetchDepartmentId, IClaims, isMsalConnected, msalLogin } from '../../services/auth';
 
 import Button from '../common/atoms/Button';
 import React from 'react';
@@ -11,10 +11,12 @@ import {
   track,
 } from '../../services/appInsights';
 import type { MSALAccount } from 'react-native-msal';
+import { setDepartmentId } from 'src/services/departmentId';
 
 export default function LoginButton(props: {
   mainRoute: string;
   navigation: any;
+  useDepartmentId?: boolean;
   scopes: string[];
   onLoginSuccessful?: (account: MSALAccount) => void;
   eds?: boolean;
@@ -27,21 +29,26 @@ export default function LoginButton(props: {
         onPress={async () => {
           track(metricKeys.AUTHENTICATION, metricStatus.STARTED);
           msalLogin(props.scopes)
-            .then((res) => {
-              if (props.onLoginSuccessful) props.onLoginSuccessful(res);
+            .then(async (res) => {
+              if (props.onLoginSuccessful)
+                props.onLoginSuccessful(res);
               const objectId = (res.claims as IClaims)?.oid;
               setUsername(res.username, objectId);
               track(metricKeys.AUTHENTICATION, metricStatus.SUCCESS);
               props.navigation.navigate(props.mainRoute);
+              if(props.useDepartmentId)
+              {
+                const departmentId = await fetchDepartmentId();
+                setDepartmentId(departmentId)
+              }
             })
             .catch((e: Error) => {
               console.warn(e);
               track(metricKeys.AUTHENTICATION, metricStatus.FAILED, e.message);
             });
-        }}
+        } }
         viewStyle={props.eds ? styles.buttonStyleEDS : styles.buttonStyle}
-        textStyle={props.eds ? styles.textStyleEDS : undefined}
-      />
+        textStyle={props.eds ? styles.textStyleEDS : undefined} busy={false}      />
     </View>
   );
 }

@@ -8,6 +8,7 @@ import {
 } from '@microsoft/applicationinsights-web';
 import { createBrowserHistory } from 'history';
 import { Platform } from 'react-native';
+import { getDepartmentId } from './departmentId';
 import { obfuscateUser } from './encrypt';
 
 let appInsightsMain: ApplicationInsights;
@@ -106,7 +107,7 @@ export const setUsername = (username: string, userIdentifier) => {
   validateAppInsightsInit();
   appInsightsMain.setAuthenticatedUserContext(username, userIdentifier, true);
   if (appInsightsLongTermLog) {
-    const obfuscatedUserName = obfuscateUser(userIdentifier, username, useSHA1).id;  
+    const obfuscatedUserName = obfuscateUser(userIdentifier, username, useSHA1).id;
     const obfuscatedUserId = obfuscateUser(username, userIdentifier, useSHA1).id;
     appInsightsLongTermLog.setAuthenticatedUserContext(
       obfuscatedUserName,
@@ -143,14 +144,14 @@ export const track = (
   eventName: metricKeys,
   eventStatus?: metricStatus,
   extraText?: string,
-  extraData?: ICustomProperties
+  extraData?: ICustomProperties,
 ) => {
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
   if (excludeLogFilter(eventString, ["Ping", "ServiceMessage,", "STARTED"])) return;
-
-  trackEvent({ name: eventString }, extraData);
+  const departmentId = getDepartmentId()
+  trackEvent({ name: eventString }, departmentId != "0" ?  {...extraData, departmentId} : extraData);
   if (appInsightsLongTermLog) {
-    trackEventLongTerm({ name: eventString }, extraData);
+    trackEventLongTerm({ name: eventString },  departmentId != "0" ?  {...extraData, departmentId} : extraData);
   }
 };
 
@@ -237,9 +238,11 @@ export enum metricStatus {
   STARTED = 'STARTED',
   SUCCESS = 'SUCCESS',
   FAILED = 'FAILED',
+
 }
 
 export enum metricKeys {
+  DEP_ID = 'Department ID',
   APP_ACTIVE = 'Application ACTIVE',
   APP_BACKGROUND = 'Application BACKGROUND',
   APP_STARTED = 'Application STARTED',
