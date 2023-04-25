@@ -26,7 +26,6 @@
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
     "prepare": "bob build",
-    "release-it": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods",
@@ -53,7 +52,6 @@
     "@babel/preset-env": "^7.19.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
-    "@release-it/conventional-changelog": "^5.1.1",
     "@types/jest": "^29.0.3",
     "@types/react": "^17.0.2",
     "@types/react-native": ">=0.68.2",
@@ -70,7 +68,6 @@
     "prettier": "^2.0.5",
     "react-native": "0.68.2",
     "react-native-builder-bob": "^0.18.0",
-    "release-it": "^15.10.1",
     "standard-version": "^9.3.2",
     "ts-jest": "^29.0.3",
     "typescript": "^4.6.3"
@@ -102,23 +99,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular"
-      }
-    }
   },
   "eslintConfig": {
     "root": true,
