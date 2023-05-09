@@ -97,6 +97,7 @@ export async function authenticateSilently(scopes: string[]) {
           }
         );
         const data = await response.json();
+        console.log('Response data:', data); // Add this line to log the response data
 
         // Check for the existence of the property before accessing it
         if (
