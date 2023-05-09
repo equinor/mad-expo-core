@@ -85,6 +85,7 @@ export async function authenticateSilently(scopes: string[]) {
     const authResult = { ...result, userId: account.username };
 
     // Fetch and store the department ID if getDepartmentID is set to true
+
     if (getDepartmentID) {
       console.log('Attempting to fetch department ID');
       try {
@@ -97,24 +98,32 @@ export async function authenticateSilently(scopes: string[]) {
           }
         );
         const data = await response.json();
-        const attribute =
-          data.onPremisesExtensionAttributes.extensionAttribute8;
-        const departmentId = attribute.split(':')[2];
 
-        // Store the department ID in the AsyncStorage
-        await setDepartmentId(departmentId);
-        console.log('Department ID fetched and stored:', departmentId);
+        // Check for the existence of the property before accessing it
+        if (
+          data &&
+          data.onPremisesExtensionAttributes &&
+          data.onPremisesExtensionAttributes.extensionAttribute8
+        ) {
+          const attribute =
+            data.onPremisesExtensionAttributes.extensionAttribute8;
+          const departmentId = attribute.split(':')[2];
+
+          // Store the department ID in the AsyncStorage
+          await setDepartmentId(departmentId);
+          console.log('Department ID fetched and stored:', departmentId);
+        } else {
+          console.error(
+            'Error: extensionAttribute8 is not available in the response data'
+          );
+        }
       } catch (error) {
         console.error('Error fetching the department ID:', error);
       }
     } else {
       console.log('getDepartmentID is false, not fetching department ID');
     }
-
-    return authResult;
   }
-
-  throw Error("No refresh token, can't authenticate silently");
 }
 
 export const errorCodes = {};
