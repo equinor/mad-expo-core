@@ -54,7 +54,9 @@ export async function getAccount() {
   return null;
 }
 
-export async function authenticateSilently(scopes: string[]) {
+export async function authenticateSilently(
+  scopes: string[] = ['https://graph.microsoft.com/User.Read']
+) {
   const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
   console.log('Entering authenticateSilently:', getDepartmentID);
 
