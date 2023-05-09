@@ -5,6 +5,7 @@ import PublicClientApplication, {
 } from 'react-native-msal';
 import type { MSALConfiguration } from 'react-native-msal';
 import { setDepartmentId } from './departmentIdStorage';
+import ConfigStore from './configStore';
 
 export let pca: PublicClientApplication | null = null;
 
@@ -52,10 +53,9 @@ export async function getAccount() {
 
   return null;
 }
-export async function authenticateSilently(
-  scopes: string[],
-  getDepartmentID: boolean = false
-) {
+
+export async function authenticateSilently(scopes: string[]) {
+  const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
   console.log('Entering authenticateSilently:', getDepartmentID);
 
   if (!pca) {
@@ -116,33 +116,6 @@ export async function authenticateSilently(
 
   throw Error("No refresh token, can't authenticate silently");
 }
-
-/*
-export async function fetchDepartmentId() {
-  return authenticateSilently(['https://graph.microsoft.com/User.Read']).then(
-    async (auth) => {
-      try {
-        const response = await fetch(
-          'https://graph.microsoft.com/v1.0/me?$select=onPremisesExtensionAttributes',
-          {
-            headers: {
-              Authorization: `Bearer ${auth?.accessToken}`,
-            },
-          }
-        );
-        const data = await response.json();
-        const attribute =
-          data.onPremisesExtensionAttributes.extensionAttribute8;
-        const number = attribute.split(':')[2];
-        await setDepartmentId(number); // Set the departmentId with AsyncStorage
-        return number;
-      } catch (error) {
-        console.error('Error fetching the number:', error);
-      }
-    }
-  );
-}
-*/
 
 export const errorCodes = {};
 

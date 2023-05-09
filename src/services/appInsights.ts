@@ -11,6 +11,7 @@ import { Platform } from 'react-native';
 
 import { obfuscateUser } from './encrypt';
 import { getDepartmentId } from './departmentIdStorage';
+import ConfigStore from './configStore';
 
 let appInsightsMain: ApplicationInsights;
 let appInsightsLongTermLog: ApplicationInsights;
@@ -29,7 +30,8 @@ export const appInsightsInit = (
     | { connectionString: string; instrumentationKey?: undefined }
     | { instrumentationKey: string; connectionString?: undefined }
   ) & {
-    fetchDepartmentId?: boolean; // Add this line
+    fetchDepartmentId?: boolean;
+
     /**
      * Long term log hides user id
      */
@@ -44,6 +46,11 @@ export const appInsightsInit = (
 ) => {
   const { connectionString, instrumentationKey } = payload;
   useSHA1 = payload.longTermLog?.useSHA1;
+
+  ConfigStore.getInstance().setGetDepartmentID(
+    payload.fetchDepartmentId ?? false
+  );
+
   if (Platform.OS === 'web') {
     const browserHistory = createBrowserHistory();
     reactPluginWeb = new ReactPlugin();
@@ -109,8 +116,16 @@ export const setUsername = (username: string, userIdentifier) => {
   validateAppInsightsInit();
   appInsightsMain.setAuthenticatedUserContext(username, userIdentifier, true);
   if (appInsightsLongTermLog) {
-    const obfuscatedUserName = obfuscateUser(userIdentifier, username, useSHA1).id;
-    const obfuscatedUserId = obfuscateUser(username, userIdentifier, useSHA1).id;
+    const obfuscatedUserName = obfuscateUser(
+      userIdentifier,
+      username,
+      useSHA1
+    ).id;
+    const obfuscatedUserId = obfuscateUser(
+      username,
+      userIdentifier,
+      useSHA1
+    ).id;
     appInsightsLongTermLog.setAuthenticatedUserContext(
       obfuscatedUserName,
       obfuscatedUserId,
@@ -146,14 +161,21 @@ export const track = async (
   eventName: metricKeys,
   eventStatus?: metricStatus,
   extraText?: string,
-  extraData?: ICustomProperties,
+  extraData?: ICustomProperties
 ) => {
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
-  if (excludeLogFilter(eventString, ["Ping", "ServiceMessage,", "STARTED"])) return;
+  if (excludeLogFilter(eventString, ['Ping', 'ServiceMessage,', 'STARTED']))
+    return;
   const departmentId = await getDepartmentId();
-  trackEvent({ name: eventString }, departmentId != "0" ?  {...extraData, departmentId} : extraData);
+  trackEvent(
+    { name: eventString },
+    departmentId != '0' ? { ...extraData, departmentId } : extraData
+  );
   if (appInsightsLongTermLog) {
-    trackEventLongTerm({ name: eventString },  departmentId != "0" ?  {...extraData, departmentId} : extraData);
+    trackEventLongTerm(
+      { name: eventString },
+      departmentId != '0' ? { ...extraData, departmentId } : extraData
+    );
   }
 };
 
@@ -164,7 +186,11 @@ export const addTelemetryInitializer = (
   appInsightsLongTermLog.addTelemetryInitializer(envelope);
 };
 
-const excludeLogFilter = (eventString: string, excludeStrings: Array<string>): boolean => excludeStrings.some(excludeString => eventString.includes(excludeString))
+const excludeLogFilter = (
+  eventString: string,
+  excludeStrings: Array<string>
+): boolean =>
+  excludeStrings.some((excludeString) => eventString.includes(excludeString));
 
 /**
  * Track something for short term logs. status, modifier & extraData is optional
@@ -240,7 +266,6 @@ export enum metricStatus {
   STARTED = 'STARTED',
   SUCCESS = 'SUCCESS',
   FAILED = 'FAILED',
-
 }
 
 export enum metricKeys {
