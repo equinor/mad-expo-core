@@ -85,7 +85,6 @@ export async function authenticateSilently(scopes: string[]) {
     const authResult = { ...result, userId: account.username };
 
     // Fetch and store the department ID if getDepartmentID is set to true
-
     if (getDepartmentID) {
       console.log('Attempting to fetch department ID');
       try {
@@ -123,7 +122,11 @@ export async function authenticateSilently(scopes: string[]) {
     } else {
       console.log('getDepartmentID is false, not fetching department ID');
     }
+
+    return authResult;
   }
+
+  throw Error("No refresh token, can't authenticate silently");
 }
 
 export const errorCodes = {};
