@@ -4,7 +4,7 @@ import {
   Pressable,
   StyleSheet,
   View,
-  AppState
+  AppState,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
@@ -51,7 +51,10 @@ export default function LoginScreen(props: {
             props.navigation.navigate(props.mainRoute);
           }
         });
-    const subscription = AppState.addEventListener("change", handleAppStatusChange);
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStatusChange
+    );
     return () => subscription.remove();
   }, []);
 
@@ -60,7 +63,6 @@ export default function LoginScreen(props: {
       mainRoute={props.mainRoute}
       navigation={props.navigation}
       scopes={props.scopes}
-      useDepartmentId={props.use}
       onLoginSuccessful={props.onLoginSuccessful}
       eds
     />

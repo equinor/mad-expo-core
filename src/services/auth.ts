@@ -5,8 +5,6 @@ import PublicClientApplication, {
 } from 'react-native-msal';
 import type { MSALConfiguration } from 'react-native-msal';
 import { setDepartmentId } from './departmentIdStorage';
-import { store } from 'src/store';
-// Import the necessary Redux action and store
 
 export let pca: PublicClientApplication | null = null;
 

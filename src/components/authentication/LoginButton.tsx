@@ -1,10 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import {
-  fetchDepartmentId,
-  IClaims,
-  isMsalConnected,
-  msalLogin,
-} from '../../services/auth';
+import { IClaims, isMsalConnected, msalLogin } from '../../services/auth';
 
 import Button from '../common/atoms/Button';
 import React from 'react';
@@ -16,7 +11,6 @@ import {
   track,
 } from '../../services/appInsights';
 import type { MSALAccount } from 'react-native-msal';
-import { setDepartmentId } from 'src/services/departmentIdStorage';
 
 export default function LoginButton(props: {
   mainRoute: string;
