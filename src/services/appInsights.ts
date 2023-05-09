@@ -8,8 +8,9 @@ import {
 } from '@microsoft/applicationinsights-web';
 import { createBrowserHistory } from 'history';
 import { Platform } from 'react-native';
-import { getDepartmentId } from './departmentId';
+
 import { obfuscateUser } from './encrypt';
+import { getDepartmentId } from './departmentIdStorage';
 
 let appInsightsMain: ApplicationInsights;
 let appInsightsLongTermLog: ApplicationInsights;
@@ -28,6 +29,7 @@ export const appInsightsInit = (
     | { connectionString: string; instrumentationKey?: undefined }
     | { instrumentationKey: string; connectionString?: undefined }
   ) & {
+    fetchDepartmentId?: boolean; // Add this line
     /**
      * Long term log hides user id
      */
@@ -140,7 +142,7 @@ const trackEventLongTerm = (
  * @param {string} [modifier] - extra text in the name of the event
  * @param {Object} [extraData] - object to send as a customDimension property. Detailed information should be sent here
  */
-export const track = (
+export const track = async (
   eventName: metricKeys,
   eventStatus?: metricStatus,
   extraText?: string,
@@ -148,7 +150,7 @@ export const track = (
 ) => {
   const eventString = `${eventName} ${eventStatus || ''}. ${extraText || ''}`;
   if (excludeLogFilter(eventString, ["Ping", "ServiceMessage,", "STARTED"])) return;
-  const departmentId = getDepartmentId()
+  const departmentId = await getDepartmentId();
   trackEvent({ name: eventString }, departmentId != "0" ?  {...extraData, departmentId} : extraData);
   if (appInsightsLongTermLog) {
     trackEventLongTerm({ name: eventString },  departmentId != "0" ?  {...extraData, departmentId} : extraData);

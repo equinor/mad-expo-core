@@ -60,7 +60,7 @@ export default function LoginScreen(props: {
       mainRoute={props.mainRoute}
       navigation={props.navigation}
       scopes={props.scopes}
-      useDepartmentId={props.useDepartmentId}
+      useDepartmentId={props.use}
       onLoginSuccessful={props.onLoginSuccessful}
       eds
     />
