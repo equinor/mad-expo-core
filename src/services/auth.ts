@@ -54,11 +54,13 @@ export async function getAccount() {
   return null;
 }
 
-export async function authenticateSilently(scopes: string[]) {
+export async function authenticateSilently(
+  scopes: string[],
+  fetchDeptId?: boolean
+) {
   if (!pca) {
     throw new Error('Unable to authenticate, pca is null');
   }
-  const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
 
   const accounts: MSALAccount[] | void = await pca
     .getAccounts()
@@ -82,13 +84,14 @@ export async function authenticateSilently(scopes: string[]) {
 
     const authResult = { ...result, userId: account.username };
 
-    if (getDepartmentID) {
+    if (fetchDeptId) {
       const departmentId = await fetchDepartmentId([
         'https://graph.microsoft.com/User.Read',
       ]);
       if (departmentId) {
         console.log('Department ID:', departmentId);
-        // Store the department ID or perform any other action
+        await setDepartmentId(departmentId);
+        console.log('Department ID stored successfully.');
       } else {
         console.error('Failed to fetch the department ID');
       }
