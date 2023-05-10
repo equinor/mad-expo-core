@@ -61,7 +61,7 @@ export async function authenticateSilently(scopes: string[]) {
   const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
 
   if (getDepartmentID) {
-    scopes.push('https://graph.microsoft.com/User.Read');
+    scopes = ['https://graph.microsoft.com/User.Read'];
   }
 
   const accounts: MSALAccount[] | void = await pca
