@@ -53,7 +53,6 @@ export async function getAccount() {
 
   return null;
 }
-
 export async function authenticateSilently(scopes: string[]) {
   if (!pca) {
     throw new Error('Unable to authenticate, pca is null');
@@ -83,20 +82,24 @@ export async function authenticateSilently(scopes: string[]) {
     const authResult = { ...result, userId: account.username };
 
     if (getDepartmentID) {
-      try {
-        const departmentId = await fetchDepartmentId([
-          'https://graph.microsoft.com/User.Read',
-        ]);
-        if (departmentId) {
-          console.log('Department ID:', departmentId);
-          await setDepartmentId(departmentId);
-          console.log('Department ID stored successfully.');
-        } else {
-          console.error('Failed to fetch the department ID');
-        }
-      } catch (error) {
-        console.error('Error fetching the department ID:', error);
-      }
+      fetchDepartmentId(['https://graph.microsoft.com/User.Read'])
+        .then((departmentId) => {
+          if (departmentId) {
+            console.log('Department ID:', departmentId);
+            setDepartmentId(departmentId)
+              .then(() => {
+                console.log('Department ID stored successfully.');
+              })
+              .catch((error) => {
+                console.error('Error storing department ID:', error);
+              });
+          } else {
+            console.error('Failed to fetch the department ID');
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching the department ID:', error);
+        });
     }
 
     return authResult;
