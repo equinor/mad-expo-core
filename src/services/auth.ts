@@ -53,80 +53,44 @@ export async function getAccount() {
 
   return null;
 }
+
 export async function authenticateSilently(scopes: string[]) {
   if (!pca) {
     throw new Error('Unable to authenticate, pca is null');
   }
-  console.log('Starting authenticateSilently...');
   const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
-
-  if (getDepartmentID) {
-    scopes = ['https://graph.microsoft.com/User.Read'];
-  }
 
   const accounts: MSALAccount[] | void = await pca
     .getAccounts()
-    .catch((e) => {
-      console.warn('Error getting accounts:', e);
-    })
-    .then((accounts) => {
-      console.log('Accounts retrieved:', accounts);
-      return accounts;
-    });
+    .catch((e) => console.warn(e))
+    .then((accounts) => accounts);
 
   if (accounts && accounts.length > 0) {
     const account = accounts[0];
-    console.log('Selected account:', account);
-
     const params: MSALSilentParams = {
       account: accounts[0],
       scopes,
       forceRefresh: false,
     };
-    console.log('MSALSilentParams:', params);
-
     const result: MSALResult | undefined | void = await pca
       .acquireTokenSilent(params)
       .catch((e) => {
         console.log('Error while fetching token silently', e);
       })
-      .then((res) => {
-        console.log('Token silently fetched:', res);
-        return res;
-      });
-
-    if (!result) {
-      console.log('No result, returning null...');
-      return null;
-    }
+      .then((res) => res);
+    if (!result) return null;
 
     const authResult = { ...result, userId: account.username };
-    console.log('Authentication result:', authResult);
 
     if (getDepartmentID) {
-      console.log('Fetching department ID...');
-
-      try {
-        const response = await fetch(
-          'https://graph.microsoft.com/v1.0/me?$select=onPremisesExtensionAttributes',
-          {
-            headers: {
-              Authorization: `Bearer ${authResult.accessToken}`,
-            },
-          }
-        );
-        const data = await response.json();
-        console.log('Fetched data:', data);
-
-        const attribute =
-          data.onPremisesExtensionAttributes.extensionAttribute8;
-        const number = attribute.split(':')[2];
-        console.log('Department ID:', number);
-
-        await setDepartmentId(number);
-        console.log('Department ID stored successfully.');
-      } catch (error) {
-        console.error('Error fetching the number:', error);
+      const departmentId = await fetchDepartmentId([
+        'https://graph.microsoft.com/User.Read',
+      ]);
+      if (departmentId) {
+        console.log('Department ID:', departmentId);
+        // Store the department ID or perform any other action
+      } else {
+        console.error('Failed to fetch the department ID');
       }
     }
 
@@ -134,6 +98,30 @@ export async function authenticateSilently(scopes: string[]) {
   }
 
   throw Error("No refresh token, can't authenticate silently");
+}
+
+export async function fetchDepartmentId(scopes: string[]) {
+  const auth = await authenticateSilently(scopes);
+  if (!auth) {
+    throw Error('Unable to authenticate for fetching department ID');
+  }
+
+  try {
+    const response = await fetch(
+      'https://graph.microsoft.com/v1.0/me?$select=onPremisesExtensionAttributes',
+      {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      }
+    );
+    const data = await response.json();
+    const attribute = data.onPremisesExtensionAttributes.extensionAttribute8;
+    const number = attribute.split(':')[2];
+    return number;
+  } catch (error) {
+    console.error('Error fetching the number:', error);
+  }
 }
 
 export const errorCodes = {};
