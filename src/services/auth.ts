@@ -53,86 +53,81 @@ export async function getAccount() {
 
   return null;
 }
-
 export async function authenticateSilently(scopes: string[]) {
-  const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
-  console.log('Entering authenticateSilently:', getDepartmentID);
-
   if (!pca) {
     throw new Error('Unable to authenticate, pca is null');
   }
-  console.log('scopes1: ', scopes);
+  console.log('Starting authenticateSilently...');
+  const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
+
   if (getDepartmentID) {
-    scopes = [...scopes, 'https://graph.microsoft.com/User.Read'];
+    scopes.push('https://graph.microsoft.com/User.Read');
   }
-  const singleScope = scopes.join(' ');
-  console.log('singleScope: ', singleScope);
+
   const accounts: MSALAccount[] | void = await pca
     .getAccounts()
-    .catch((e) => console.warn(e))
-    .then((accounts) => accounts);
+    .catch((e) => {
+      console.warn('Error getting accounts:', e);
+    })
+    .then((accounts) => {
+      console.log('Accounts retrieved:', accounts);
+      return accounts;
+    });
+
   if (accounts && accounts.length > 0) {
     const account = accounts[0];
+    console.log('Selected account:', account);
+
     const params: MSALSilentParams = {
       account: accounts[0],
-      scopes: [singleScope],
+      scopes,
       forceRefresh: false,
     };
+    console.log('MSALSilentParams:', params);
+
     const result: MSALResult | undefined | void = await pca
       .acquireTokenSilent(params)
       .catch((e) => {
         console.log('Error while fetching token silently', e);
       })
-      .then((res) => res);
-    if (!result) return null;
+      .then((res) => {
+        console.log('Token silently fetched:', res);
+        return res;
+      });
+
+    if (!result) {
+      console.log('No result, returning null...');
+      return null;
+    }
 
     const authResult = { ...result, userId: account.username };
+    console.log('Authentication result:', authResult);
 
-    // Log the acquired access token
-    console.log('Access token:', authResult?.accessToken);
-
-    // Fetch and store the department ID if getDepartmentID is set to true
     if (getDepartmentID) {
-      console.log('Attempting to fetch department ID');
+      console.log('Fetching department ID...');
+
       try {
         const response = await fetch(
           'https://graph.microsoft.com/v1.0/me?$select=onPremisesExtensionAttributes',
           {
             headers: {
-              Authorization: `Bearer ${authResult?.accessToken}`,
+              Authorization: `Bearer ${authResult.accessToken}`,
             },
           }
         );
-
-        // Log the response status
-        console.log('Fetch department ID response status:', response.status);
-
         const data = await response.json();
-        console.log('Response data:', data);
+        console.log('Fetched data:', data);
 
-        // Check for the existence of the property before accessing it
-        if (
-          data &&
-          data.onPremisesExtensionAttributes &&
-          data.onPremisesExtensionAttributes.extensionAttribute8
-        ) {
-          const attribute =
-            data.onPremisesExtensionAttributes.extensionAttribute8;
-          const departmentId = attribute.split(':')[2];
+        const attribute =
+          data.onPremisesExtensionAttributes.extensionAttribute8;
+        const number = attribute.split(':')[2];
+        console.log('Department ID:', number);
 
-          // Store the department ID in the AsyncStorage
-          await setDepartmentId(departmentId);
-          console.log('Department ID fetched and stored:', departmentId);
-        } else {
-          console.error(
-            'Error: extensionAttribute8 is not available in the response data'
-          );
-        }
+        await setDepartmentId(number);
+        console.log('Department ID stored successfully.');
       } catch (error) {
-        console.error('Error fetching the department ID:', error);
+        console.error('Error fetching the number:', error);
       }
-    } else {
-      console.log('getDepartmentID is false, not fetching department ID');
     }
 
     return authResult;
