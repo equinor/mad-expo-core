@@ -85,14 +85,7 @@ export async function authenticateSilently(scopes: string[]) {
       fetchDepartmentId(['https://graph.microsoft.com/User.Read'])
         .then((departmentId) => {
           if (departmentId) {
-            console.log('Department ID:', departmentId);
-            setDepartmentId(departmentId)
-              .then(() => {
-                console.log('Department ID stored successfully.');
-              })
-              .catch((error) => {
-                console.error('Error storing department ID:', error);
-              });
+            setDepartmentId(departmentId);
           } else {
             console.error('Failed to fetch the department ID');
           }
@@ -127,7 +120,9 @@ export async function fetchDepartmentId(scopes: string[]) {
 
     const result: MSALResult | undefined | void = await pca
       .acquireTokenSilent(params)
-      .catch((e) => {})
+      .catch((e) => {
+        console.log('Error while fetching token silently', e);
+      })
       .then((res) => res);
 
     if (!result) {
