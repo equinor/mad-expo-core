@@ -54,9 +54,7 @@ export async function getAccount() {
   return null;
 }
 
-export async function authenticateSilently(
-  scopes: string[] = ['https://graph.microsoft.com/User.Read']
-) {
+export async function authenticateSilently(scopes: string[]) {
   const getDepartmentID = ConfigStore.getInstance().getDepartmentID;
   console.log('Entering authenticateSilently:', getDepartmentID);
 
@@ -86,6 +84,9 @@ export async function authenticateSilently(
 
     const authResult = { ...result, userId: account.username };
 
+    // Log the acquired access token
+    console.log('Access token:', authResult?.accessToken);
+
     // Fetch and store the department ID if getDepartmentID is set to true
     if (getDepartmentID) {
       console.log('Attempting to fetch department ID');
@@ -98,8 +99,12 @@ export async function authenticateSilently(
             },
           }
         );
+
+        // Log the response status
+        console.log('Fetch department ID response status:', response.status);
+
         const data = await response.json();
-        console.log('Response data:', data); // Add this line to log the response data
+        console.log('Response data:', data);
 
         // Check for the existence of the property before accessing it
         if (
