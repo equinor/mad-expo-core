@@ -65,7 +65,8 @@ export async function authenticateSilently(scopes: string[]) {
   if (getDepartmentID) {
     scopes = [...scopes, 'https://graph.microsoft.com/User.Read'];
   }
-  console.log('scopes2: ', scopes);
+  const singleScope = scopes.join(' ');
+  console.log('singleScope: ', singleScope);
   const accounts: MSALAccount[] | void = await pca
     .getAccounts()
     .catch((e) => console.warn(e))
@@ -74,7 +75,7 @@ export async function authenticateSilently(scopes: string[]) {
     const account = accounts[0];
     const params: MSALSilentParams = {
       account: accounts[0],
-      scopes,
+      scopes: [singleScope],
       forceRefresh: false,
     };
     const result: MSALResult | undefined | void = await pca
