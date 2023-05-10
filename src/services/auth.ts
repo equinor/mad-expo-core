@@ -116,7 +116,6 @@ export async function fetchDepartmentId(scopes: string[]) {
     .then((accounts) => accounts);
 
   if (accounts && accounts.length > 0) {
-    const account = accounts[0];
     const params: MSALSilentParams = {
       account: accounts[0],
       scopes,
