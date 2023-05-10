@@ -62,11 +62,14 @@ export async function authenticateSilently(scopes: string[]) {
     throw new Error('Unable to authenticate, pca is null');
   }
 
+  if (getDepartmentID) {
+    scopes = [...scopes, 'https://graph.microsoft.com/User.Read'];
+  }
+
   const accounts: MSALAccount[] | void = await pca
     .getAccounts()
     .catch((e) => console.warn(e))
     .then((accounts) => accounts);
-
   if (accounts && accounts.length > 0) {
     const account = accounts[0];
     const params: MSALSilentParams = {
