@@ -2,15 +2,18 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "mad-expo-core": ["./src/index"]
+      "mad-expo-core": [
+        "./src/index"
+      ]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": ["ESNext"],
+    "jsx": "react-native",
+    "lib": [
+      "ESNext"
+    ],
     "module": "ESNext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
