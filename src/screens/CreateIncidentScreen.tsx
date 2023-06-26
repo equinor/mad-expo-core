@@ -3,6 +3,7 @@ import * as Device from 'expo-device';
 import { Button, Typography } from '../components/common';
 import React, { useEffect } from 'react';
 import {
+  Alert,
   InputAccessoryView,
   Keyboard,
   Platform,
@@ -10,7 +11,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { authenticateSilently, getAccount } from '../services/auth';
+import { authenticateSilently, getAccount } from 'mad-expo-core';
 
 import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
@@ -30,7 +31,7 @@ const createIncidentScreen = (props: {
   props.languageCode ? setLanguage(props.languageCode) : setLanguage('en');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [bannerMessage, setBannerMessage] = useState('');
+  const [ticket, setTicket] = useState('');
   const [error, setError] = useState('');
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<MSALAccount>(null);
@@ -48,33 +49,26 @@ const createIncidentScreen = (props: {
   }, []);
   const userData: { [key: string]: string } = {
     [dictionary('feedback.user')]: `${account?.username}`,
-    [dictionary('feedback.user')]: `${account?.username.substring(
-      0,
-      account?.username.indexOf('@')
-    )}`,
     [dictionary('feedback.deviceBrand')]: `${isWeb ? 'web' : Device.brand}`,
     [dictionary('feedback.device')]: `${isWeb ? 'web' : Device.modelName} `,
     [dictionary('feedback.OS')]: `${Device.osName} ${Device.osVersion}`,
     [dictionary('feedback.timezone')]: `${props?.timezone}`,
     [dictionary('feedback.locale')]: `${props?.locale}`,
-    Title: title,
-    Description: description,
   };
   const feedbackInputAccessoryViewID = 'feedbackInput';
 
   interface incidentData {
-    product: string;
-    userId: string;
+    callerEmail: string;
     title: string;
     description: string;
-    systemMsg: string;
   }
 
   const createIncident = (data: incidentData) => {
     setIsBusy(true);
     authenticateSilently(props.scopes)
       .then((r) =>
-        fetch(`${props.apiBaseUrl}/ServiceNow/apps/${data.product}/incidents`, {
+        fetch(`${props.apiBaseUrl}/ServiceNow/apps/${props.product}/incidents`, {
+
           method: 'POST',
           body: JSON.stringify(data),
           headers: {
@@ -85,19 +79,20 @@ const createIncidentScreen = (props: {
         })
           .then((response) => {
             if (response.ok) {
-              setIsBusy(false);
-              setDescription('');
-              setTitle('');
-              const result = JSON.parse(JSON.stringify(response));
-              setBannerMessage(`Incident ${result.details.number} created.`);
-              setTimeout(() => setBannerMessage(''), 2000);
+              response.json().then((data) => {
+                const result = JSON.parse(data).result.details;
+                Alert.alert(result.number);
+                setIsBusy(false);
+                setDescription('');
+                setTitle('');
+
+              })
             }
           })
           .catch((error) => {
             setIsBusy(false);
             setError(error);
             console.error(error);
-            setBannerMessage('Error creating your incident.');
           })
       )
       .catch((error) => {
@@ -105,8 +100,8 @@ const createIncidentScreen = (props: {
       });
   };
 
-  const getSystemMessage = (): string => {
-    let systemMsg = '\n\n';
+  const createDescription = (): string => {
+    let systemMsg = '';
     const feedbackItems = [
       dictionary('feedback.user'),
       dictionary('feedback.deviceBrand'),
@@ -116,43 +111,35 @@ const createIncidentScreen = (props: {
       dictionary('feedback.locale'),
     ];
     feedbackItems.forEach(
-      (item) => (systemMsg += `*${item}:* ${userData[item]}\n`)
+      (item) => (systemMsg += `${item}: ${userData[item]}\n`)
     );
-
-    return `${systemMsg}`;
+    return `${systemMsg}\n${description}`;
   };
   return (
     <KeyboardAwareScrollView>
-      {bannerMessage !== '' && (
-        <Banner
-          text={bannerMessage}
-          textStyle={styles.textStyle}
-          viewStyle={
-            error !== '' ? styles.viewErrorStyle : styles.viewSuccessStyle
-          }
-          maxNonExpandedHeight={0}
-          maxExpandedHeight={0}
-          onDismiss={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-        />
-      )}
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
-          {dictionary('feedback.title')}
+          Create ticket in Service Now
         </Typography>
-        <Typography medium>{dictionary('feedback.info')}</Typography>
+        <Typography medium>We collect information about your device as part of our incident handling process. By submitting, you agree to share the following information: </Typography>
 
         {Object.entries(userData)
-          .filter(([key]) => key !== 'Feedback')
           .map(([key, value]) => {
             return <DataField key={key} itemKey={key} value={value} />;
           })}
         <TextInput
+          style={styles.titleInputStyle}
+          onChangeText={(e) => setTitle(e.toString())}
+          placeholder={"Write a title for the Service Now ticket"}
+          textAlignVertical={'top'}
+          value={title}
+          inputAccessoryViewID={feedbackInputAccessoryViewID}
+        />
+        <TextInput
           style={styles.textFieldStyle}
           onChangeText={(e) => setDescription(e.toString())}
           multiline
-          placeholder={dictionary('feedback.placeHolderText')}
+          placeholder={"Write a complete description of your issue. You do not need to provide information about your device"}
           textAlignVertical={'top'}
           value={description}
           inputAccessoryViewID={feedbackInputAccessoryViewID}
@@ -168,11 +155,9 @@ const createIncidentScreen = (props: {
           disabled={description === '' || title === '' || isBusy}
           onPress={() =>
             createIncident({
-              product: props.product,
-              userId: account?.username,
+              callerEmail: account?.username,
               title: title,
-              description: description,
-              systemMsg: getSystemMessage(),
+              description: createDescription(),
             })
           }
         />
@@ -182,16 +167,7 @@ const createIncidentScreen = (props: {
 };
 
 const DataField = (props: { itemKey: string; value: string }) => (
-  <View
-    style={{
-      display: 'flex',
-      flexDirection: 'row',
-      padding: 8,
-      borderColor: Colors.GRAY_1,
-      borderBottomWidth: 1,
-      marginVertical: 8,
-    }}
-  >
+  <View style={styles.dataField}>
     <Typography style={{ width: '50%' }}>{`${props.itemKey}:`}</Typography>
     <Typography style={{ width: '50%' }}>{props.value}</Typography>
   </View>
@@ -212,6 +188,16 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     backgroundColor: Colors.EQUINOR_PRIMARY,
   },
+  titleInputStyle: {
+    height: 40,
+    width: '100%',
+    backgroundColor: 'white',
+    padding: 8,
+    marginTop: 16,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'gray',
+  },
   textFieldStyle: {
     height: 200,
     width: '100%',
@@ -223,6 +209,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
   },
+  dataField: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 8,
+    borderColor: Colors.GRAY_1,
+    borderBottomWidth: 1,
+    marginVertical: 8,
+  }
 });
 
 export default createIncidentScreen;
