@@ -1,4 +1,13 @@
 {
+  "createIncident.title": "Opprett sak i Service Now",
+  "createIncident.info": "Vi samler inn informasjon om din enhet som en del av vår saksbehandlingsprosess. Ved å sende inn samtykker du i å dele følgende informasjon:\n\n",
+  "createIncident.placeholderTitle": "Skriv inn sakstittel",
+  "createIncident.placeholderDescription": "Skriv inn en komplett beskrivelse av saken din. Du trenger ikke oppgi informasjon om din brukerenhet.",
+  "createIncident.created1": "Sak ",
+  "createIncident.created2": " opprettet.",
+  "createIncident.error": "En feil oppstod ved opprettelse av din sak: ",
+
+
   "feedback.title": "Gi tilbakemelding",
   "feedback.info": "Vi samler inn informasjon om din enhet som en del av vår tilbakemeldingsprosess. Ved å sende inn samtykker du i å dele følgende informasjon:\n\n",
   "feedback.user": "Bruker",

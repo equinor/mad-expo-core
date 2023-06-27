@@ -1,4 +1,12 @@
 {
+  "createIncident.title": "Create ticket in Service Now",
+  "createIncident.info": "We collect information about your device as part of our incident handling process. By submitting, you agree to share the following information:",
+  "createIncident.placeholderTitle": "Write a title for the Service Now ticket",
+  "createIncident.placeholderDescription": "Write a complete description of your issue. You do not need to provide information about your device",
+  "createIncident.created1": "Incident ",
+  "createIncident.created2": " created.",
+  "createIncident.error": "An error occurred creating your ticket: ",
+
   "feedback.title": "Leave feedback",
   "feedback.info": "We collect information about your device as part of our feedback process. By submitting, you agree to share the following information:\n\n",
   "feedback.user": "User",

@@ -3,7 +3,6 @@ import * as Device from 'expo-device';
 import { Button, Typography } from '../components/common';
 import React, { useEffect } from 'react';
 import {
-  Alert,
   InputAccessoryView,
   Keyboard,
   Platform,
@@ -13,7 +12,6 @@ import {
 } from 'react-native';
 import { authenticateSilently, getAccount } from 'mad-expo-core';
 
-import { Banner } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
@@ -31,8 +29,8 @@ const createIncidentScreen = (props: {
   props.languageCode ? setLanguage(props.languageCode) : setLanguage('en');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [ticket, setTicket] = useState('');
-  const [error, setError] = useState('');
+  const [ticket, setTicket] = useState('ENQ123456');
+  const [error, setError] = useState('Error 500');
   const [isBusy, setIsBusy] = useState(false);
   const [account, setAccount] = useState<MSALAccount>(null);
 
@@ -81,11 +79,10 @@ const createIncidentScreen = (props: {
             if (response.ok) {
               response.json().then((data) => {
                 const result = JSON.parse(data).result.details;
-                Alert.alert(result.number);
                 setIsBusy(false);
                 setDescription('');
                 setTitle('');
-
+                setTicket(result.number);
               })
             }
           })
@@ -119,18 +116,32 @@ const createIncidentScreen = (props: {
     <KeyboardAwareScrollView>
       <View style={{ padding: 24 }}>
         <Typography variant="h1" style={{ marginBottom: 8 }}>
-          Create ticket in Service Now
+          {dictionary("createIncident.title")}
         </Typography>
-        <Typography medium>We collect information about your device as part of our incident handling process. By submitting, you agree to share the following information: </Typography>
+        <Typography medium>{dictionary("createIncident.info")}</Typography>
 
         {Object.entries(userData)
           .map(([key, value]) => {
             return <DataField key={key} itemKey={key} value={value} />;
           })}
+        {
+          ticket && <View style={styles.ticketCreated}>
+            <Typography style={{color: Colors.WHITE}}>
+              {dictionary("createIncident.created1") + ticket + dictionary("createIncident.created2")}
+            </Typography>
+          </View>
+        }
+        {
+          error && <View style={styles.errorOccurred}>
+            <Typography style={{color: Colors.WHITE}}>
+              {dictionary("createIncident.error") + error}
+            </Typography>
+          </View>
+        }
         <TextInput
           style={styles.titleInputStyle}
           onChangeText={(e) => setTitle(e.toString())}
-          placeholder={"Write a title for the Service Now ticket"}
+          placeholder={dictionary("createIncident.placeholderTitle")}
           textAlignVertical={'top'}
           value={title}
           inputAccessoryViewID={feedbackInputAccessoryViewID}
@@ -139,7 +150,7 @@ const createIncidentScreen = (props: {
           style={styles.textFieldStyle}
           onChangeText={(e) => setDescription(e.toString())}
           multiline
-          placeholder={"Write a complete description of your issue. You do not need to provide information about your device"}
+          placeholder={dictionary("createIncident.placeholderDescription")}
           textAlignVertical={'top'}
           value={description}
           inputAccessoryViewID={feedbackInputAccessoryViewID}
@@ -216,7 +227,19 @@ const styles = StyleSheet.create({
     borderColor: Colors.GRAY_1,
     borderBottomWidth: 1,
     marginVertical: 8,
-  }
+  },
+  ticketCreated: {
+    padding: 8,
+    marginTop: 16,
+    backgroundColor: Colors.EQUINOR_PRIMARY,
+    borderRadius: 4
+  },
+  errorOccurred: {
+    padding: 8,
+    marginTop: 16,
+    backgroundColor: Colors.RED,
+    borderRadius: 4
+  },
 });
 
 export default createIncidentScreen;
