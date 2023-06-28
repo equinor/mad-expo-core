@@ -1,6 +1,6 @@
 {
   "createIncident.title": "Opprett sak i Service Now",
-  "createIncident.info": "Vi samler inn informasjon om din enhet som en del av vår saksbehandlingsprosess. Ved å sende inn samtykker du i å dele følgende informasjon:\n\n",
+  "createIncident.info": "Vi samler inn informasjon om din enhet som en del av vår saksbehandlingsprosess. Ved å sende inn samtykker du i å dele følgende informasjon:",
   "createIncident.placeholderTitle": "Skriv inn sakstittel",
   "createIncident.placeholderDescription": "Skriv inn en komplett beskrivelse av saken din. Du trenger ikke oppgi informasjon om din brukerenhet.",
   "createIncident.created1": "Sak ",
