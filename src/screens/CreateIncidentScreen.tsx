@@ -66,7 +66,7 @@ const createIncidentScreen = (props: {
 
   const onPressSubmit = () => {
     setIsBusy(true);
-    const result = createIncident({
+    createIncident({
       data: {
         callerEmail: account?.username,
         title: title,
@@ -75,18 +75,21 @@ const createIncidentScreen = (props: {
       scopes: props.scopes,
       product: props.product,
       apiBaseUrl: props.apiBaseUrl,
-    });
-
-    if (typeof result !== 'string') {
-      result.status === 'success'
-        ? setTicket(result.details.number)
-        : setError(result.status);
-    } else {
-      setError(result);
-    }
-    setIsBusy(false);
-    setDescription('');
-    setTitle('');
+    }).then((response => {
+      if (response.ok) {
+        response.json().then((data) => {
+          const result = JSON.parse(data).result;
+          result.status === 'success'
+            ? setTicket(result.details.number)
+            : setError(result.status);
+        });
+      } else {
+        setError(response.statusText);
+      }
+      setIsBusy(false);
+      setDescription('');
+      setTitle('');
+    }));
   };
 
   return (

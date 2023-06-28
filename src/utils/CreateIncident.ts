@@ -7,44 +7,34 @@ type IncidentData = {
   description: string;
 };
 
-export type Result = {
-  status: string,
-  details: {number: string}
-}
 export const createIncident = (props: {
   data: IncidentData;
   scopes: string[];
   apiBaseUrl: string;
   product: string;
-}): Result | string => {
-  authenticateSilently(props.scopes)
-    .then((r) =>
-      fetch(`${props.apiBaseUrl}/ServiceNow/apps/${props.product}/incidents`, {
-        method: 'POST',
+}): Promise<Response> => {
+  return authenticateSilently(props.scopes)
+    .then((r) => fetch(`${props.apiBaseUrl}/ServiceNow/apps/${props.product}/incidents`, {
+        method: "POST",
         body: JSON.stringify(props.data),
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${r?.accessToken}`,
-        },
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${r?.accessToken}`
+        }
       })
         .then((response) => {
           LayoutAnimation.configureNext({
             duration: 500,
             update: {
-              type: LayoutAnimation.Types.easeInEaseOut,
+              type: LayoutAnimation.Types.easeInEaseOut
             },
             create: {
               type: LayoutAnimation.Types.easeInEaseOut,
-              property: LayoutAnimation.Properties.opacity,
-            },
+              property: LayoutAnimation.Properties.opacity
+            }
           });
-          if (response.ok) {
-            response.json().then((data) => {
-              return JSON.parse(data).result;
-            });
-          }
-          return response.statusText;
+          return response;
         })
         .catch((error) => {
           console.error(error);
@@ -53,6 +43,5 @@ export const createIncident = (props: {
     )
     .catch((error) => {
       throw error;
-    });
-  return 'Something unexpexted happened';
+    })
 };
