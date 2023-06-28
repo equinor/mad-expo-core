@@ -9,16 +9,17 @@
 
   "feedback.title": "Leave feedback",
   "feedback.info": "We collect information about your device as part of our feedback process. By submitting, you agree to share the following information:\n\n",
-  "feedback.user": "User",
-  "feedback.deviceBrand": "Device brand",
-  "feedback.device": "Device",
-  "feedback.OS": "Operating system",
-  "feedback.timezone": "Timezone",
-  "feedback.locale": "Locale",
   "feedback.selectFeedbackType": "Select feedback type",
   "feedback.feedBackOnContent": "Feedback on content",
   "feedback.feedBackOnApp": "Feedback on app",
   "feedback.placeHolderText": "Write your feedback here",
+
+  "information.user": "User",
+  "information.deviceBrand": "Device brand",
+  "information.device": "Device",
+  "information.OS": "Operating system",
+  "information.timezone": "Timezone",
+  "information.locale": "Locale",
 
   "Language": "Language",
   "English": "English",

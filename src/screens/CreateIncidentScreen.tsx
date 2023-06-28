@@ -10,13 +10,14 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { authenticateSilently, getAccount } from 'mad-expo-core';
-
+import { getAccount } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { dictionary, setLanguage } from '../resources/language/dictionary';
+import { DataField } from '../components/common/atoms/DataField';
+import { createIncident } from '../utils/CreateIncident';
 
 const createIncidentScreen = (props: {
   locale: string;
@@ -29,10 +30,10 @@ const createIncidentScreen = (props: {
   props.languageCode ? setLanguage(props.languageCode) : setLanguage('en');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [ticket, setTicket] = useState('ENQ123456');
-  const [error, setError] = useState('Error 500');
+  const [ticket, setTicket] = useState('');
+  const [error, setError] = useState('');
   const [isBusy, setIsBusy] = useState(false);
-  const [account, setAccount] = useState<MSALAccount>(null);
+  const [account, setAccount] = useState<MSALAccount | null>(null);
 
   const isWeb = Platform.OS === 'web';
 
@@ -45,165 +46,137 @@ const createIncidentScreen = (props: {
         throw error;
       });
   }, []);
+
   const userData: { [key: string]: string } = {
-    [dictionary('feedback.user')]: `${account?.username}`,
-    [dictionary('feedback.deviceBrand')]: `${isWeb ? 'web' : Device.brand}`,
-    [dictionary('feedback.device')]: `${isWeb ? 'web' : Device.modelName} `,
-    [dictionary('feedback.OS')]: `${Device.osName} ${Device.osVersion}`,
-    [dictionary('feedback.timezone')]: `${props?.timezone}`,
-    [dictionary('feedback.locale')]: `${props?.locale}`,
-  };
-  const feedbackInputAccessoryViewID = 'feedbackInput';
-
-  interface incidentData {
-    callerEmail: string;
-    title: string;
-    description: string;
-  }
-
-  const createIncident = (data: incidentData) => {
-    setIsBusy(true);
-    authenticateSilently(props.scopes)
-      .then((r) =>
-        fetch(`${props.apiBaseUrl}/ServiceNow/apps/${props.product}/incidents`, {
-
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${r?.accessToken}`,
-          },
-        })
-          .then((response) => {
-            if (response.ok) {
-              response.json().then((data) => {
-                const result = JSON.parse(data).result.details;
-                setIsBusy(false);
-                setDescription('');
-                setTitle('');
-                setTicket(result.number);
-              })
-            }
-          })
-          .catch((error) => {
-            setIsBusy(false);
-            setError(error);
-            console.error(error);
-          })
-      )
-      .catch((error) => {
-        throw error;
-      });
+    [dictionary('information.user')]: `${account?.username}`,
+    [dictionary('information.deviceBrand')]: `${isWeb ? 'web' : Device.brand}`,
+    [dictionary('information.device')]: `${isWeb ? 'web' : Device.modelName} `,
+    [dictionary('information.OS')]: `${Device.osName} ${Device.osVersion}`,
+    [dictionary('information.timezone')]: `${props?.timezone}`,
+    [dictionary('information.locale')]: `${props?.locale}`,
   };
 
   const createDescription = (): string => {
     let systemMsg = '';
-    const feedbackItems = [
-      dictionary('feedback.user'),
-      dictionary('feedback.deviceBrand'),
-      dictionary('feedback.device'),
-      dictionary('feedback.OS'),
-      dictionary('feedback.timezone'),
-      dictionary('feedback.locale'),
-    ];
-    feedbackItems.forEach(
-      (item) => (systemMsg += `${item}: ${userData[item]}\n`)
-    );
+    for (const key in userData) {
+      systemMsg += `${key}: ${userData[key]}\n`;
+    }
     return `${systemMsg}\n${description}`;
   };
+
+  const onPressSubmit = () => {
+    setIsBusy(true);
+    const result = createIncident({
+      data: {
+        callerEmail: account?.username,
+        title: title,
+        description: createDescription(),
+      },
+      scopes: props.scopes,
+      product: props.product,
+      apiBaseUrl: props.apiBaseUrl,
+    });
+
+    if (typeof result !== 'string') {
+      result.status === 'success'
+        ? setTicket(result.details.number)
+        : setError(result.status);
+    } else {
+      setError(result);
+    }
+    setIsBusy(false);
+    setDescription('');
+    setTitle('');
+  };
+
   return (
     <KeyboardAwareScrollView>
-      <View style={{ padding: 24 }}>
-        <Typography variant="h1" style={{ marginBottom: 8 }}>
-          {dictionary("createIncident.title")}
-        </Typography>
-        <Typography medium>{dictionary("createIncident.info")}</Typography>
+      <View style={{ backgroundColor: Colors.GRAY_4 }}>
+        <View style={styles.containerStyle}>
+          <Typography variant="h1" style={{ marginBottom: 32 }}>
+            {dictionary('createIncident.title')}
+          </Typography>
+          <Typography style={{ marginBottom: 24 }} medium>
+            {dictionary('createIncident.info')}
+          </Typography>
 
-        {Object.entries(userData)
-          .map(([key, value]) => {
-            return <DataField key={key} itemKey={key} value={value} />;
+          {Object.entries(userData).map(([key, value]) => {
+            return (
+              <DataField
+                key={key}
+                itemKey={key}
+                value={value}
+                viewStyle={styles.dataFieldStyle}
+              />
+            );
           })}
-        {
-          ticket && <View style={styles.ticketCreated}>
-            <Typography style={{color: Colors.WHITE}}>
-              {dictionary("createIncident.created1") + ticket + dictionary("createIncident.created2")}
-            </Typography>
+          {ticket && (
+            <View
+              style={[styles.boxStyle, { borderColor: Colors.EQUINOR_PRIMARY }]}
+            >
+              <Typography>
+                {dictionary('createIncident.created1') +
+                  ticket +
+                  dictionary('createIncident.created2')}
+              </Typography>
+            </View>
+          )}
+          {error && (
+            <View style={[styles.boxStyle, { borderColor: Colors.RED }]}>
+              <Typography>
+                {dictionary('createIncident.error') + error}
+              </Typography>
+            </View>
+          )}
+          <TextInput
+            style={styles.titleInputStyle}
+            onChangeText={(e) => setTitle(e.toString())}
+            placeholder={dictionary('createIncident.placeholderTitle')}
+            textAlignVertical={'top'}
+            value={title}
+            inputAccessoryViewID={'id'}
+            placeholderTextColor={Colors.GRAY_2}
+          />
+          <TextInput
+            style={styles.textFieldStyle}
+            onChangeText={(e) => setDescription(e.toString())}
+            multiline
+            placeholder={dictionary('createIncident.placeholderDescription')}
+            textAlignVertical={'top'}
+            value={description}
+            inputAccessoryViewID={'id'}
+            placeholderTextColor={Colors.GRAY_2}
+          />
+          {!isWeb && (
+            <InputAccessoryView nativeID={'id'}>
+              <Button onPress={() => Keyboard.dismiss()} title="Done" />
+            </InputAccessoryView>
+          )}
+          <View style={styles.buttonContainerStyle}>
+            <Button
+              title="Send"
+              viewStyle={styles.buttonStyle}
+              disabled={description === '' || title === '' || isBusy}
+              onPress={onPressSubmit}
+            />
           </View>
-        }
-        {
-          error && <View style={styles.errorOccurred}>
-            <Typography style={{color: Colors.WHITE}}>
-              {dictionary("createIncident.error") + error}
-            </Typography>
-          </View>
-        }
-        <TextInput
-          style={styles.titleInputStyle}
-          onChangeText={(e) => setTitle(e.toString())}
-          placeholder={dictionary("createIncident.placeholderTitle")}
-          textAlignVertical={'top'}
-          value={title}
-          inputAccessoryViewID={feedbackInputAccessoryViewID}
-        />
-        <TextInput
-          style={styles.textFieldStyle}
-          onChangeText={(e) => setDescription(e.toString())}
-          multiline
-          placeholder={dictionary("createIncident.placeholderDescription")}
-          textAlignVertical={'top'}
-          value={description}
-          inputAccessoryViewID={feedbackInputAccessoryViewID}
-        />
-        {!isWeb && (
-          <InputAccessoryView nativeID={feedbackInputAccessoryViewID}>
-            <Button onPress={() => Keyboard.dismiss()} title="Done" />
-          </InputAccessoryView>
-        )}
-        <Button
-          title="Send"
-          viewStyle={{ width: '100%' }}
-          disabled={description === '' || title === '' || isBusy}
-          onPress={() =>
-            createIncident({
-              callerEmail: account?.username,
-              title: title,
-              description: createDescription(),
-            })
-          }
-        />
+        </View>
       </View>
     </KeyboardAwareScrollView>
   );
 };
 
-const DataField = (props: { itemKey: string; value: string }) => (
-  <View style={styles.dataField}>
-    <Typography style={{ width: '50%' }}>{`${props.itemKey}:`}</Typography>
-    <Typography style={{ width: '50%' }}>{props.value}</Typography>
-  </View>
-);
-
 const styles = StyleSheet.create({
-  textStyle: {
-    color: Colors.WHITE,
-    fontSize: 16,
-  },
-  viewErrorStyle: {
-    padding: 12,
-    paddingTop: 24,
-    backgroundColor: Colors.RED,
-  },
-  viewSuccessStyle: {
-    padding: 12,
-    paddingTop: 24,
-    backgroundColor: Colors.EQUINOR_PRIMARY,
+  containerStyle: {
+    padding: 24,
+    backgroundColor: Colors.WHITE,
+    marginTop: 40
   },
   titleInputStyle: {
-    height: 40,
+    height: 60,
     width: '100%',
-    backgroundColor: 'white',
-    padding: 8,
+    backgroundColor: Colors.GRAY_4,
+    padding: 16,
     marginTop: 16,
     borderRadius: 4,
     borderWidth: 1,
@@ -212,7 +185,7 @@ const styles = StyleSheet.create({
   textFieldStyle: {
     height: 200,
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: Colors.GRAY_4,
     padding: 16,
     paddingTop: 16,
     marginVertical: 16,
@@ -220,25 +193,29 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
   },
-  dataField: {
+  dataFieldStyle: {
     display: 'flex',
     flexDirection: 'row',
     padding: 8,
-    borderColor: Colors.GRAY_1,
+    borderColor: Colors.GRAY_3,
     borderBottomWidth: 1,
     marginVertical: 8,
   },
-  ticketCreated: {
-    padding: 8,
+  boxStyle: {
+    padding: 24,
     marginTop: 16,
-    backgroundColor: Colors.EQUINOR_PRIMARY,
-    borderRadius: 4
+    borderWidth: 2,
+    borderRadius: 4,
   },
-  errorOccurred: {
-    padding: 8,
+  buttonContainerStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  buttonStyle: {
+    width: 100,
+    borderRadius: 3,
     marginTop: 16,
-    backgroundColor: Colors.RED,
-    borderRadius: 4
   },
 });
 
