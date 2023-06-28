@@ -20,6 +20,7 @@ import {
 import AppContainer from './components/common/molecules/AppContainer';
 import Banner from './components/common/molecules/Banner';
 import DetailsTable from './components/common/molecules/DetailsTable';
+import CreateIncidentScreen from './screens/CreateIncidentScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
 import IconButton from './components/common/atoms/IconButton';
 import LoginButton from './components/authentication/LoginButton';
@@ -75,6 +76,7 @@ export {
   NavigationList,
   SettingsButton,
   LoginButton,
+  CreateIncidentScreen,
   FeedbackScreen,
   LoginScreen,
   OnBoardingScreen,

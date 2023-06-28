@@ -18,6 +18,7 @@ import type { MSALAccount } from 'react-native-msal';
 import { useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { dictionary, setLanguage } from '../resources/language/dictionary';
+import { DataField } from '../components/common/atoms/DataField';
 
 const FeedbackScreen = (props: {
   locale: string;
@@ -46,15 +47,15 @@ const FeedbackScreen = (props: {
       });
   }, []);
   const userData: { [key: string]: string } = {
-    [dictionary('feedback.user')]: `${account?.username.substring(
+    [dictionary('information.user')]: `${account?.username.substring(
       0,
       account?.username.indexOf('@')
     )}`,
-    [dictionary('feedback.deviceBrand')]: `${isWeb ? 'web' : Device.brand}`,
-    [dictionary('feedback.device')]: `${isWeb ? 'web' : Device.modelName} `,
-    [dictionary('feedback.OS')]: `${Device.osName} ${Device.osVersion}`,
-    [dictionary('feedback.timezone')]: `${props?.timezone}`,
-    [dictionary('feedback.locale')]: `${props?.locale}`,
+    [dictionary('information.deviceBrand')]: `${isWeb ? 'web' : Device.brand}`,
+    [dictionary('information.device')]: `${isWeb ? 'web' : Device.modelName} `,
+    [dictionary('information.OS')]: `${Device.osName} ${Device.osVersion}`,
+    [dictionary('information.timezone')]: `${props?.timezone}`,
+    [dictionary('information.locale')]: `${props?.locale}`,
     Feedback: feedback,
   };
   const feedbackInputAccessoryViewID = 'feedbackInput';
@@ -102,12 +103,12 @@ const FeedbackScreen = (props: {
   const getSystemMessage = (): string => {
     let systemMsg = '\n\n';
     const feedbackItems = [
-      dictionary('feedback.user'),
-      dictionary('feedback.deviceBrand'),
-      dictionary('feedback.device'),
-      dictionary('feedback.OS'),
-      dictionary('feedback.timezone'),
-      dictionary('feedback.locale'),
+      dictionary('information.user'),
+      dictionary('information.deviceBrand'),
+      dictionary('information.device'),
+      dictionary('information.OS'),
+      dictionary('information.timezone'),
+      dictionary('information.locale'),
     ];
     feedbackItems.forEach(
       (item) => (systemMsg += `*${item}:* ${userData[item]}\n`)
@@ -140,7 +141,7 @@ const FeedbackScreen = (props: {
         {Object.entries(userData)
           .filter(([key]) => key !== 'Feedback')
           .map(([key, value]) => {
-            return <DataField key={key} itemKey={key} value={value} />;
+            return <DataField key={key} itemKey={key} value={value} viewStyle={styles.dataFieldStyle} />;
           })}
         <TextInput
           style={styles.textFieldStyle}
@@ -177,22 +178,6 @@ const FeedbackScreen = (props: {
   );
 };
 
-const DataField = (props: { itemKey: string; value: string }) => (
-  <View
-    style={{
-      display: 'flex',
-      flexDirection: 'row',
-      padding: 8,
-      borderColor: Colors.GRAY_1,
-      borderBottomWidth: 1,
-      marginVertical: 8,
-    }}
-  >
-    <Typography style={{ width: '50%' }}>{`${props.itemKey}:`}</Typography>
-    <Typography style={{ width: '50%' }}>{props.value}</Typography>
-  </View>
-);
-
 const styles = StyleSheet.create({
   textStyle: {
     color: Colors.WHITE,
@@ -219,6 +204,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
   },
+  dataFieldStyle: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 8,
+    borderColor: Colors.GRAY_1,
+    borderBottomWidth: 1,
+    marginVertical: 8,
+  }
 });
 
 export default FeedbackScreen;
