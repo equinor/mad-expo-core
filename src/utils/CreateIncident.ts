@@ -34,7 +34,12 @@ export const createIncident = (props: {
               property: LayoutAnimation.Properties.opacity
             }
           });
-          return response;
+          if (response.ok) {
+            response.json().then((data) => {
+              return JSON.parse(data).result;
+            });
+          }
+          return response.statusText ?? "Unknown error";
         })
         .catch((error) => {
           console.error(error);
