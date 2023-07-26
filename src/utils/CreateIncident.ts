@@ -44,7 +44,7 @@ export const createIncident = (props: {
               return JSON.parse(data).result;
             });
           }
-          return response.statusText;
+          return response.statusText ?? "Unknown error";
         })
         .catch((error) => {
           console.error(error);
