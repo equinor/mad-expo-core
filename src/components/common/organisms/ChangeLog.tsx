@@ -1,12 +1,11 @@
+import { getDateFromIsoString, getShortDate, Typography } from 'mad-expo-core';
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import Button from '../atoms/Button';
-import Spinner from '../atoms/Spinner';
-import Colors from '../../../stylesheets/colors';
-import * as showdown from 'showdown';
 import RenderHtml, { defaultSystemFonts } from 'react-native-render-html';
-import { getDateFromIsoString, getShortDate, Typography } from 'mad-expo-core';
-import type { Release } from '../../../screens/ReleaseNoteScreen';
+import * as showdown from 'showdown';
+
+import Colors from '../../../stylesheets/colors';
+import Button from '../atoms/Button';
 
 const featureTitle = "What's new";
 const affirmText = 'OK';
@@ -17,34 +16,40 @@ const systemFonts = [
   'Equinor-Medium',
 ];
 
-const ChangeLog = (props: {
+export type Release = {
+  app: string;
+  version: string;
+  modified: string;
+  releaseNote: string;
+  releaseDate: string;
+};
+
+type ChangelogProps = {
   release: Release;
-  fetching: boolean;
-  affirm: any;
-}) => {
+  onPressAffirm: () => void;
+};
 
-  const { container, footer, titleHeader } = styles;
-  const { release, affirm, fetching } = props;
+export const ChangeLog = ({ release, onPressAffirm }: ChangelogProps) => {
+  const [width, setWidth] = useState(0);
+  const html = { html: converter.makeHtml(release.releaseNote) };
+  const date = getDateFromIsoString(release.releaseDate);
+  const shortDate = getShortDate(date);
 
-  const renderChangeLog = (release: Release) => {
-    const [width, setWidth] = useState(0);
-
-    const { changelogItem, versionHeader, subtitleHeader } = styles;
-    const html = { html: converter.makeHtml(release.releaseNote) };
-    const date = getDateFromIsoString(release.releaseDate);
-    const shortDate = getShortDate(date);
-
-    return (
-      <ScrollView style={changelogItem}>
-        <Typography style={versionHeader} medium={true}>
+  return (
+    <View style={styles.container}>
+      <Typography style={styles.titleHeader} medium variant="h4">
+        {featureTitle}
+      </Typography>
+      <ScrollView style={styles.changelogItem}>
+        <Typography style={styles.versionHeader} medium>
           {release.version}
         </Typography>
-        <Typography style={subtitleHeader} medium={true}>
+        <Typography style={styles.subtitleHeader} medium>
           {shortDate}
         </Typography>
         <View
           onLayout={(event) => {
-            let { width } = event.nativeEvent.layout;
+            const { width } = event.nativeEvent.layout;
             setWidth(width);
           }}
         >
@@ -63,21 +68,8 @@ const ChangeLog = (props: {
           />
         </View>
       </ScrollView>
-    );
-  };
-
-  if (fetching) {
-    return <Spinner />;
-  }
-
-  return (
-    <View style={container}>
-      <Typography style={titleHeader} medium variant="h4">
-        {featureTitle}
-      </Typography>
-      {renderChangeLog(release)}
-      <View style={footer}>
-        <Button title={affirmText} onPress={affirm} />
+      <View style={styles.footer}>
+        <Button title={affirmText} onPress={onPressAffirm} />
       </View>
     </View>
   );
@@ -90,20 +82,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.GRAY_4,
   },
-  footer: {
-    height: 80,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: Colors.GRAY_2,
-    borderTopWidth: 0.5,
-  },
   titleHeader: {
     marginVertical: 15,
     alignSelf: 'center',
     fontWeight: '500',
     fontSize: 30,
     color: Colors.GRAY_1,
+  },
+  changelogItem: {
+    marginBottom: 15,
+    marginTop: 20,
+    paddingHorizontal: 20,
   },
   versionHeader: {
     marginVertical: 15,
@@ -116,11 +105,12 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     color: Colors.GRAY_1,
   },
-  changelogItem: {
-    marginBottom: 15,
-    marginTop: 20,
-    paddingHorizontal: 20,
+  footer: {
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: Colors.GRAY_2,
+    borderTopWidth: 0.5,
   },
 });
-
-export default ChangeLog;
