@@ -27,7 +27,7 @@ import LoginButton from './components/authentication/LoginButton';
 import LoginScreen from './screens/LoginScreen';
 import OnBoardingScreen from './screens/OnBoardingScreen';
 import Radiobutton from './components/common/atoms/Radiobutton';
-import ReleaseNoteScreen from './screens/ReleaseNoteScreen';
+import { ReleaseNoteScreen } from './screens/ReleaseNoteScreen'
 import SettingsButton from './components/common/molecules/SettingsButton';
 import SettingsScreen from './screens/SettingsScreen';
 import {
@@ -50,6 +50,7 @@ import {
   getDateFromIsoString,
   getShortDate,
 } from './utils/Date';
+import { Environment } from './types';
 
 export {
   Accordion,
@@ -94,5 +95,6 @@ export {
   getShortDate,
   appStateStatus,
   metricKeys,
-  metricStatus
+  metricStatus,
+  Environment
 };

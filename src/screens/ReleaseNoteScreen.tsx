@@ -1,60 +1,68 @@
-import { authenticateSilently } from '../services/auth';
-import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Spinner } from 'mad-expo-core';
+import { useEffect, useState } from 'react';
+import { Environment } from 'src/types';
 
-import { useState } from 'react';
-import ChangeLog from '../components/common/organisms/ChangeLog';
+import {
+  ChangeLog,
+  Release,
+} from '../components/common/organisms/ChangeLog';
 import * as mockData from '../resources/mock-data.json';
-import { Typography } from 'mad-expo-core';
+import { authenticateSilently } from '../services/auth';
 
-const ReleaseNoteScreen = (props: {
+type ReleaseNoteScreenProps = {
   name: string;
   version: string;
-  environment: 'dev' | 'test' | 'qa' | 'prod';
+  environment: Environment;
   scopes: string[];
   navigation: any;
-  versionStorageKey: string;
   redirectRoute: string;
-  demoMode?: boolean;
-  languageCode?: string;
-}) => {
-  const [release, setRelease] = useState<Release>();
-  const [error, setError] = useState('');
-  const [fetching, setFetching] = useState(true);
-  const storeData = async (value: string | null) => {
+  isDemoMode?: boolean;
+};
+
+export const ReleaseNoteScreen = ({
+  name,
+  version,
+  environment,
+  scopes,
+  navigation,
+  redirectRoute,
+  isDemoMode = false,
+}: ReleaseNoteScreenProps) => {
+  const [release, setRelease] = useState<Release | null>(null);
+  const [error, setError] = useState("");
+  const [isFetching, setIsFetching] = useState(true);
+  const versionStorageKey = `${name}-version`;
+
+  const storeData = async (value: string) => {
     try {
-      if (value) {
-        await AsyncStorage.setItem(props.versionStorageKey, value);
-      } else {
-        await AsyncStorage.removeItem(props.versionStorageKey);
-      }
+      await AsyncStorage.setItem(versionStorageKey, value);
     } catch (e) {
-      // saving error
+      // TODO: Saving error
     }
   };
 
   useEffect(() => {
-    const fetchChangelog = async () => {
+    const fetchRelease = async () => {
       try {
-        const version = await AsyncStorage.getItem(props.versionStorageKey);
-        if (version === props.version) {
-          setFetching(false);
+        const storedVersion = await AsyncStorage.getItem(versionStorageKey);
+        if (storedVersion === version) {
+          setIsFetching(false);
           return;
         }
       } catch (e) {
-        // error reading value
+        // TODO: Error reading value
       }
 
-      const environment =
-        props.environment === 'prod' ? `` : `${props.environment}/`;
-      if (props.demoMode) {
+      if (isDemoMode) {
         setRelease(mockData);
-        setFetching(false);
+        setIsFetching(false);
       } else {
-        authenticateSilently(props.scopes)
+        const env = environment === "prod" ? `` : `${environment}/`;
+        authenticateSilently(scopes)
           .then((response) => {
             fetch(
-              `https://api.statoil.com/app/mad/${environment}api/v1.1/ReleaseNote/${props.name}/${props.version}`,
+              `https://api.statoil.com/app/mad/${env}api/v1.1/ReleaseNote/${name}/${version}`,
               {
                 method: 'GET',
                 headers: new Headers({
@@ -69,48 +77,40 @@ const ReleaseNoteScreen = (props: {
                   setRelease(() => ({
                     ...data,
                   }));
-                  setFetching(false);
+                  setIsFetching(false);
                 })
               )
               .catch((error) => {
                 setError(error);
-                setFetching(false);
+                setIsFetching(false);
               });
           })
           .catch((error) => {
             setError(error);
-            setFetching(false);
+            setIsFetching(false);
           });
       }
     };
 
-    fetchChangelog();
+    fetchRelease();
   }, []);
-  if (error || (!fetching && !release)) {
-    props.navigation.navigate(props.redirectRoute);
+
+  if (error || (!isFetching && !release)) {
+    navigation.navigate(redirectRoute);
     return <></>;
-  } else {
-    if (!release) return <Typography>Test</Typography>;
-
-    return (
-      <ChangeLog
-        release={release}
-        fetching={fetching}
-        affirm={() => {
-          storeData(props.version);
-          props.navigation.navigate(props.redirectRoute);
-        }}
-      />
-    );
   }
+
+  if (!release) {
+    return <Spinner />;
+  }
+
+  return (
+    <ChangeLog
+      release={release}
+      onPressAffirm={() => {
+        storeData(version);
+        navigation.navigate(redirectRoute);
+      }}
+    />
+  );
 };
-
-export interface Release {
-  app: string;
-  version: string;
-  modified: string;
-  releaseNote: string;
-  releaseDate: string;
-}
-
-export default ReleaseNoteScreen;
