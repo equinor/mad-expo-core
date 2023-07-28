@@ -28,7 +28,7 @@
 
   "settings.title": "Settings",
   "settings.aboutApp": "About App",
-  "settings.loggedInAs": "Logged in as",
+  "settings.loggedInAs": "Logged in as:",
   "settings.language": "Language",
   "settings.logOut": "Log out",
   "settings.back": "Back",
