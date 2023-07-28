@@ -53,7 +53,7 @@ const SettingsScreen = (props: {
         ))}
         <View style={{ paddingTop: 16 }}>
           <Typography bold>{dictionary('settings.loggedInAs')}</Typography>
-          {account && <Typography>{account.username + '\n'}</Typography>}
+          {account && <Typography style={{ paddingTop: 8 }}>{account.username + '\n'}</Typography>}
           <Button
             title={dictionary('settings.logOut')}
             onPress={() => {
