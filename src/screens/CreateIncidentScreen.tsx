@@ -4,12 +4,12 @@ import { Button, Typography } from '../components/common';
 import React, { useEffect } from 'react';
 import {
   InputAccessoryView,
-  Keyboard,
+  Keyboard, LayoutAnimation,
   Platform,
   StyleSheet,
   TextInput,
-  View,
-} from 'react-native';
+  View
+} from "react-native";
 import { getAccount } from 'mad-expo-core';
 import Colors from '../stylesheets/colors';
 import type { MSALAccount } from 'react-native-msal';
@@ -76,15 +76,28 @@ const createIncidentScreen = (props: {
       product: props.product,
       apiBaseUrl: props.apiBaseUrl,
     }).then((response => {
+
+      LayoutAnimation.configureNext({
+        duration: 500,
+        update: {
+          type: LayoutAnimation.Types.easeInEaseOut
+        },
+        create: {
+          type: LayoutAnimation.Types.easeInEaseOut,
+          property: LayoutAnimation.Properties.opacity
+        }
+      });
+
       if (response.ok) {
         response.json().then((data) => {
           const result = JSON.parse(data).result;
+          console.log(result);
           result.status === 'success'
             ? setTicket(result.details.number)
             : setError(result.status);
         });
       } else {
-        setError(response.statusText);
+        setError(response.statusText ?? "Unknown error");
       }
       setIsBusy(false);
       setDescription('');
