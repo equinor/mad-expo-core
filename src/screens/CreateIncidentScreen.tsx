@@ -91,7 +91,6 @@ const createIncidentScreen = (props: {
       if (response.ok) {
         response.json().then((data) => {
           const result = JSON.parse(data).result;
-          console.log(result);
           result.status === 'success'
             ? setTicket(result.details.number)
             : setError(result.status);
