@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Typography from '../atoms/Typography';
 import * as Linking from 'expo-linking';
-import Colors from "../../../stylesheets/colors";
+import Colors from '../../../stylesheets/colors';
 
 const styles = StyleSheet.create({
   bannerContainer: {
@@ -34,6 +34,12 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 const Banner = (props: {
   icon?: string;
   bannerType: 'negative' | 'positive';
@@ -49,18 +55,31 @@ const Banner = (props: {
   const { text, viewStyle, textStyle } = props;
 
   const URLIcon = () => {
-    return (          
-      <TouchableOpacity onPress={() => Linking.openURL(props.url)} style={{marginRight: 16}} >
-        <MaterialCommunityIcons name="link-variant" size={24} color={Colors.EQUINOR_PRIMARY} />
-      </TouchableOpacity>)
-  }
+    return (
+      <TouchableOpacity
+        onPress={() => Linking.openURL(props.url)}
+        style={{ marginRight: 16 }}
+      >
+        <MaterialCommunityIcons
+          name="link-variant"
+          size={24}
+          color={Colors.EQUINOR_PRIMARY}
+        />
+      </TouchableOpacity>
+    );
+  };
 
   const CloseIcon = () => {
-    return(      
+    return (
       <TouchableOpacity onPress={() => props.onDismiss()}>
-        <MaterialCommunityIcons name="close" size={24} color={Colors.EQUINOR_PRIMARY} />
-      </TouchableOpacity>)
-  }
+        <MaterialCommunityIcons
+          name="close"
+          size={24}
+          color={Colors.EQUINOR_PRIMARY}
+        />
+      </TouchableOpacity>
+    );
+  };
   return (
     <TouchableOpacity
       style={StyleSheet.flatten([
@@ -85,14 +104,20 @@ const Banner = (props: {
             styles.iconContainer,
             {
               backgroundColor:
-                props.bannerType === 'negative' ? Colors.PINK_LIGHT : Colors.WHITE_GRAY,
+                props.bannerType === 'negative'
+                  ? Colors.PINK_LIGHT
+                  : Colors.WHITE_GRAY,
             },
           ])}
         >
           <MaterialCommunityIcons
             name="information-variant"
             size={24}
-            color={props.bannerType === 'negative' ? Colors.RED_LOGO : Colors.EQUINOR_PRIMARY}
+            color={
+              props.bannerType === 'negative'
+                ? Colors.RED_LOGO
+                : Colors.EQUINOR_PRIMARY
+            }
           />
         </View>
         <Typography
@@ -106,8 +131,8 @@ const Banner = (props: {
           {text}
         </Typography>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        {!(props.url === "" || props.url === null) && <URLIcon />}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        {!(props.url === '' || props.url === null) && <URLIcon />}
         <CloseIcon />
       </View>
     </TouchableOpacity>

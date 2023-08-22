@@ -1,4 +1,4 @@
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Colors from '../../../stylesheets/colors';
@@ -9,6 +9,12 @@ const styles = {
   },
 };
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 const Checkbox = (props: {
   onValueChange: CallableFunction;
   checked?: boolean;

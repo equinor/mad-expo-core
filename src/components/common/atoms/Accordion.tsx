@@ -1,9 +1,15 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React from "react";
-import { ReactNode, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import { ReactNode, useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Typography from './Typography';
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 function Accordion(props: {
   title: string;
   children?: ReactNode;
@@ -27,7 +33,7 @@ function Accordion(props: {
           <MaterialCommunityIcons
             color="#007079"
             size={24}
-            name={open ? "chevron-up" : "chevron-down"}
+            name={open ? 'chevron-up' : 'chevron-down'}
           />
         </View>
       </Pressable>
@@ -41,11 +47,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     marginTop: 24,
     paddingHorizontal: 16,
-    borderBottomColor: "#DCDCDC",
+    borderBottomColor: '#DCDCDC',
   },
   accordionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 16,
   },
 });

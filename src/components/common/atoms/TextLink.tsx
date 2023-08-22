@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 const TextLink = (props: {
   data: { name: string; route: string };
   textStyle?: Object;

@@ -1,3 +1,7 @@
+# Note: We are slowly transitioning to the new monorepo
+
+Please do not make any new changes to this repository unless it is critical.
+
 # mad-expo-core
 
 # Background

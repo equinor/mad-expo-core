@@ -6,6 +6,12 @@ import * as no from '../../../../resources/language/no.json';
 import { EQUINOR_GREEN, GRAY_BORDER } from '../../../../assets/color/colors';
 const languages = { en: en, no: no };
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 export const DoneButtonInputAccessoryView = (props: {
   languageCode: string;
 }) => {

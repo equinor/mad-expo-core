@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 const SimpleInfoItem = (props: {
   item: { key?: string; label?: string; text: string };
 }) => {
