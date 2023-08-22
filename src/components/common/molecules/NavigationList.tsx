@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
   },
 });
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 const NavigationList = (props: {
   items: Array<{ key: string; label: string; route: string; params: Object }>;
   fetching: boolean;

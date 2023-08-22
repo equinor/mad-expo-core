@@ -1,6 +1,12 @@
 import React from 'react';
 import { StyleProp, Text, TextStyle } from 'react-native';
 
+/**
+ * @deprecated
+ * Please transition to `@equinor/mad-components`.
+ * If something is preventing you from making the transition,
+ * please create an issue here: https://github.com/equinor/mad/issues
+ */
 const Typography = (props: {
   variant?: TypographyVariants;
   color?: string;
@@ -14,8 +20,19 @@ const Typography = (props: {
   children?: any;
   onPress?: () => void;
 }) => {
-  let { variant, color, light, medium, bold, italic, size, style, children, numberOfLines, onPress } =
-    props;
+  let {
+    variant,
+    color,
+    light,
+    medium,
+    bold,
+    italic,
+    size,
+    style,
+    children,
+    numberOfLines,
+    onPress,
+  } = props;
   function validateProps() {
     if ((light && medium) || (light && bold) || (medium && bold))
       throw new Error(
@@ -68,7 +85,11 @@ const Typography = (props: {
   }
 
   return (
-    <Text numberOfLines={numberOfLines} style={[{ fontFamily: fontName, color, fontSize: size }, style]} onPress={onPress}>
+    <Text
+      numberOfLines={numberOfLines}
+      style={[{ fontFamily: fontName, color, fontSize: size }, style]}
+      onPress={onPress}
+    >
       {children}
     </Text>
   );
