@@ -83,7 +83,7 @@
     "expo-localization": "*",
     "expo-random": "*",
     "react": "18.2.0",
-    "react-native": "0.72.3",
+    "react-native": "~0.72.3",
     "react-native-device-info": "^10.0.2",
     "react-native-msal": "*",
     "react-native-safe-area-context": ">=3.3.2"
