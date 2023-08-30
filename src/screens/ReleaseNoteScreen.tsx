@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Spinner } from 'mad-expo-core';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Environment } from 'src/types';
 
 import {
