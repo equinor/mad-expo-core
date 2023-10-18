@@ -13,7 +13,7 @@ import { authenticateSilently, IClaims } from '../services/auth';
 import colors from '../stylesheets/colors';
 import equinorLogo from '../resources/images/equinor_logo.png';
 import { isMsalConnected } from '../services/auth';
-import { Button, Typography } from '../components/common';
+import { Button, Spinner, Typography } from '../components/common';
 import {
   handleAppStatusChange,
   metricKeys,
@@ -36,6 +36,8 @@ export default function LoginScreen(props: {
   onDemoPress?: () => void;
 }) {
   const [logoPressCount, setLogoPressCount] = useState(0);
+  const [silentAuthenticationFinished, setSilentAuthenticationFinished] =
+    useState(false);
 
   useEffect(() => {
     validateAppInsightsInit();
@@ -50,6 +52,7 @@ export default function LoginScreen(props: {
             track(metricKeys.AUTHENTICATION_AUTOMATIC);
             props.navigation.navigate(props.mainRoute);
           }
+          setSilentAuthenticationFinished(true);
         });
     const subscription = AppState.addEventListener(
       'change',
@@ -58,15 +61,23 @@ export default function LoginScreen(props: {
     return () => subscription.remove();
   }, []);
 
-  const renderLoginButton = () => (
-    <LoginButton
-      mainRoute={props.mainRoute}
-      navigation={props.navigation}
-      scopes={props.scopes}
-      onLoginSuccessful={props.onLoginSuccessful}
-      eds
-    />
-  );
+  const renderLoginButton = () => {
+    if (!silentAuthenticationFinished)
+      return (
+        <View style={{ height: 48 }}>
+          <Spinner />
+        </View>
+      );
+    return (
+      <LoginButton
+        mainRoute={props.mainRoute}
+        navigation={props.navigation}
+        scopes={props.scopes}
+        onLoginSuccessful={props.onLoginSuccessful}
+        eds
+      />
+    );
+  };
 
   const renderDemoButton = () => (
     <Button
