@@ -20,7 +20,7 @@ const ServiceMessage = (props: {
   const [serviceMessageShown, setServiceMessageShown] = useState(false);
   const safeAreaInsets = useSafeAreaInsets();
 
-  const lastInterval = useRef<NodeJS.Timer>();
+  const lastInterval = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     function fetchServiceMessage(environment: string) {

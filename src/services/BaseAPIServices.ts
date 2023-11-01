@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosHeaders, AxiosRequestConfig } from 'axios';
 import { authenticateSilently } from './auth';
 import { metricKeys, metricStatus, track } from './appInsights';
 import * as FileSystem from 'expo-file-system';
@@ -10,8 +10,9 @@ export type BaseResource = {
   subscriptionKey?: string;
 };
 
-export type BaseAPIOptions = AxiosRequestConfig & {
+export type BaseAPIOptions = Omit<AxiosRequestConfig, "headers"> & {
   authenticate?: boolean;
+  headers?: AxiosHeaders
 };
 
 export type DownloadFileOptions = BaseAPIOptions & {
@@ -34,7 +35,7 @@ class BaseApiService {
 
   subscriptionKey?: string;
 
-  appSpecificDefaultHeaderFunction?: (() => Record<string, any>) | (() => {});
+  appSpecificDefaultHeaderFunction?: () => Record<string, string>;
 
   constructor(
     resource: BaseResource,
@@ -42,7 +43,7 @@ class BaseApiService {
     /**
      * Function that should return a header to be used in all api calls.
      */
-    appSpecificDefaultHeaderFunction?: () => Record<string, any>
+    appSpecificDefaultHeaderFunction?: () => Record<string, string>
   ) {
     this.url = resource.apiBaseUrl;
     this.scopes = resource.scopes;
