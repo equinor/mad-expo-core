@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosHeaders, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { authenticateSilently } from './auth';
 import { metricKeys, metricStatus, track } from './appInsights';
 import * as FileSystem from 'expo-file-system';
@@ -12,7 +12,7 @@ export type BaseResource = {
 
 export type BaseAPIOptions = Omit<AxiosRequestConfig, "headers"> & {
   authenticate?: boolean;
-  headers?: AxiosHeaders
+  headers?: Record<string, string>
 };
 
 export type DownloadFileOptions = BaseAPIOptions & {
