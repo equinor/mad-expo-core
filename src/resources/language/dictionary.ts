@@ -1,12 +1,14 @@
 import { Settings } from "luxon";
 import en from "./en.json";
 import no from "./no.json";
+import po from "./po.json";
 
 export type DictionaryObject = typeof en;
 
 const dictionaries: Record<string, DictionaryObject> = {
   en,
   no,
+  po
 };
 
 let language = "";

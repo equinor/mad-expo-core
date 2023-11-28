@@ -1,5 +1,7 @@
 import * as en from "./en.json";
 import * as no from "./no.json";
+import * as po from "./po.json";
+
 
 /**
  * ADD NEW LANGUAGES HERE. The test will compare
@@ -8,6 +10,7 @@ import * as no from "./no.json";
 const languages = [
   { dictionary: en, name: "English" },
   { dictionary: no, name: "Norwegian" },
+  { dictionary: po, name: "Português" },
 ];
 
 let warning = "";
