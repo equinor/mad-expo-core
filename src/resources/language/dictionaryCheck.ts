@@ -1,6 +1,6 @@
 import * as en from "./en.json";
 import * as no from "./no.json";
-import * as po from "./po.json";
+import * as po from "./pt.json";
 
 
 /**

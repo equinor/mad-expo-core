@@ -1,7 +1,7 @@
 import { Settings } from "luxon";
 import en from "./en.json";
 import no from "./no.json";
-import po from "./po.json";
+import po from "./pt.json";
 
 export type DictionaryObject = typeof en;
 
