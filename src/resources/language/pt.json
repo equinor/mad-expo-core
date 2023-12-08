@@ -1,5 +1,6 @@
 {
   "about.title": "Sobre o aplicativo",
+  "createIncident.title": "Criar incidente no ServiceNow",
   "createIncident.info": "Coletamos informações sobre seu dispositivo como parte do nosso processo de tratamento de incidentes. Ao enviar, você concorda em compartilhar as seguintes informações:",
   "createIncident.placeholderTitle": "Escreva um título para o chamado no ServiceNow",
   "createIncident.placeholderDescription": "Escreva uma descrição completa do seu problema. Você não precisa fornecer informações sobre seu dispositivo",
@@ -8,6 +9,7 @@
   "createIncident.error": "Ocorreu um erro ao criar seu chamado: ",
   "feedback.info": "Coletamos informações sobre seu dispositivo como parte do nosso processo de feedback. Ao enviar, você concorda em compartilhar as seguintes informações:\\n\\n",
   "feedback.placeHolderText": "Escreva seu feedback aqui",
+  "feedback.title": "Deixar feedback",
   "information.user": "Usuário",
   "information.deviceBrand": "Marca do dispositivo",
   "information.device": "Dispositivo",

@@ -9,9 +9,6 @@
 
   "feedback.title": "Gi tilbakemelding",
   "feedback.info": "Vi samler inn informasjon om din enhet som en del av vår tilbakemeldingsprosess. Ved å sende inn samtykker du i å dele følgende informasjon:\n\n",
-  "feedback.selectFeedbackType": "Velg tilbakemelding type",
-  "feedback.feedBackOnContent": "Tilbakemelding innhold",
-  "feedback.feedBackOnApp": "Tilbakemelding app",
   "feedback.placeHolderText": "Skriv tilbakemelding her",
 
   "information.user": "Bruker",

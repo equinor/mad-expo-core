@@ -9,9 +9,6 @@
 
   "feedback.title": "Leave feedback",
   "feedback.info": "We collect information about your device as part of our feedback process. By submitting, you agree to share the following information:\n\n",
-  "feedback.selectFeedbackType": "Select feedback type",
-  "feedback.feedBackOnContent": "Feedback on content",
-  "feedback.feedBackOnApp": "Feedback on app",
   "feedback.placeHolderText": "Write your feedback here",
 
   "information.user": "User",
