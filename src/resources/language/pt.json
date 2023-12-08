@@ -1,4 +1,8 @@
 {
+  "Language": "Idioma",
+  "English": "Inglês",
+  "Norwegian": "Norueguês",
+  "Submit": "Enviar",
   "about.title": "Sobre o aplicativo",
   "createIncident.title": "Criar incidente no ServiceNow",
   "createIncident.info": "Coletamos informações sobre seu dispositivo como parte do nosso processo de tratamento de incidentes. Ao enviar, você concorda em compartilhar as seguintes informações:",
@@ -16,16 +20,12 @@
   "information.OS": "Sistema operacional",
   "information.timezone": "Fuso horário",
   "information.locale": "Localidade",
+  "keyboard.done": "Feito",
+  "serviceMessage.couldNotRetrieve": "Não foi possível recuperar a mensagem de serviço",
   "settings.title": "Configurações",
   "settings.aboutApp": "Sobre o aplicativo",
   "settings.loggedInAs": "Conectado com",
   "settings.language": "Idioma",
   "settings.logOut": "Sair",
-  "settings.back": "Voltar",
-  "Language": "Idioma",
-  "English": "Inglês",
-  "Norwegian": "Norueguês",
-  "Submit": "Enviar",
-  "keyboard.done": "Feito",
-  "serviceMessage.couldNotRetrieve": "Não foi possível recuperar a mensagem de serviço"
+  "settings.back": "Voltar"
 }

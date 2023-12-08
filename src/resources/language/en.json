@@ -1,36 +1,30 @@
 {
-  "createIncident.title": "Create incident in ServiceNow",
-  "createIncident.info": "We collect information about your device as part of our incident handling process. By submitting, you agree to share the following information:",
-  "createIncident.placeholderTitle": "Write a title for the ServiceNow ticket",
-  "createIncident.placeholderDescription": "Write a complete description of your issue. You do not need to provide information about your device",
+  "English": "English",
+  "Language": "Language",
+  "Norwegian": "Norwegian",
+  "Submit": "Submit",
   "createIncident.created1": "Incident ",
   "createIncident.created2": " created.",
   "createIncident.error": "An error occurred creating your ticket: ",
-
-  "feedback.title": "Leave feedback",
+  "createIncident.info": "We collect information about your device as part of our incident handling process. By submitting, you agree to share the following information:",
+  "createIncident.placeholderDescription": "Write a complete description of your issue. You do not need to provide information about your device",
+  "createIncident.placeholderTitle": "Write a title for the ServiceNow ticket",
+  "createIncident.title": "Create incident in ServiceNow",
   "feedback.info": "We collect information about your device as part of our feedback process. By submitting, you agree to share the following information:\n\n",
   "feedback.placeHolderText": "Write your feedback here",
-
-  "information.user": "User",
-  "information.deviceBrand": "Device brand",
-  "information.device": "Device",
+  "feedback.title": "Leave feedback",
   "information.OS": "Operating system",
-  "information.timezone": "Timezone",
+  "information.device": "Device",
+  "information.deviceBrand": "Device brand",
   "information.locale": "Locale",
-
-  "Language": "Language",
-  "English": "English",
-  "Norwegian": "Norwegian",
-  "Submit": "Submit",
-
-  "settings.title": "Settings",
+  "information.timezone": "Timezone",
+  "information.user": "User",
+  "keyboard.done": "Done",
+  "serviceMessage.couldNotRetrieve": "Could not retrieve service message",
   "settings.aboutApp": "About App",
-  "settings.loggedInAs": "Logged in as:",
+  "settings.back": "Back",
   "settings.language": "Language",
   "settings.logOut": "Log out",
-  "settings.back": "Back",
-
-  "keyboard.done": "Done",
-
-  "serviceMessage.couldNotRetrieve": "Could not retrieve service message"
+  "settings.loggedInAs": "Logged in as:",
+  "settings.title": "Settings"
 }

@@ -5,8 +5,9 @@ import Banner from '../molecules/Banner';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as en from '../../../resources/language/en.json';
 import * as no from '../../../resources/language/no.json';
+import * as pt from '../../../resources/language/pt.json';
 
-const languages = { en, no };
+const languages = { en, no, pt };
 
 const ServiceMessage = (props: {
   serviceName: string;
