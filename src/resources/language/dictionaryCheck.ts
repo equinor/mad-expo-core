@@ -1,6 +1,6 @@
 import * as en from "./en.json";
 import * as no from "./no.json";
-import * as po from "./pt.json";
+import * as pt from "./pt.json";
 
 
 /**
@@ -10,7 +10,7 @@ import * as po from "./pt.json";
 const languages = [
   { dictionary: en, name: "English" },
   { dictionary: no, name: "Norwegian" },
-  { dictionary: po, name: "Português" },
+  { dictionary: pt, name: "Português" },
 ];
 
 let warning = "";
