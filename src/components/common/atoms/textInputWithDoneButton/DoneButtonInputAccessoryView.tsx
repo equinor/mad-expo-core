@@ -3,8 +3,9 @@ import { InputAccessoryView, Keyboard, StyleSheet, View } from 'react-native';
 import Button from '../Button';
 import * as en from '../../../../resources/language/en.json';
 import * as no from '../../../../resources/language/no.json';
+import * as pt from '../../../../resources/language/pt.json';
 import { EQUINOR_GREEN, GRAY_BORDER } from '../../../../assets/color/colors';
-const languages = { en: en, no: no };
+const languages = { en: en, no: no, pt: pt };
 
 /**
  * @deprecated
