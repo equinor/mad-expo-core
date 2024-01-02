@@ -164,7 +164,7 @@ const createIncidentScreen = (props: {
           />
           {!isWeb && (
             <InputAccessoryView nativeID={'id'}>
-              <Button onPress={() => Keyboard.dismiss()} title="Done" />
+              <Button onPress={() => Keyboard.dismiss()} title={dictionary("keyboard.done")} />
             </InputAccessoryView>
           )}
           <View style={styles.buttonContainerStyle}>
