@@ -43,7 +43,7 @@ const TextLink = (props: {
           {data.name}
         </Typography>
         <Ionicons
-          name="ios-arrow-forward"
+          name="arrow-forward"
           style={styles.icon}
           size={20}
           color={Colors.GRAY_2}
