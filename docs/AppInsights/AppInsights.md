@@ -102,7 +102,7 @@ import { BaseApiService } from 'mad-expo-core';
 // scopes and apiBaseUrl is required, subscriptionKey is optional
 const resource = {
   scopes: ['690a86bf-838c-4591-909c-9f45219445ab'],
-  apiBaseUrl: 'https://api.statoil.com/app/mad/qa/api/v1',
+  apiBaseUrl: 'https://api-pleasemove-api-qa.radix.equinor.com/api/v1.0',
   // subscriptionKey: "INSERT SUBSCRIPTION KEY",
 };
 
