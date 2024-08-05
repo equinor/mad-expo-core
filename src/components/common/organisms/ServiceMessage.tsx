@@ -26,7 +26,7 @@ const ServiceMessage = (props: {
   useEffect(() => {
     function fetchServiceMessage(environment: string) {
       fetch(
-        `https://api.statoil.com/app/mad/${environment}api/v1/ServiceMessage/${props.serviceName}`
+        `https://api-mad-api-${environment}.radix.equinor.com/api/v1.1/ServiceMessage/${props.serviceName}`
       )
         .then((res) =>
           res.json().then((data: ServiceMessage) => {

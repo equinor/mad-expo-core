@@ -62,7 +62,7 @@ export const ReleaseNoteScreen = ({
         authenticateSilently(scopes)
           .then((response) => {
             fetch(
-              `https://api.statoil.com/app/mad/${env}api/v1.1/ReleaseNote/${name}/${version}`,
+              `https://api-mad-api-${env}.radix.equinor.com/api/v1.1/ReleaseNote/${name}/${version}`,
               {
                 method: 'GET',
                 headers: new Headers({
