@@ -58,11 +58,10 @@ export const ReleaseNoteScreen = ({
         setRelease(mockData);
         setIsFetching(false);
       } else {
-        const env = environment === "prod" ? `` : `${environment}/`;
         authenticateSilently(scopes)
           .then((response) => {
             fetch(
-              `https://api-mad-api-${env}.radix.equinor.com/api/v1.1/ReleaseNote/${name}/${version}`,
+              `https://api-mad-api-${environment}.radix.equinor.com/api/v1.1/ReleaseNote/${name}/${version}`,
               {
                 method: 'GET',
                 headers: new Headers({

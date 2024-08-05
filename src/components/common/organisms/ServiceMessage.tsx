@@ -46,13 +46,10 @@ const ServiceMessage = (props: {
         });
     }
 
-    const environment: string =
-      props.environment.toLowerCase() === 'prod' ? `` : `${props.environment}/`;
-
-    if (!lastInterval.current) fetchServiceMessage(environment);
+    if (!lastInterval.current) fetchServiceMessage(props.environment);
     if (lastInterval.current) clearInterval(lastInterval.current);
     lastInterval.current = setInterval(() => {
-      fetchServiceMessage(environment);
+      fetchServiceMessage(props.environment);
     }, 300000);
 
     return () => {
