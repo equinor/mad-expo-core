@@ -26,7 +26,7 @@ const ServiceMessage = (props: {
   useEffect(() => {
     function fetchServiceMessage(environment: string) {
       fetch(
-        `https://api-mad-api-${environment}.radix.equinor.com/api/v1/ServiceMessage/${props.serviceName}`
+        `https://api-mad-api-${environment}.radix.equinor.com/api/v1.1/ServiceMessage/${props.serviceName}`
       )
         .then((res) =>
           res.json().then((data: ServiceMessage) => {
@@ -47,7 +47,7 @@ const ServiceMessage = (props: {
     }
 
     const environment: string =
-      props.environment.toLowerCase() === 'prod' ? `` : `${props.environment}/`;
+      props.environment.toLowerCase() === 'prod' ? `` : props.environment;
 
     if (!lastInterval.current) fetchServiceMessage(environment);
     if (lastInterval.current) clearInterval(lastInterval.current);
