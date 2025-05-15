@@ -9,6 +9,11 @@ import * as pt from '../../../resources/language/pt.json';
 
 const languages = { en, no, pt };
 
+const isValidHttpUrl = (urlString: string): boolean => {
+  const pattern = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+  return pattern.test(urlString);
+}
+
 const ServiceMessage = (props: {
   serviceName: string;
   environment: 'dev' | 'test' | 'qa' | 'prod';
@@ -59,7 +64,7 @@ const ServiceMessage = (props: {
 
   const displayBanner = () => {
     if (!serviceMessage || !serviceMessageShown) return <></>;
-    if (serviceMessage === 'REQUEST FAILED')
+    if (serviceMessage === 'REQUEST FAILED' || !isValidHttpUrl(serviceMessage.urlString))
       return (
         <>
           <View>
