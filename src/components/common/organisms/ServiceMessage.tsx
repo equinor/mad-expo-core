@@ -99,7 +99,7 @@ const ServiceMessage = (props: {
             maxNonExpandedHeight={80 + safeAreaInsets.top}
             text={serviceMessage.message}
             onDismiss={() => setServiceMessageShown(false)}
-            url={serviceMessage.urlString}
+            url={isValidHttpUrl(serviceMessage.urlString) ? serviceMessage.urlString : ""}
           />
         </View>
       </>
