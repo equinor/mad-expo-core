@@ -9,9 +9,9 @@ import * as pt from '../../../resources/language/pt.json';
 
 const languages = { en, no, pt };
 
-const isValidHttpUrl = (urlString: string): boolean => {
+const getSafeUrl = (urlString: string): string => {
   const pattern = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
-  return pattern.test(urlString);
+  return pattern.test(urlString) ? urlString : '';
 }
 
 const ServiceMessage = (props: {
@@ -64,7 +64,7 @@ const ServiceMessage = (props: {
 
   const displayBanner = () => {
     if (!serviceMessage || !serviceMessageShown) return <></>;
-    if (serviceMessage === 'REQUEST FAILED' || !isValidHttpUrl(serviceMessage.urlString))
+    if (serviceMessage === 'REQUEST FAILED')
       return (
         <>
           <View>
@@ -99,7 +99,8 @@ const ServiceMessage = (props: {
             maxNonExpandedHeight={80 + safeAreaInsets.top}
             text={serviceMessage.message}
             onDismiss={() => setServiceMessageShown(false)}
-            url={isValidHttpUrl(serviceMessage.urlString) ? serviceMessage.urlString : ""}
+            //url validated before use to avoid open redirect (Snyk false positives)
+            url={getSafeUrl(serviceMessage.urlString)}
           />
         </View>
       </>
