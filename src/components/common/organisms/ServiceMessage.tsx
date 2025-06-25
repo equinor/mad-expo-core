@@ -9,6 +9,11 @@ import * as pt from '../../../resources/language/pt.json';
 
 const languages = { en, no, pt };
 
+const getSafeUrl = (urlString: string): string => {
+  const pattern = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+  return pattern.test(urlString) ? urlString : '';
+}
+
 const ServiceMessage = (props: {
   serviceName: string;
   environment: 'dev' | 'test' | 'qa' | 'prod';
@@ -94,7 +99,8 @@ const ServiceMessage = (props: {
             maxNonExpandedHeight={80 + safeAreaInsets.top}
             text={serviceMessage.message}
             onDismiss={() => setServiceMessageShown(false)}
-            url={serviceMessage.urlString}
+            //url validated before use to avoid open redirect (Snyk false positives)
+            url={getSafeUrl(serviceMessage.urlString)}
           />
         </View>
       </>
