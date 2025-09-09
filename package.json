@@ -80,7 +80,7 @@
     "@microsoft/applicationinsights-web": "^2.8.6",
     "@react-navigation/native": ">=5.8.10",
     "@react-navigation/stack": ">=5.12.8",
-    "expo": "^51.0.0",
+    "expo": "^53.0.0",
     "expo-localization": "*",
     "expo-random": "*",
     "react": "~18.2.0",
