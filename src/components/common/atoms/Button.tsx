@@ -32,7 +32,7 @@ const styles = {
  * please create an issue here: https://github.com/equinor/mad/issues
  */
 const Button = (props: {
-  title: string | JSX.Element;
+  title: string | React.ReactNode;
   onPress: (event: GestureResponderEvent) => void;
   textStyle: Object;
   viewStyle: Object;

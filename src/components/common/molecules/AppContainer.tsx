@@ -13,7 +13,7 @@ import {
  * please create an issue here: https://github.com/equinor/mad/issues
  */
 export default function AppContainer(props: {
-  children: JSX.Element;
+  children: React.ReactNode;
   imageSource: ImageSourcePropType;
 }) {
   const App = () => (
